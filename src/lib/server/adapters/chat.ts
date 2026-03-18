@@ -1,5 +1,5 @@
-import type { Locale } from "@/lib/i18n/config";
-import type { ChatContextBlock } from "@/lib/server/chat-context";
+import type { Locale } from "../../i18n/config";
+import type { ChatContextBlock } from "../chat-context";
 
 export type ChatRole = "assistant" | "user";
 

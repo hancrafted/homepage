@@ -1,11 +1,11 @@
-import { DEFAULT_LOCALE, isLocale, type Locale } from "@/lib/i18n/config";
+import { DEFAULT_LOCALE, isLocale, type Locale } from "../lib/i18n/config";
 
-type SourceDocumentId = "cv-2026" | "linkedin-2026";
+export type SourceDocumentId = "cv-2026" | "linkedin-2026";
 
 type SourceDocument = {
   id: SourceDocumentId;
   label: string;
-  path: string;
+  repositoryPath: string;
   derivedSections: readonly string[];
 };
 
@@ -162,7 +162,7 @@ export const sourceDocuments = {
   "cv-2026": {
     id: "cv-2026",
     label: "HanCheCV2026.md",
-    path: "/Users/hanche/Library/Mobile Documents/com~apple~CloudDocs/Coaching/Homepage/HanCheCV2026.md",
+    repositoryPath: "src/content/bundled-source-documents.ts",
     derivedSections: [
       "home.hero",
       "home.services",
@@ -177,7 +177,7 @@ export const sourceDocuments = {
   "linkedin-2026": {
     id: "linkedin-2026",
     label: "HanCheLinkedIn2026.md",
-    path: "/Users/hanche/Library/Mobile Documents/com~apple~CloudDocs/Coaching/Homepage/HanCheLinkedIn2026.md",
+    repositoryPath: "src/content/bundled-source-documents.ts",
     derivedSections: [
       "home.hero",
       "home.services",

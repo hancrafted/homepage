@@ -1,6 +1,6 @@
-import { bundledSourceDocuments, getBundledSourceDocumentMarkdown } from "@/content/bundled-source-documents";
-import { getSiteContent, sourceDocuments } from "@/content/site-content";
-import type { Locale } from "@/lib/i18n/config";
+import { bundledSourceDocuments, getBundledSourceDocumentMarkdown } from "../../content/bundled-source-documents";
+import { getSiteContent, sourceDocuments } from "../../content/site-content";
+import type { Locale } from "../i18n/config";
 
 type BuildChatContextParams = {
   locale: Locale;
