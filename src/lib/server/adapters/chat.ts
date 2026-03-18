@@ -72,7 +72,7 @@ export function createMockChatAdapter(providerId = "mock"): ChatAdapter {
 function buildMockResponse({ locale, messages, contextBlocks }: ChatStreamParams) {
   const copy = adapterCopy[locale];
   const latestUserMessage = [...messages].reverse().find((message) => message.role === "user");
-  const highlightedBlocks = contextBlocks.slice(0, 3);
+  const highlightedBlocks = pickHighlightedBlocks(contextBlocks);
 
   if (!highlightedBlocks.length) {
     return `${copy.intro}\n\n${copy.fallback}\n\n${copy.closing}`;
@@ -91,6 +91,23 @@ function buildMockResponse({ locale, messages, contextBlocks }: ChatStreamParams
     .join("\n");
 
   return `${copy.intro}\n\n${questionLead}\n${blockSummaries}\n\n${copy.closing}`;
+}
+
+function pickHighlightedBlocks(contextBlocks: ChatContextBlock[]) {
+  const topDocumentBlock = contextBlocks.find((block) => block.sourceType === "bundled-document");
+  const prioritizedBlocks = [contextBlocks[0], topDocumentBlock, ...contextBlocks].filter(Boolean) as ChatContextBlock[];
+  const seen = new Set<string>();
+
+  return prioritizedBlocks.filter((block) => {
+    const fingerprint = `${block.title}::${block.sourceLabel}::${block.content}`;
+
+    if (seen.has(fingerprint)) {
+      return false;
+    }
+
+    seen.add(fingerprint);
+    return true;
+  }).slice(0, 3);
 }
 
 function chunkText(text: string) {
