@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+cdk.out
+coverage
+dist
+infra/.build
+*.tsbuildinfo
+pnpm-debug.log*
+.DS_Store

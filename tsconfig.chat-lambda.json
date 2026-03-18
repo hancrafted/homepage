@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "infra/.build/chat-lambda",
+    "rootDir": ".",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "incremental": false,
+    "tsBuildInfoFile": "infra/.build/chat-lambda.tsbuildinfo"
+  },
+  "include": [
+    "infra/lambda/**/*.ts",
+    "src/content/bundled-source-documents.ts",
+    "src/content/site-content.ts",
+    "src/lib/i18n/config.ts",
+    "src/lib/server/adapters/chat.ts",
+    "src/lib/server/chat-context.ts",
+    "src/lib/server/chat-service.ts"
+  ]
+}
