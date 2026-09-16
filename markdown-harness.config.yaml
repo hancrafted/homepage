@@ -1,0 +1,40 @@
+frontmatter:
+  assess:
+    stale: Tell the user this file is past its stale_after and ask whether to proceed. Offer to open an issue to refresh it, then set the next stale_after.
+  rules:
+    - ruleId: context
+      path: [CONTEXT.md]
+      intent: 'Stops CONTEXT.md going stale, since agents consume it constantly'
+      fields:
+        type: { presence: required, allowed: [{ value: memory }] }
+        stale_after: { presence: required, format: datetime }
+        generated.by:
+          presence: required
+          format: actor
+          pattern: '^agent:[^ ]+$'
+          intent: A generator is an agent, written agent:<vendor>/<model>
+        generated.at: { presence: required, format: datetime }
+        verified.by:
+          presence: optional
+          format: actor
+          pattern: '^human:[^ ]+$'
+          intent: A verifier is a person, written human:<handle>
+        verified.at: { presence: optional, format: datetime }
+    - ruleId: vision
+      path: [docs/visions/**/*.md]
+      intent: 'A vision should rarely change, which is exactly why it has to be re-read on purpose'
+      fields:
+        type: { presence: required, allowed: [{ value: vision }] }
+        stale_after: { presence: required, format: datetime }
+        generated.by:
+          presence: required
+          format: actor
+          pattern: '^agent:[^ ]+$'
+          intent: A generator is an agent, written agent:<vendor>/<model>
+        generated.at: { presence: required, format: datetime }
+        verified.by:
+          presence: optional
+          format: actor
+          pattern: '^human:[^ ]+$'
+          intent: A verifier is a person, written human:<handle>
+        verified.at: { presence: optional, format: datetime }

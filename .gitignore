@@ -1,3 +1,9 @@
 node_modules/
 .env
 coverage/
+
+# markdown-harness's activity log: local evidence that the freshness hook ran.
+docs/markdown-harness/activity.csv
+
+# vitest 5 writes its run output here; regenerated on every `vitest run`.
+.vitest/

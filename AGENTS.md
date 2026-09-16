@@ -1,5 +1,10 @@
 # Homepage
 
+A centralized repository for creating content agentically: llm-wiki as knowledge base, Episodes derived
+from it, and a next.js site that renders episodes as Decks, to be published on (for now) as GitHub Pages.
+YouTube videos, Medium articles and Podcast episodes are derived from Episodes/Manuscripts.
+Workshops are delivered to business clients, based on the published content and decks.
+
 ## Decision records
 
 Two separate systems, never interchangeable:
@@ -13,8 +18,7 @@ Use the precise term. The Matt Pocock skill files still say ADRs live in `docs/a
 
 Neither file below is a decision record. They hold the reasoning decisions get derived from, and each opens with the test to run before proposing anything.
 
-- `docs/vision/product.md` — the promise, the two roles, the boundaries, the horizons. Read before proposing a feature, arguing scope, or writing adopter-facing copy.
-- `docs/vision/architecture.md` — the tenets, and four decisions that are cheap now and expensive later. Read before adding a dependency, a config key, a write path, or an integration surface.
+- `docs/visions/product.md` — the promises, the boundaries, the horizons. Read before proposing content, arguing scope, or running a non-technical grilling session.
 
 ## Agent skills
 
@@ -30,6 +34,12 @@ The five canonical triage roles, using their default label strings. See `docs/ag
 
 Single-context: one `CONTEXT.md` at the repo root. See `docs/agents/domain.md`.
 
+### Markdown frontmatter
+
+`npx mh --query <path>/<current-file-name>.md` (e.g. `npx mh --query docs/visions/product.md`) before writing or updating any `.md` file. It answers what frontmatter that path owes before the file exists; `invisible` means ungoverned, so write freely. The push gate runs `mh --check`, and querying first is what keeps it green.
+
+`verified.by` and `verified.at` are the user's to give. Ask for them in a pass of their own — an agent that updates a document and stamps it verified in the same go has certified its own work. `generated.*` is the agent's claim; `verified.*` is the human's.
+
 ### Grilling rounds
 
-Every grilling round — `/grill-me`, `/grill-with-docs`, or the grilling Wayfinder runs while charting a map or resolving a `wayfinder:grilling` ticket — uses this repo's round format, which overrides the grilling skill's own. See `docs/agents/grilling-format.md`. A spoken session overrides that format in turn; see `docs/agents/grilling-voice.md`.
+Every grilling round — `/grill-me`, `/grill-with-docs`, or the grilling Wayfinder runs while charting a map or resolving a `wayfinder:grilling` ticket — uses this repo's round format, which overrides the grilling skill's own. See `docs/agents/grilling-format.md`.
