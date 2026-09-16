@@ -19,6 +19,7 @@ Use the precise term. The Matt Pocock skill files still say ADRs live in `docs/a
 Neither file below is a decision record. They hold the reasoning decisions get derived from, and each opens with the test to run before proposing anything.
 
 - `docs/visions/product.md` — the promises, the boundaries, the horizons. Read before proposing content, arguing scope, or running a non-technical grilling session.
+- `docs/visions/information-architecture.md` — the layers, the bundles, the Episode primitive. Read before adding a directory, changing what frontmatter carries, or deciding where a new artefact lives. A software architecture vision is deferred until the first Episode has to become a Deck.
 
 ## Agent skills
 
