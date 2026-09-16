@@ -11,8 +11,11 @@ frontmatter:
         generated.by:
           presence: required
           format: actor
-          pattern: '^agent:[^ ]+$'
-          intent: A generator is an agent, written agent:<vendor>/<model>
+          pattern: '^(?:[^:/ ]+/[^ ]+|process:[^ ]+)$'
+          intent: >-
+            An actor per Open Knowledge Format v0.2 section 7: an agent as
+            <producer>/<version>, or process:<id> for the dispatcher and the gate.
+            A generator is never human: here, so trust tiers stay readable.
         generated.at: { presence: required, format: datetime }
         verified.by:
           presence: optional
@@ -29,8 +32,11 @@ frontmatter:
         generated.by:
           presence: required
           format: actor
-          pattern: '^agent:[^ ]+$'
-          intent: A generator is an agent, written agent:<vendor>/<model>
+          pattern: '^(?:[^:/ ]+/[^ ]+|process:[^ ]+)$'
+          intent: >-
+            An actor per Open Knowledge Format v0.2 section 7: an agent as
+            <producer>/<version>, or process:<id> for the dispatcher and the gate.
+            A generator is never human: here, so trust tiers stay readable.
         generated.at: { presence: required, format: datetime }
         verified.by:
           presence: optional

@@ -2,7 +2,7 @@
 type: vision
 generated:
   at: 2026-09-16T00:00:00Z
-  by: agent:anthropic/claude-opus-5
+  by: anthropic/claude-opus-5
 verified:
   at: 2026-09-16T00:00:00Z
   by: human:hancrafted
