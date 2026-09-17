@@ -1,10 +1,10 @@
 frontmatter:
-  assess:
-    stale: Tell the user this file is past its stale_after and ask whether to proceed. Offer to open an issue to refresh it, then set the next stale_after.
   rules:
     - ruleId: context
       path: [CONTEXT.md]
       intent: 'Stops CONTEXT.md going stale, since agents consume it constantly'
+      assess:
+        stale: Tell the user this file is past its stale_after and ask whether to proceed. Offer to open an issue to refresh it, then set the next stale_after.
       fields:
         type: { presence: required, allowed: [{ value: memory }] }
         stale_after: { presence: required, format: datetime }
@@ -26,6 +26,8 @@ frontmatter:
     - ruleId: steering
       path: [docs/steering/**/*.md]
       intent: 'Steering should rarely change, which is exactly why it has to be re-read on purpose'
+      assess:
+        stale: Tell the user this file is past its stale_after and ask whether to proceed. Offer to open an issue to refresh it, then set the next stale_after.
       fields:
         type: { presence: required, allowed: [{ value: steering }] }
         title: { presence: required, maxLength: 80 }
@@ -37,6 +39,29 @@ frontmatter:
             to open it. An agent picks between steering documents on this alone,
             so it says when to read rather than summarising what is inside.
         stale_after: { presence: required, format: datetime }
+        generated.by:
+          presence: required
+          format: actor
+          pattern: '^(?:[^:/ ]+/[^ ]+|process:[^ ]+)$'
+          intent: >-
+            An actor per Open Knowledge Format v0.2 section 7: an agent as
+            <producer>/<version>, or process:<id> for the dispatcher and the gate.
+            A generator is never human: here, so trust tiers stay readable.
+        generated.at: { presence: required, format: datetime }
+        verified.by:
+          presence: optional
+          format: actor
+          pattern: '^human:[^ ]+$'
+          intent: A verifier is a person, written human:<handle>
+        verified.at: { presence: optional, format: datetime }
+    - ruleId: design-adr
+      path: [docs/design-adr/**/*.md]
+      intent: >-
+        A design-ADR is a decision that outlives the code it was made about, so it
+        has to say who wrote it. It carries no expiry: the reasoning behind a
+        settled decision does not go stale on a date.
+      fields:
+        type: { presence: required, allowed: [{ value: design-adr }] }
         generated.by:
           presence: required
           format: actor

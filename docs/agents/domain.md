@@ -27,7 +27,9 @@ Orders need a full audit trail for dispute resolution, so the write model is
 event-sourced and the read model is projected into Postgres. A CRUD table would
 have been simpler but loses the per-transition history the disputes team needs.
 
-`status` (`proposed | accepted | deprecated | superseded by design ADR NNNN`) is the only other frontmatter field, and only when decisions get revisited. Beyond the title and a short paragraph, sections are optional — the value is in recording the decision and its reasoning, not in filling out a template.
+`generated.by` and `generated.at` are required — the `design-adr` rule in `markdown-harness.config.yaml` is the source of truth for field shapes, and `npx mh --query <path>` answers what any given file owes. `status` (`proposed | accepted | deprecated | superseded by design ADR NNNN`) is optional, and only when decisions get revisited. Beyond the title and a short paragraph, sections are optional — the value is in recording the decision and its reasoning, not in filling out a template.
+
+**A design-ADR is never authoritative.** It records why an alternative lost; the document the run actually reads records the rule. Where the two disagree — with `CONTEXT.md`, a steering document, an ArchGate ADR or a skill asset — that document is right and the design-ADR is corrected in the same pass. Never restate a rule in a design-ADR, and never point an instruction at one.
 
 **Numbering:** scan `docs/design-adr/` for the highest existing number and increment. Never renumber an existing design ADR. Never number against `.archgate/adrs/` — the two sequences are independent. In prose, write "design ADR 0007" and "ArchGate BE-002" so the two are never confused.
 
