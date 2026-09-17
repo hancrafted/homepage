@@ -1,11 +1,10 @@
 ---
 type: vision
+title: Product Vision
+description: 'The three promises this content effort makes and the boundaries it will not cross. Read this if you are proposing content, arguing scope, or judging whether an idea belongs here at all.'
 generated:
   at: 2026-09-16T00:00:00Z
   by: anthropic/claude-opus-5
-verified:
-  at: 2026-09-16T00:00:00Z
-  by: human:hancrafted
 stale_after: 2026-09-30T00:00:00Z
 ---
 
@@ -42,11 +41,7 @@ Spoken as an engineer who translates — grounded in ~10 years full-stack engine
 sales, pre-sales, requirements engineering, UX design and some experience in marketing and recruiting.
 7 years experience as founding engineer in a startup and 2 in SME and 2 in enterprise.
 
-**Reasoning.** Pure engineering content is crowded, and channels that stay purely
-technical tend to cap between 10k and 50k subscribers.
-Hypothesis is that the tech-adjacent gap is real and under-served with authentic high-quality content.
-The span across the value chain is the differentiator: examples come from lived experience
-on both sides rather than analogy-by-guesswork, which is what makes the translation credible rather than condescending.
+**Reasoning.** Pure technical channels cap low whereas tech-adjacent audience is underserved, making cross-value-chain lived experience the credible differentiator over guesswork.
 
 ### Credibility — to the business audience
 
@@ -54,20 +49,14 @@ Published work that stands as reference for consulting and coaching, mainly Germ
 A separate stream, which uses Episodes as proof rather than being their target. Inbound
 from outside Germany in English is welcome, not planned for.
 
-**Reasoning.** Keeping the two audiences separate is what stops the channel being quietly
-bent toward lead-gen messaging, which would make it worse content and worse proof at the
-same time. Qualified leads beat raw views for this promise; subscriber count is the
-leading indicator, not the goal.
+**Reasoning.** Audience separation prevents channel degrading into lead-gen messaging, prioritizing qualified leads and proof over view-count vanity.
 
 ### Leverage — to myself
 
 Output decoupled from hours. The llm-wiki + agentic content-creation system/pipeline built here is a subgoal serving the other two
 promises, and it is its own material: building this repository agentically produces Episodes.
 
-**Reasoning.** Time does not scale, and coaching revenue is bounded by available hours.
-Creative work — deciding the message, the shape, the framing — is not the target of
-automation, although research, brainstorming should be supported by LLMs and AI tools.
-Overhead is: chapter markers, cross-linking, uploading, cross-posting, drafting LinkedIn posts,...
+**Reasoning.** Consulting hours do not scale, necessitating automating distribution/packaging overhead while keeping framing decisions human.
 
 Whether the llm-wiki becomes a sellable product in its own right is open. Until it is
 decided, it is a subgoal, and a proposal that treats it as a product is proposing a
@@ -79,12 +68,7 @@ change to this document.
 
 The argument carries in audio alone. Visuals reinforce it. Default length 10–20 minutes.
 
-**Reasoning.** Audio-first content is listenable, which suits the audience's context, and
-it does not conflict with the professional expectations of a business viewer — a good
-conference talk already satisfies both. One production line, not two.
-
-The same boundary governs a Deck. A Deck that must carry a live Workshop will tend to
-grow past what an Episode's visuals should be; audio-first is what holds it back.
+**Reasoning.** Audio-first unifies channel and business expectations into one production line while restraining Deck visuals from workshop bloat.
 
 ### Format signature — analogy-led
 
@@ -92,8 +76,7 @@ Every Episode opens by grounding the concept in an analogy the viewer already in
 The analogy runs as a red thread through the whole Episode, and the actionable ending
 refers back to it: _you wouldn't do this in the analogy — so what would you do here?_
 
-**Reasoning.** This is the mechanism that makes abstract and technical concepts land for a
-non-engineering audience. It is the core signature, not a stylistic preference.
+**Reasoning.** Grounding analogies are the indispensable pedagogical mechanism making technical abstractions click for non-engineers.
 
 ### The three formats
 
@@ -111,10 +94,7 @@ why, and how it should be done. Drawn from everyday working experience.
 
 **Short** — opinion. Shorter shelf life is accepted here.
 
-**Reasoning.** Separating the formats caps the shelf-life risk of opinion content inside
-the format that is cheapest to produce, while feeding traffic to the durable Episodes. It
-also makes the pipeline question tractable: a Teardown starts from an artefact that
-already exists, which is a fundamentally different input than a Foundations Episode.
+**Reasoning.** Format separation isolates ephemeral risk to cheap Shorts feeding durable content while accommodating distinct pipeline inputs.
 
 ### Publish bar — shelf life
 
@@ -129,11 +109,7 @@ The durable material is the pre-hype canon — separation of concerns, design by
 decomposition, divide and conquer - translated for a non-engineering audience.
 Graph Engineering is just project and schedule management of tasks (e.g. Critical Path Method).
 
-**Reasoning.** News-cycle content drives engagement for channels that already have
-traction; without traction it decays before it compounds. It is also the positioning
-advantage: showing that today's agentic practice is old ideas wearing new clothes is
-exactly what a sceptical audience needs to hear. Naming the Short exemption explicitly is
-what keeps the bar a constraint rather than a slogan.
+**Reasoning.** Pre-hype durable principles compound without needing existing traction, convince sceptics, and explicit Short exemption enforces an actual quality constraint.
 
 ## The horizons
 
