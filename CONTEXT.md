@@ -3,35 +3,30 @@ type: memory
 generated:
   at: 2026-09-16T00:00:00Z
   by: anthropic/claude-opus-5
+stale_after: 2026-09-21T00:00:00Z
 verified:
-  at: 2026-09-16T00:00:00Z
+  at: 2026-09-17T11:59:27Z
   by: human:hancrafted
-stale_after: 2026-12-16T00:00:00Z
 ---
 
-# Homepage
+# Vocabulary
 
-A centralized space for creating content agentically: durable knowledge, Episodes derived
-from it, and the site that publishes them. This glossary fixes the words for those things
-so every agent and every output names them the same way.
-
-## Language
+This glossary fixes the words for the things this repository makes, so every agent and every output names them the same way.
 
 An `_Avoid_` list names words rejected **as the name for that concept**. Those words keep
 their own meanings elsewhere — `script` is avoided as a name for a Manuscript, and stays
 correct for an npm script or for JavaScript.
 
-### What gets made
+## What gets made
 
 **Episode**:
 One authored unit, medium-neutral, in exactly one Format, holding the researched content
 isolated from how it is rendered. Drafted from the llm-wiki and cites it; every artefact an
-audience consumes is generated from it.
+audience consumes is generated from Episodes.
 _Avoid_: piece, entry, work, topic, video, content
 
 **Format**:
-The kind an Episode is — Foundations, Teardown or Short. Fixes its job, its length, and
-whether a takeaway is required.
+The kind an Episode is — Foundations, Teardown or Short. Fixes its job, its length, its Beats, and whether a takeaway is required.
 _Avoid_: type, category, genre
 
 **Foundations**:
@@ -42,29 +37,38 @@ A Format. A real artefact from real work — a Deck, a messy repo, a prompt that
 shown for what is wrong, why, and how it should have been done.
 
 **Short**:
-A Format. One to two minutes of opinion, or a teaser for another Episode in a longer Format.
+A Format. One to two minutes of opinion, or a teaser for an Episode in a longer Format. Still
+an Episode, not an artefact derived from one.
+
+**Spine**:
+The thesis and the analogy an Episode declares in its frontmatter. Fixed before any prose is
+written, and the red thread every Beat returns to.
+_Avoid_: outline, angle, hook, premise
+
+**Beat**:
+One section of an Episode, fixed by its Format. The `##` headings are the Beats; nothing
+restates them.
+_Avoid_: section, chapter, step, act
 
 **Manuscript**:
-The spoken text generated from an Episode, then tailored for delivery (story telling, timing, delivery cues etc)
+The spoken text generated from an Episode, then hand-tailored for delivery — storytelling, timing, delivery cues. That tailoring exists nowhere else, so regenerating overwrites it.
 _Avoid_: script, voice script, narration, transcript
 
 **Deck**:
-An HTML visual sequence generated from an Manuscript, authored here and statically rendered. Can be used to deliver a (mostly theory) section in a Workshop.
+An HTML visual sequence generated from a Manuscript and statically rendered here. Carries a mostly-theory section of a Workshop. Has no markdown document of its own.
 _Avoid_: slides, presentation, PowerPoint, pitch
 
 **Workshop**:
-A live session delivered to Clients from one or multiple Decks, defined by material in this repository.
+A live session delivered to Clients, composed from Decks that already exist.
 _Avoid_: training, session, coaching, talk
 
-### Who it is for
+## Who it is for
 
 **Channel audience**:
 International, English-speaking tech and tech-adjacent knowledge workers, weighted
-tech-adjacent, already using agentic tools while holding a 2023 chat-model mental model.
+tech-adjacent. What they currently believe is a hypothesis, and `docs/visions/product.md`
+holds it. _Viewers_ is an acceptable alias in prose; this is the canonical name.
 _Avoid_: subscribers, unqualified "audience"
-
-**Viewers**:
-See Channel audience. Interchangeable in prose; Channel audience is the canonical name.
 
 **Business audience**:
 Prospects for consulting and coaching, mainly in Germany, who read published work as a
@@ -76,12 +80,29 @@ A member of the Business audience who has bought consulting or coaching. A Works
 delivered to Clients; published work is aimed at the Business audience.
 _Avoid_: customer, account
 
-### Where it comes from
+## Where it comes from
 
 **llm-wiki**:
-The layer of this repository holding durable knowledge written for agent consumption.
-Anything generated from it cites it and is not part of it.
+The Knowledge layer of this repository, holding durable knowledge written for agent
+consumption. Anything generated from it cites it and is not part of it. The name is fixed, the `wiki` inside it notwithstanding.
 _Avoid_: knowledge base, notes, second brain, wiki
+
+**Steering**:
+The layer holding how decisions get made here — voice, mental models, design and technical
+preferences, what counts as good research. Any agent reads it to decide, not only one writing
+an Episode: the llm-wiki supplies what is true, Steering supplies how to choose.
+_Avoid_: style guide, prompt library, persona
+
+## How it is kept
+
+**Layer**:
+One of the four divisions of this repository — Steering, Knowledge, Output, Governance —
+each of which could become its own repository without moving a concept ID. `docs/visions/information-architecture.md` places them.
+_Avoid_: folder, module, area
+
+**Bundle**:
+An Open Knowledge Format unit, one per content layer. A concept ID is its path within its bundle, minus `.md`.
+_Avoid_: package, collection, namespace
 
 **Publish bar**:
 The tests an Episode passes before it ships, defined in `docs/visions/product.md`.

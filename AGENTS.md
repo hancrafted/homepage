@@ -1,46 +1,61 @@
 # Homepage
 
-A centralized repository for creating content agentically: llm-wiki as knowledge base, Episodes derived
-from it, and a next.js site that renders episodes as Decks, to be published on (for now) as GitHub Pages.
-YouTube videos, Medium articles and Podcast episodes are derived from Episodes/Manuscripts.
-Workshops are delivered to business clients, based on the published content and decks.
+Content built agentically: an llm-wiki, Episodes drafted from it, and a site that publishes
+them. `CONTEXT.md` fixes every word in that sentence — read it before writing prose, and use
+its names.
+
+## Who owns what
+
+Four documents govern, each authoritative over exactly one thing:
+
+| Document                                   | Owns                                             |
+| ------------------------------------------ | ------------------------------------------------ |
+| `CONTEXT.md`                               | Vocabulary. Every other document uses its names. |
+| `docs/visions/product.md`                  | Scope — whether something belongs here at all.   |
+| `docs/visions/information-architecture.md` | Placement — where an artefact lives.             |
+| `.archgate/adrs/`                          | Code.                                            |
+
+Outside its own subject a document is a copy, and copies drift. On a disagreement the owner
+wins and the losing document gets corrected in the same pass, not worked around.
+
+## Before writing any `.md`
+
+`npx mh --query <path>` — it answers what frontmatter that path owes before the file exists;
+`invisible` means ungoverned, so write freely. The push gate runs `mh --check`, and querying
+first is what keeps it green.
+
+`verified.by` and `verified.at` are the user's to give. Ask for them in a pass of their own —
+an agent that updates a document and stamps it verified in the same go has certified its own
+work. `generated.*` is the agent's claim; `verified.*` is the human's.
+
+## Visions
+
+`docs/visions/` holds the reasoning decisions get derived from, never decisions themselves,
+and each file opens with the test to run before proposing anything. Their `description`
+frontmatter says which one a proposal owes a read — that is the one list of triggers.
+
+A software architecture vision is deferred until the first Episode has to become a Deck.
 
 ## Decision records
 
-Two separate systems, never interchangeable:
+- **ADR** — Archgate governance, in `.archgate/adrs/`. Created and edited **only** by
+  `archgate:adr-author`; other skills delegate to it.
+- **design-ADR** — a design decision from the Matt Pocock skills, in
+  `docs/design-adr/0001-<slug>.md`, with `type: design-adr` as the first frontmatter field.
 
-- **ADR** — Archgate governance records in `.archgate/adrs/` (`ARCH-001`, `BE-001`, …). Created and edited **only** by `archgate:adr-author`; other skills delegate to it.
-- **design-ADR** — design decisions from the Matt Pocock skills in `docs/design-adr/` (`0001-<slug>.md`), each starting with `type: design-adr` as the first frontmatter field.
+Never interchangeable; use the precise term. The Matt Pocock skill files say ADRs live in
+`docs/adr/` — in this repo that path does not exist.
 
-Use the precise term. The Matt Pocock skill files still say ADRs live in `docs/adr/` — in this repo they don't; see `docs/agents/domain.md`.
+## Conventions
 
-## Vision
+**Issues** — GitHub issues in `hancrafted/homepage`, driven via the `gh` CLI. See
+`docs/agents/issue-tracker.md`.
 
-Neither file below is a decision record. They hold the reasoning decisions get derived from, and each opens with the test to run before proposing anything.
+**Triage** — five canonical roles at their default label strings. Read
+`docs/agents/triage-labels.md` before labelling an issue.
 
-- `docs/visions/product.md` — the promises, the boundaries, the horizons. Read before proposing content, arguing scope, or running a non-technical grilling session.
-- `docs/visions/information-architecture.md` — the layers, the bundles, the Episode primitive. Read before adding a directory, changing what frontmatter carries, or deciding where a new artefact lives. A software architecture vision is deferred until the first Episode has to become a Deck.
+**Domain docs** — one `CONTEXT.md`, at the repo root. See `docs/agents/domain.md`.
 
-## Agent skills
-
-### Issue tracker
-
-Issues and specs live as GitHub issues in `hancrafted/homepage`, driven via the `gh` CLI. See `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-The five canonical triage roles, using their default label strings. See `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-Single-context: one `CONTEXT.md` at the repo root. See `docs/agents/domain.md`.
-
-### Markdown frontmatter
-
-`npx mh --query <path>/<current-file-name>.md` (e.g. `npx mh --query docs/visions/product.md`) before writing or updating any `.md` file. It answers what frontmatter that path owes before the file exists; `invisible` means ungoverned, so write freely. The push gate runs `mh --check`, and querying first is what keeps it green.
-
-`verified.by` and `verified.at` are the user's to give. Ask for them in a pass of their own — an agent that updates a document and stamps it verified in the same go has certified its own work. `generated.*` is the agent's claim; `verified.*` is the human's.
-
-### Grilling rounds
-
-Every grilling round — `/grill-me`, `/grill-with-docs`, or the grilling Wayfinder runs while charting a map or resolving a `wayfinder:grilling` ticket — uses this repo's round format, which overrides the grilling skill's own. See `docs/agents/grilling-format.md`.
+**Grilling rounds** — every round (`/grill-me`, `/grill-with-docs`, or the one Wayfinder runs
+while charting a map or resolving a `wayfinder:grilling` ticket) uses this repo's format,
+which overrides the grilling skill's own. See `docs/agents/grilling-format.md`.
