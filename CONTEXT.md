@@ -66,7 +66,7 @@ _Avoid_: training, session, coaching, talk
 
 **Channel audience**:
 International, English-speaking tech and tech-adjacent knowledge workers, weighted
-tech-adjacent. What they currently believe is a hypothesis, and `docs/visions/product.md`
+tech-adjacent. What they currently believe is a hypothesis, and `docs/steering/product.md`
 holds it. _Viewers_ is an acceptable alias in prose; this is the canonical name.
 _Avoid_: subscribers, unqualified "audience"
 
@@ -91,13 +91,14 @@ _Avoid_: knowledge base, notes, second brain, wiki
 The layer holding how decisions get made here — voice, mental models, design and technical
 preferences, what counts as good research. Any agent reads it to decide, not only one writing
 an Episode: the llm-wiki supplies what is true, Steering supplies how to choose.
+`docs/steering/index.md` indexes it.
 _Avoid_: style guide, prompt library, persona
 
 ## How it is kept
 
 **Layer**:
 One of the four divisions of this repository — Steering, Knowledge, Output, Governance —
-each of which could become its own repository without moving a concept ID. `docs/visions/information-architecture.md` places them.
+each of which could become its own repository without moving a concept ID. `docs/steering/information-architecture.md` places them.
 _Avoid_: folder, module, area
 
 **Bundle**:
@@ -105,5 +106,5 @@ An Open Knowledge Format unit, one per content layer. A concept ID is its path w
 _Avoid_: package, collection, namespace
 
 **Publish bar**:
-The tests an Episode passes before it ships, defined in `docs/visions/product.md`.
+The tests an Episode passes before it ships, defined in `docs/steering/product.md`.
 _Avoid_: quality bar, standard, criteria

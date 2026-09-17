@@ -23,11 +23,19 @@ frontmatter:
           pattern: '^human:[^ ]+$'
           intent: A verifier is a person, written human:<handle>
         verified.at: { presence: optional, format: datetime }
-    - ruleId: vision
-      path: [docs/visions/**/*.md]
-      intent: 'A vision should rarely change, which is exactly why it has to be re-read on purpose'
+    - ruleId: steering
+      path: [docs/steering/**/*.md]
+      intent: 'Steering should rarely change, which is exactly why it has to be re-read on purpose'
       fields:
-        type: { presence: required, allowed: [{ value: vision }] }
+        type: { presence: required, allowed: [{ value: steering }] }
+        title: { presence: required, maxLength: 80 }
+        description:
+          presence: required
+          maxLength: 300
+          intent: >-
+            Two sentences: what this document holds, then a trigger naming when
+            to open it. An agent picks between steering documents on this alone,
+            so it says when to read rather than summarising what is inside.
         stale_after: { presence: required, format: datetime }
         generated.by:
           presence: required

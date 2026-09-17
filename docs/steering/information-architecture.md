@@ -1,5 +1,5 @@
 ---
-type: vision
+type: steering
 title: Information Architecture Vision
 description: 'Where knowledge lives, the shape it takes, and why the Episode is the primitive. Use it before adding a directory, moving a markdown file, or changing what frontmatter carries.'
 generated:
@@ -45,30 +45,31 @@ allowed to break.
 
 ## 1. Layers are seams, not repositories
 
-| Layer          | Lives in                                          | Holds                                                              |
-| -------------- | ------------------------------------------------- | ------------------------------------------------------------------ |
-| **Steering**   | `docs/steering/`                                  | How I decide — voice, models, preferences, visual pattern _intent_ |
-| **Knowledge**  | `docs/llm-wiki/`                                  | What I know — sources, references, papers                          |
-| **Output**     | `docs/episodes/`                                  | Knowledge around one thesis, rendered and published                |
-| **Governance** | `markdown-harness.config.yaml`, `.archgate/adrs/` | The rules the other three are checked against                      |
+| Layer          | Lives in                                          | Holds                                                                              |
+| -------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Steering**   | `docs/steering/`                                  | How I decide — this document, the promises, voice, models, visual pattern _intent_ |
+| **Knowledge**  | `docs/llm-wiki/`                                  | What I know — sources, references, papers                                          |
+| **Output**     | `docs/episodes/`                                  | Knowledge around one thesis, rendered and published                                |
+| **Governance** | `markdown-harness.config.yaml`, `.archgate/adrs/` | The rules the other three are checked against                                      |
 
 One repository. The three content layers are each one OKF bundle, so the bundle boundary and
 the layer boundary are the same line; Governance is not a bundle — it is what checks them. The
 content pipeline is the **first consumer** of this stack, not the stack itself.
 
-Not layers: `CONTEXT.md`, `docs/visions/`, `docs/agents/` and `docs/design-adr/` are
-scaffolding. They govern how the repository is worked rather than what it knows, and they stay
-behind when a layer is lifted out. `src/` is the site's implementation, and the architecture
+Not layers: `CONTEXT.md`, `docs/agents/` and `docs/design-adr/` are scaffolding. They govern how
+the repository is worked rather than what it knows, and they stay behind when a layer is lifted
+out. This document and `product.md` are not scaffolding — they are the Steering layer's own
+content, and they travel with it. `src/` is the site's implementation, and the architecture
 over it is deferred.
 
 **Reasoning.** Three repositories and a dispatcher holding three working trees would buy
-overhead against the Leverage promise in `docs/visions/product.md`. Putting each bundle root on
+overhead against the Leverage promise in `product.md`. Putting each bundle root on
 a layer boundary keeps the split cheap anyway: lifting `docs/steering/` out becomes a
 `git subtree split` with no concept ID moving.
 
 **Consequence.** If there is a sellable product it is the substrate — steering plus knowledge
 plus governance — and content is the proof it works. Whether there is one is an open question in
-`docs/visions/product.md`.
+`product.md`.
 
 ## 2. Frontmatter follows OKF v0.2
 
@@ -109,7 +110,7 @@ Where an Episode turns from theory to hands-on is a property of the content, dec
 the Episode is authored and recorded in `episode.md` frontmatter beside the Spine. Format
 decides whether it carries that turn at all: a Foundations Episode and a Teardown do, a Short
 does not. That is a second exemption for the Short, mirroring the one
-`docs/visions/product.md` grants at the Publish bar — not the same one.
+`product.md` grants at the Publish bar — not the same one.
 
 **Reasoning.** A turn found later, during editing, means a recording needs bespoke work to
 locate its cut point.

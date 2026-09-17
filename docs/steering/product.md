@@ -1,5 +1,5 @@
 ---
-type: vision
+type: steering
 title: Product Vision
 description: 'Three promises, the boundaries around them, and the reasoning each was derived from. Use it before proposing content, arguing scope, or judging whether an idea belongs here at all.'
 generated:

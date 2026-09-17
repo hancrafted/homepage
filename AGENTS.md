@@ -8,12 +8,12 @@ its names.
 
 Four documents govern, each authoritative over exactly one thing:
 
-| Document                                   | Owns                                             |
-| ------------------------------------------ | ------------------------------------------------ |
-| `CONTEXT.md`                               | Vocabulary. Every other document uses its names. |
-| `docs/visions/product.md`                  | Scope — whether something belongs here at all.   |
-| `docs/visions/information-architecture.md` | Placement — where an artefact lives.             |
-| `.archgate/adrs/`                          | Code.                                            |
+| Document                                    | Owns                                             |
+| ------------------------------------------- | ------------------------------------------------ |
+| `CONTEXT.md`                                | Vocabulary. Every other document uses its names. |
+| `docs/steering/product.md`                  | Scope — whether something belongs here at all.   |
+| `docs/steering/information-architecture.md` | Placement — where an artefact lives.             |
+| `.archgate/adrs/`                           | Code.                                            |
 
 Outside its own subject a document is a copy, and copies drift. On a disagreement the owner
 wins and the losing document gets corrected in the same pass, not worked around.
@@ -28,13 +28,14 @@ first is what keeps it green.
 an agent that updates a document and stamps it verified in the same go has certified its own
 work. `generated.*` is the agent's claim; `verified.*` is the human's.
 
-## Visions
+## Steering
 
-`docs/visions/` holds the reasoning decisions get derived from, never decisions themselves,
-and each file opens with the test to run before proposing anything. Their `description`
-frontmatter says which one a proposal owes a read — that is the one list of triggers.
+`docs/steering/index.md` is the front door: five disciplines in one line each, then the
+documents holding the reasoning decisions get derived from. Most rounds end on a discipline
+without opening a document; when one has to be opened, its `description` frontmatter says which,
+and that is the one list of triggers.
 
-A software architecture vision is deferred until the first Episode has to become a Deck.
+A software architecture document is deferred until the first Episode has to become a Deck.
 
 ## Decision records
 
