@@ -1,0 +1,5 @@
+interface:
+  display_name: 'Analogy'
+  short_description: 'Rate the last analogy, or take a better one'
+policy:
+  allow_implicit_invocation: false
