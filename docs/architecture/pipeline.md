@@ -2,7 +2,7 @@
 
 How an Episode becomes published work: the stages, the gates between them, and the loop that runs them.
 
-This document churns, and it is ungoverned on purpose — no frontmatter rule reaches it, so a stage can be added or a field renamed without resetting anything. The half that does not churn — where documents live, what shape they take, who may stamp them — is `docs/visions/information-architecture.md`. Vocabulary is `CONTEXT.md`.
+This document churns, and it is ungoverned on purpose — no frontmatter rule reaches it, so a stage can be added or a field renamed without resetting anything. The half that does not churn — where documents live, what shape they take, who may stamp them — is `docs/steering/information-architecture.md`. Vocabulary is `CONTEXT.md`.
 
 ## The loop
 
@@ -30,7 +30,7 @@ Two gates, both human, both on artefacts rather than on a conversation.
 
 Research runs unattended between them.
 
-**Why there.** Research is cheap to redo, so a bad research pass costs a re-run rather than a review. The Episode is where creative judgement lives, and `docs/visions/product.md` keeps creative work outside automation's reach. The Deck has no document of its own, so its verdict rides on the Manuscript's stamp.
+**Why there.** Research is cheap to redo, so a bad research pass costs a re-run rather than a review. The Episode is where creative judgement lives, and `docs/steering/product.md` keeps creative work outside automation's reach. The Deck has no document of its own, so its verdict rides on the Manuscript's stamp.
 
 **Validation is a gate, not a stage.** The dispatcher runs the verify pipeline after the agent exits. A failure blocks advancement, and its errors go into frontmatter as the next invocation's input, so the re-run self-corrects. Same principle as `verified.by` in `AGENTS.md`: the verdict is not the agent's to give.
 
