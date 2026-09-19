@@ -7,6 +7,8 @@ A Teardown starts from an artefact that already exists. That is a fundamentally 
 ## Beats
 
 ```markdown
+## Definitions
+
 ## The artefact
 
 ## The practice they already run
@@ -17,14 +19,18 @@ A Teardown starts from an artefact that already exists. That is a fundamentally 
 
 ## How it should have been done
 
+## Where the method stops applying
+
 ## Where the analogy breaks down
 
 ## What to do
 ```
 
+**Definitions.** Every term the Episode needs in order to be understood, defined once. It opens with the fixed lede sentence and carries no prose of its own beyond it. `episode-format.md`'s `## Definitions` holds the form, the fixed sentence, and where a Subject-domain-specific definition goes. Cite it: what a term officially means is a claim about the world, not the author's own framing.
+
 **The artefact.** Show the real thing first, before any framing. The credibility of a Teardown is that it is not a constructed example. Cite it — the artefact is a Source.
 
-**The practice they already run.** The analogy, arriving after the artefact because the artefact is what earns attention here. Same rules as everywhere: a domain the user has worked in, carried as a red thread rather than dropped after the introduction. Exempt from citation.
+**The practice they already run.** Arriving after the artefact, because the artefact is what earns attention here. Two things in sequence. **The hook** — one to three lines of something a fifteen-year-old inhabits: everyday life, pop culture, dating, the water cooler, with no professional experience assumed. Then **the analogy**, the line returned to at every major turn. It may come from anywhere the audience can picture, including a domain nobody in it has worked in — what it needs is that the audience can stand inside it, not that anyone has been paid to. The hook may pivot into the analogy or be the analogy's first line; neither takes a Beat of its own, because a Beat for three lines is structure charging rent. Exempt from citation.
 
 **What is wrong with it.** Specific and observable, tied to parts of the artefact the audience can see. Cite it.
 
@@ -32,6 +38,8 @@ A Teardown starts from an artefact that already exists. That is a fundamentally 
 
 **How it should have been done.** The correction, which is also the resolution of the misconception named above. Leaving it implicit is what turns a teardown into something that spreads the error it set out to fix. Cite it.
 
-**Where the analogy breaks down.** The limit of the analogy, and the limit of the correction: where this fix does not apply, and why that exception is deliberate.
+**Where the method stops applying.** The limit of the correction: where this fix does not apply, what it needs to be true, and why that exception is deliberate. In a Teardown the correction is the method, so its limit sits here rather than beside the analogy's. Cite it.
 
-**What to do.** Reach back to the analogy. Exempt from citation.
+**Where the analogy breaks down.** Where the analogy stops mapping, and why that exception is deliberate. The analogy and the method fail for different reasons — the analogy stops mapping, the method stops applying — and one heading covering both hides whichever the author found harder to write. This is the most-skipped step in analogy-led teaching, and skipping it produces analogy-induced misconceptions. The analogy is the author's own, so this beat asserts nothing about the world and carries no citation.
+
+**What to do.** Reach back to the analogy. Then name at least one action with its object already supplied, not a procedure for deriving one: _open the deal you are least sure of and write down the one date you do not control_, not _find the first thing outside your control_. Attemptable this week, needing no permission and no new tool. A short checklist is permitted where the material suits one, and required nowhere. Each step meets the same test a single action does — its object supplied, not a step for deriving one. Where the action differs by Subject domain it goes under that Subject domain's `###` heading; where one action serves all of them it belongs in the lede. Exempt from citation.

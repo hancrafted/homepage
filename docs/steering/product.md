@@ -3,12 +3,9 @@ type: steering
 title: Product Vision
 description: 'Three promises, the boundaries around them, and the reasoning each was derived from. Use it before proposing content, arguing scope, or judging whether an idea belongs here at all.'
 generated:
-  at: 2026-09-17T00:00:00Z
+  at: 2026-09-18T15:36:11Z
   by: anthropic/claude-opus-5
 stale_after: 2026-09-21T00:00:00Z
-verified:
-  at: 2026-09-17T11:59:27Z
-  by: human:hancrafted
 ---
 
 # Product Vision
@@ -82,43 +79,50 @@ what an Episode's visuals should be; audio-first holds it back.
 
 ### Format signature — analogy-led
 
-Every Episode opens by grounding the concept in an analogy the viewer already inhabits — the
-analogy half of its Spine. The analogy runs as a red thread through the whole Episode, and the
-actionable ending refers back to it: _you wouldn't do this in the analogy — so what would you
-do here?_
+Every Episode grounds the concept in an analogy the viewer already inhabits — the analogy is
+half its Spine. It lands in the first Beat that argues rather than establishes: `Definitions`
+opens both Formats and fixes vocabulary only, and a Teardown puts its artefact before anything
+else. The analogy returns at every major turn of the Episode, and the actionable ending refers
+back to it: _you wouldn't do this in the analogy — so what would you do here?_
 
 **Reasoning.** The bet is that a grounding analogy is what makes a technical abstraction click
 for a non-engineer. Unsourced, and the whole format signature rests on it.
 
-### The three formats
+### The two formats
 
-| Format          | Length    | Job                                                | Takeaway |
-| --------------- | --------- | -------------------------------------------------- | -------- |
-| **Foundations** | 10–20 min | Durable value, compounding traffic                 | Required |
-| **Teardown**    | 10–20 min | Credibility — real artefacts from real work        | Required |
-| **Short**       | 1–2 min   | Reach, personality, traffic into the long Episodes | Optional |
+| Format          | Length    | Job                                         | Takeaway |
+| --------------- | --------- | ------------------------------------------- | -------- |
+| **Foundations** | 10–20 min | Durable value, compounding traffic          | Required |
+| **Teardown**    | 10–20 min | Credibility — real artefacts from real work | Required |
 
-**Foundations** — one durable principle, shown working, ending in something the viewer can try.
+**Foundations** — one durable principle, shown working, ending in a Takeaway.
 
 **Teardown** — a real artefact, a Deck, a messy repo, a prompt that failed: what is wrong, why,
 and how it should be done. Drawn from everyday working experience.
 
-**Short** — opinion, or a teaser for a longer Episode. A shorter shelf life is accepted here.
+**Reasoning.** Two formats, because a Teardown starts from an artefact that already exists — a
+fundamentally different input from a Foundations Episode, and the reason the beats differ. That
+is a format stressing the shape rather than dodging it, which is what a second one is for.
 
-**Reasoning.** Separating the formats caps shelf-life risk to the opinion content, inside the
-format that is cheapest to produce, while it feeds traffic to the durable Episodes. It also
-makes the pipeline question tractable: a Teardown starts from an artefact that already exists,
-a fundamentally different input from a Foundations Episode.
+**A third was scoped and removed.** A short opinion-or-teaser format, one to two minutes, buying
+reach and personality and traffic into the long Episodes. It accumulated three exemptions —
+both Publish bar tests, the theory/hands-on boundary, and the Subject domain headings — and a
+format defined by what does not apply to it is miscategorised rather than varied. Whether it
+returns as a third Format or as something lateral to Formats is open, and reopens when reach
+becomes a goal.
+Removing it costs the traffic argument, which is a real cost against Translation, taken
+knowingly.
 
 ### Publish bar — shelf life
 
 Two tests, before an Episode ships:
 
 1. Will the content still be correct in 12 months?
-2. Is the proposed action at the end accessible and practical to the channel audience?
+2. Does the Episode name at least one action with its object already supplied — not a
+   procedure for deriving one — attemptable this week, needing no permission and no new
+   tool?
 
-A Short is exempt from both — the only exemption at this bar.
-`information-architecture.md` grants a Short a second one, at a different bar.
+Every Episode passes both. There is no exemption at this bar.
 
 The durable material is the pre-hype canon — separation of concerns, design by contract,
 decomposition, divide and conquer — translated for a non-engineering audience.
@@ -126,8 +130,8 @@ decomposition, divide and conquer — translated for a non-engineering audience.
 **Reasoning.** News-cycle content drives engagement on channels that already have traction;
 without traction it decays where durable material compounds. It is also a positioning
 advantage: showing that today's agentic practice is old ideas wearing new clothes is exactly
-what a sceptical audience needs to hear. Naming the Short exemption explicitly is what keeps
-the bar a constraint rather than a slogan.
+what a sceptical audience needs to hear. A bar with no carve-out is a constraint; one with a
+carve-out drifts into a slogan.
 
 ## The horizons
 

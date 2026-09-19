@@ -49,7 +49,7 @@ yt-dlp --cookies-from-browser chrome --write-auto-subs --sub-langs "en.*" \
 
 _Done when_ every named Source has been read, or the user has been told exactly which ones could not be and has decided to proceed without them.
 
-**2. Fix the Format.** Foundations, Teardown or Short — `docs/steering/product.md` fixes each one's job and length. Read the matching asset and nothing else: [`assets/foundations.md`](assets/foundations.md), [`assets/teardown.md`](assets/teardown.md), [`assets/short.md`](assets/short.md). The shared rules are in [`assets/episode-format.md`](assets/episode-format.md).
+**2. Fix the Format.** Foundations or Teardown — `docs/steering/product.md` fixes each one's job and length. Read the matching asset and nothing else: [`assets/foundations.md`](assets/foundations.md), [`assets/teardown.md`](assets/teardown.md). The shared rules are in [`assets/episode-format.md`](assets/episode-format.md).
 
 _Done when_ one Format is settled and its beats are in front of you.
 
@@ -57,9 +57,11 @@ _Done when_ one Format is settled and its beats are in front of you.
 
 Deciding the message, shape and framing is the user's, not yours — `docs/steering/product.md` puts it outside automation's reach while leaving the brainstorming inside it. So generate generously and choose nothing.
 
-Draw analogies only from domains the user has worked in: sales, pre-sales, requirements engineering, UX, recruiting, marketing, project management. These land because they are lived. A borrowed analogy fails before it is even evaluated: retrieval runs on surface similarity while mapping runs on relational structure, so an audience that has never inhabited the domain never reaches for the mapping at all.
+Draw analogies from anywhere the audience can stand inside — everyday life, pop culture, dating, the water cooler. Not from where the principle gets shown: `subject_domains:` is the evidence and the analogy is the framing, so `ai-evals` can be the first without being the second. The test is the audience's experience, not the user's CV: an analogy from a domain they have never inhabited fails before it is even evaluated, because retrieval runs on surface similarity while mapping runs on relational structure, and an audience that has never stood inside the domain never reaches for the mapping at all.
 
-_Done when_ the user has picked one thesis and one analogy.
+Offer candidate Subject domains in the same round — the ones the Sources actually support, per `episode-format.md`'s `## Subject domains`. The set is provisional: step 5 extends it wherever a Source turns out to support a field this round missed.
+
+_Done when_ the user has picked one thesis, one analogy, and a provisional Subject domain set.
 
 **4. Offer the slug.** Propose slugs naming the Episode's **subject**, not its thesis — the slug is the concept ID, so a thesis-shaped slug changes identity every time the wording sharpens. Wait for the choice.
 
@@ -67,13 +69,15 @@ If `docs/episodes/<slug>/` already exists, see _Refusals_ below.
 
 _Done when_ the user has confirmed one slug.
 
-**5. Write the Episode.** Frontmatter per [`assets/episode-format.md`](assets/episode-format.md), beats per the Format's asset, citations keyed to `sources[].id`.
+**5. Write the Episode.** Frontmatter per [`assets/episode-format.md`](assets/episode-format.md), beats per the Format's asset, citations keyed to `sources[].id`, and each beat written as a prose lede, then `###` Subject domain headings where the material is Subject-domain-specific and none where it is not. Extend `subject_domains:` wherever a Source supports a field the provisional set missed.
 
-_Done when_ `docs/episodes/<slug>/episode.md` exists, every beat the Format requires has a section, and every fact-stating beat carries a footnote or a marker saying it does not.
+_Done when_ `docs/episodes/<slug>/episode.md` exists, every beat the Format requires has a section, every fact-stating beat carries a footnote or a marker saying it does not, and every `###` heading kebab-cases to a declared Subject domain.
 
 **6. Report what is unsettled.** Name every unsupported beat, every Source that went unused, and the `stale_after` date you propose for the Publish bar's twelve-month test — that date is the user's judgement, not yours.
 
-_Done when_ the user knows what would stop this Episode shipping.
+Report the Subject domains too, as two lists set against each other: `subject_domains:` and the union of the `###` headings. They must be equal. Name every Subject domain added or dropped since step 3, and say which side any inequality falls on — a declared Subject domain never argued, or a heading nobody declared. That is the author pass, not the gate.
+
+_Done when_ the user knows what would stop this Episode shipping, and the two Subject domain lists are in front of them. Say that the next run is `/review-episode docs/episodes/<slug>/episode.md`.
 
 ## Refusals
 
