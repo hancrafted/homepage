@@ -15,6 +15,11 @@ Four documents govern, each authoritative over exactly one thing:
 | `docs/steering/information-architecture.md` | Placement — where an artefact lives.             |
 | `.archgate/adrs/`                           | Code.                                            |
 
+`CONTEXT.md` is vocabulary and nothing else: a term, what it means, and the synonyms to
+avoid. Mechanism, rules and reasoning belong to the document that owns them — placement to
+`information-architecture.md`, scope to `product.md`, decisions to a design-ADR. It sits on
+the path of nearly every session, so anything extra is paid for on every run.
+
 Outside its own subject a document is a copy, and copies drift. On a disagreement the owner
 wins and the losing document gets corrected in the same pass, not worked around.
 

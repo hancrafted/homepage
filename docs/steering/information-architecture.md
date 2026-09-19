@@ -3,12 +3,9 @@ type: steering
 title: Information Architecture Vision
 description: 'Where knowledge lives, the shape it takes, and why the Episode is the primitive. Use it before adding a directory, moving a markdown file, or changing what frontmatter carries.'
 generated:
-  at: 2026-09-17T00:00:00Z
+  at: 2026-09-18T12:15:52Z
   by: anthropic/claude-opus-5
 stale_after: 2026-09-21T00:00:00Z
-verified:
-  at: 2026-09-17T11:59:27Z
-  by: human:hancrafted
 ---
 
 # Information Architecture Vision
@@ -20,8 +17,8 @@ Three things it deliberately does not hold:
 
 1. **Operational detail** — stages, dispatcher, retry policy, frontmatter state schema. Belongs
    in `docs/architecture/pipeline.md`, and churns ungoverned on purpose.
-2. **Vocabulary** — `CONTEXT.md` owns it. Episode, Spine, Beat, Manuscript, Deck, Workshop,
-   Layer and Bundle are used here exactly as defined there.
+2. **Vocabulary** — `CONTEXT.md` owns it. Episode, Spine, Beat, Subject domain, Manuscript,
+   Deck, Workshop, Layer and Bundle are used here exactly as defined there.
 3. **Software architecture** — execution model, state substrate, rendering stack. Held by
    `docs/steering/software-architecture.md`, provisional until the first Deck exists.
 
@@ -106,14 +103,41 @@ docs/episodes/<unique-slug-in-kebab-case>/   # e.g. docs/episodes/investor-pitch
 No per-Episode `index.md`. A Deck has no document of its own: it is an implementation, and its
 spec lives in a GitHub issue.
 
-Where an Episode turns from theory to hands-on is a property of the content, decided once when
-the Episode is authored and recorded in `episode.md` frontmatter beside the Spine. Format
-decides whether it carries that turn at all: a Foundations Episode and a Teardown do, a Short
-does not. That is a second exemption for the Short, mirroring the one
-`product.md` grants at the Publish bar — not the same one.
+Two properties of the content are decided once, when the Episode is authored, and recorded in
+`episode.md` frontmatter beside the Spine. Both Formats carry both.
+
+**Where it turns from theory to hands-on.** One position among the beats, named in frontmatter.
+
+**Which Subject domains it covers.** The set is frontmatter. Which passage belongs to which
+Subject domain is a position, which frontmatter cannot express, so the body's `###` headings carry
+that half. The two are not in tension: the boundary is a single position at beat granularity, so
+one field can name the Beat it falls after, while Subject domain bindings are many positions at
+passage granularity, and frontmatter has no way to address a passage.
+
+A `###` binds one Subject domain. Its region runs from that heading to the next `###`, the next
+beat (`##`), or the end of the document. `####` and below are free structure — enumerations of
+whatever encloses them — and carry no Subject domain semantics. One Subject domain per `###`,
+never nested: a second sales example found later lands inside the sales region rather than opening
+a second one, which is what keeps an Episode a document that gets edited rather than only appended
+to.
+
+What a checker can settle here splits cleanly, and the halves have different fates:
+
+- **Structural, and checkable.** Every `###` names a Subject domain present in `subject_domains:`,
+  every entry in `subject_domains:` appears as a `###`, and every `###` sits under a `##`. A set
+  comparison, no judgement. Unimplemented — the harness reads the frontmatter keys but not the
+  body, and this is one ticket.
+- **Semantic, and never checkable.** Whether the passage under a `###` belongs to the Subject
+  domain it claims. A human call, permanently.
 
 **Reasoning.** A turn found later, during editing, means a recording needs bespoke work to
-locate its cut point.
+locate its cut point. Headings rather than paired markers, because a pair bounds a region only
+while both halves survive — a formatter or a careless edit drops one and the region silently
+stops being one, whereas a heading's boundary is the next heading and is already there. Fixing
+the binding at `###` costs no structural headroom: three levels is where information architecture
+stops earning its keep, and `####` downward is reliably an enumeration of the level above.
+Heading-bounded regions also hand `markdown-harness` a unit for free — it hashes a section against
+a reference to signal when either side has changed, and a region is what it hashes.
 
 ## 4. Two renderers over one source
 
@@ -124,8 +148,7 @@ Episode ──► Manuscript ──► Deck ──┤
 ```
 
 Blog posts, podcast instalments and social posts fan out from the Episode, linking back to the
-published work. A Short is not a fan-out: it is an Episode in the Short Format, and it lives
-with the rest.
+published work.
 
 **Reasoning.** One verified core, two ways out. Composing a Workshop is a retrieval-and-compose
 problem over Decks that already exist, not an authoring problem — demand for a workshop stops

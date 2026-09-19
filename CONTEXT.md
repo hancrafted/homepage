@@ -1,12 +1,9 @@
 ---
 type: memory
 generated:
-  at: 2026-09-16T00:00:00Z
+  at: 2026-09-18T15:36:11Z
   by: anthropic/claude-opus-5
 stale_after: 2026-09-21T00:00:00Z
-verified:
-  at: 2026-09-17T11:59:27Z
-  by: human:hancrafted
 ---
 
 # Vocabulary
@@ -26,29 +23,40 @@ audience consumes is generated from Episodes.
 _Avoid_: piece, entry, work, topic, video, content
 
 **Format**:
-The kind an Episode is — Foundations, Teardown or Short. Fixes its job, its length, its Beats, and whether a takeaway is required.
+The kind an Episode is — Foundations or Teardown. Fixes its job, its length and its Beats.
 _Avoid_: type, category, genre
 
 **Foundations**:
-A Format. One durable principle, shown working, ending in something a viewer can try.
+A Format. One durable principle, shown working, ending in a Takeaway.
 
 **Teardown**:
 A Format. A real artefact from real work — a Deck, a messy repo, a prompt that failed —
 shown for what is wrong, why, and how it should have been done.
 
-**Short**:
-A Format. One to two minutes of opinion, or a teaser for an Episode in a longer Format. Still
-an Episode, not an artefact derived from one.
-
 **Spine**:
 The thesis and the analogy an Episode declares in its frontmatter. Fixed before any prose is
-written, and the red thread every Beat returns to.
+written, and the line every Beat returns to.
 _Avoid_: outline, angle, hook, premise
 
 **Beat**:
 One section of an Episode, fixed by its Format. The `##` headings are the Beats; nothing
 restates them.
 _Avoid_: section, chapter, step, act
+
+**Story Thread**: A line an Episode carries through its Beats — A the idea, B the human
+stake. Declared in `story_threads:`. The Episode carries the material a storyline is drawn
+from; the storyline itself is the Manuscript's.
+_Avoid_: storyline, narrative, arc, red thread
+
+**Subject domain**:
+A field of practice an Episode shows its principle working in — sales, coaching, testing.
+Declared in frontmatter as `subject_domains:`.
+_Avoid_: domain unqualified, field, area, vertical
+
+**Takeaway**:
+The action an Episode ends on — attemptable with minimal effort, and enough to experience the
+benefit first-hand rather than only to have followed an instruction.
+_Avoid_: call to action, next step, exercise, homework
 
 **Manuscript**:
 The spoken text generated from an Episode, then hand-tailored for delivery — storytelling, timing, delivery cues. That tailoring exists nowhere else, so regenerating overwrites it.

@@ -55,9 +55,9 @@ The original never needed an ordering rule — order did not matter when a whole
 
 ## Advancing: "let's move on"
 
-Nothing advances until the user says **"let's move on."**
+Advances only until the user says a longer confirmation like **"let's move on."** or **"let's continue."**
 
-Deliberately not "next". One syllable, and plausibly a mis-transcription of something else. Three words will not appear by accident.
+Deliberately not One syllable, and plausibly a mis-transcription of something else. Three words will not appear by accident.
 
 **This reason is part of the rule.** Without it the phrase gets shortened for convenience later, and the failure it prevents returns silently.
 
