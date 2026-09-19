@@ -35,7 +35,8 @@ documents holding the reasoning decisions get derived from. Most rounds end on a
 without opening a document; when one has to be opened, its `description` frontmatter says which,
 and that is the one list of triggers.
 
-A software architecture document is deferred until the first Episode has to become a Deck.
+Software architecture is `docs/steering/software-architecture.md`, written ahead of the first
+Deck and provisional until one exists.
 
 ## Decision records
 

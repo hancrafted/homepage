@@ -22,8 +22,8 @@ Three things it deliberately does not hold:
    in `docs/architecture/pipeline.md`, and churns ungoverned on purpose.
 2. **Vocabulary** — `CONTEXT.md` owns it. Episode, Spine, Beat, Manuscript, Deck, Workshop,
    Layer and Bundle are used here exactly as defined there.
-3. **Software architecture** — execution model, state substrate, rendering stack. Deferred, not
-   forgotten; `AGENTS.md` holds the trigger.
+3. **Software architecture** — execution model, state substrate, rendering stack. Held by
+   `docs/steering/software-architecture.md`, provisional until the first Deck exists.
 
 ## Deriving a decision from this
 
@@ -118,9 +118,9 @@ locate its cut point.
 ## 4. Two renderers over one source
 
 ```
-                              ┌──► Deck ──┬──► Workshop — a live session composed from Decks
-Episode ──► Manuscript ───────┤           └──► Recording — one take, published to the channel
-                              └──► Site — the published page, Manuscript embedded at build time
+                                  ┌──► Workshop — a live session composed from Decks
+Episode ──► Manuscript ──► Deck ──┤
+                                  └──► Recording — one take, published to the channel
 ```
 
 Blog posts, podcast instalments and social posts fan out from the Episode, linking back to the
@@ -182,8 +182,6 @@ Deferred — decided to decide later, each with the trigger that reopens it:
 Open — not known yet:
 
 - Where blog posts, podcast instalments and social posts live, and what frontmatter they carry.
-- The page stack. Next.js static export on GitHub Pages, later a private host, is assumed rather
-  than decided.
 - How an Episode cites a concept in `docs/llm-wiki/`, or a pattern in `docs/steering/`.
 
 ## Premise this rests on

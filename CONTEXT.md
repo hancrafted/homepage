@@ -58,6 +58,11 @@ _Avoid_: script, voice script, narration, transcript
 An HTML visual sequence generated from a Manuscript and statically rendered here. Carries a mostly-theory section of a Workshop. Has no markdown document of its own.
 _Avoid_: slides, presentation, PowerPoint, pitch
 
+**Slide**:
+One unit of a Deck, carrying exactly one claim. A Beat renders as one or more Slides; a Beat
+needing only one is a single Slide.
+_Avoid_: screen, page, step
+
 **Workshop**:
 A live session delivered to Clients, composed from Decks that already exist.
 _Avoid_: training, session, coaching, talk

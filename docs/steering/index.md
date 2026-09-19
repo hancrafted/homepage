@@ -20,6 +20,9 @@ The documents in this folder serve to help agents make reasoning decisions.
 - [Information Architecture Vision — information-architecture.md](information-architecture.md)
   - Where knowledge lives, the shape it takes, and why the Episode is the primitive. Use it before adding a directory, moving a markdown file, or changing what frontmatter carries.
 
+- [Software Architecture Vision — software-architecture.md](software-architecture.md)
+  - Tenets for the Next.js application that renders Decks. Use it before adding a dependency, a route, a client component, an animation, or anything stored in the browser.
+
 ## Disciplines
 
 - **Prior art**
