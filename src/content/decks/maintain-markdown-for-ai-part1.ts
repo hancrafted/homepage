@@ -1,0 +1,130 @@
+import { type SlideData } from './types';
+
+export const MAINTAIN_MARKDOWN_FOR_AI_SLIDES_PART1: SlideData[] = [
+  {
+    id: 'slide-1',
+    number: 1,
+    sectionNumber: 1,
+    beatCode: 'S1.1',
+    sectionTitle: { en: 'Intro', de: 'Einleitung' },
+    title: { en: 'The Verification Inversion', de: 'Die Verifikations-Inversion' },
+    claim: {
+      en: 'AI collapsed the cost of authoring docs to near zero while verification cost exploded. A human gets suspicious of stale docs; AI trusts them blindly.',
+      de: 'KI hat das Verfassen von Dokumentation fast kostenlos gemacht, während die Prüfung explodiert ist. Eine KI hinterfragt veraltete Dateien nie.',
+    },
+    notes: {
+      en: 'This talk opens with an onboarding analogy rather than with markdown because most enterprise audiences still imagine AI as a conversational chatbot, not an autonomous agent reading local files unprompted. Anchoring on handing documents to a new starter borrows intuition the room already possesses, bypassing claims about AI workflows they cannot yet verify. That setup exposes the core asymmetry: while a human reader eventually notices discrepancies in a stale document and self-corrects, an AI reads every file fresh. It has no mechanism to sense obsolescence and will act on outdated guidance identically the hundredth time and the thousandth time. This creates the cost inversion underlying the entire presentation. Authoring documentation used to be the expensive half; AI made drafting nearly free, while verification became far more demanding as volume exploded. Because verifying truth requires domain judgment, it cannot be automated away — leaving the verifying half as the responsibility of whoever owns the documents. Section 01 establishes these stakes before Section 02 broadens the scope across every context type an AI consumes.',
+      de: 'Das Onboarding eines neuen Mitarbeiters dient als Analogie: Ein Mensch bemerkt veraltete Anweisungen und korrigiert sich selbst. Eine KI liest jede Datei blind neu und handelt auch beim tausendsten Mal unhinterfragt nach veralteten Regeln.',
+    },
+    visualType: 'hero',
+    highlight: { en: 'Cost Inversion', de: 'Kosteninversion' },
+  },
+  {
+    id: 'slide-2',
+    number: 2,
+    sectionNumber: 2,
+    beatCode: 'S2.1',
+    sectionTitle: { en: 'Markdown in AI Workflows', de: 'Markdown in KI-Workflows' },
+    title: { en: 'Markdown in AI Workflows', de: 'Markdown in KI-Workflows' },
+    claim: {
+      en: 'Plain text files carry 3 crucial context types: Knowledge (on demand), Instructions/Skills (by name), and Memory (loaded every single session).',
+      de: 'Markdown trägt 3 wesentliche Kontextarten: Wissen (auf Abruf), Anweisungen/Skills (nach Name) und Memory (bei jedem Sitzungsstart).',
+    },
+    notes: {
+      en: 'While section 01 established the stakes without naming the format, this section introduces it and widens the scope from a static wiki to everything an AI reads. For an audience that still pictures AI as a 2023 chatbot you paste text into, the concept of a document warning an agent is unintelligible. Today’s agents read and write local files, invoke external tools, search the web, and execute tasks iteratively in loops. In this environment, markdown’s importance lies not in syntax or formatting quirks, but simply as a plain text file defined by how and when it is consumed. Those files divide into three core patterns: knowledge , retrieved on demand only when a task requires it; instructions or skills, codified once and triggered by name; and memory , loaded automatically at the start of every session. Memory serves as the closer because it carries the quietest failure mode: an obsolete memory file is accepted as fact across every single interaction, silently and invisibly to the operator. That compounding surface creates the volume crisis quantified in section 03.',
+      de: 'Markdown dient Agenten als Dateiformat für drei wesentliche Aufgaben: Wissen (Wissensdatenbanken), Anweisungen (System-Prompts & Skills) und Gedächtnis (Memory). Fehlerhafte Memory-Dateien schädigen jede einzelne Interaktion.',
+    },
+    visualType: 'hierarchy',
+    highlight: { en: '3 Context Types', de: '3 Kontextarten' },
+  },
+  {
+    id: 'slide-3',
+    number: 3,
+    sectionNumber: 3,
+    beatCode: 'S3.1',
+    sectionTitle: { en: 'Volume Outruns Review', de: 'Volumen überholt Review' },
+    title: { en: 'Volume Outruns Review', de: 'Volumen überholt Review' },
+    claim: {
+      en: 'Maintenance effort decays over time while documentation drift climbs. As corpus size scales, human review capacity is permanently outpaced.',
+      de: 'Wartungsaufwand sinkt über die Zeit, während Dokumentations-Drift steigt. Das wachsende Volumen übersteigt menschliche Kapazitäten dauerhaft.',
+    },
+    notes: {
+      en: 'Section 02 established that AI reads three distinct types of context files. This section models what happens to those files over time. Maintenance effort is rarely scheduled — until documentation fails. On a single document, effort decays while drift climbs, and that crossing point marks where the maintenance burden silently moves. Across an entire corpus, the maintenance surface expands significantly faster than the file count itself, overwhelming manual human review capacity and necessitating systematic verification gates.',
+      de: 'Dokumente veralten unbemerkt: Der anfängliche Pflegeaufwand sinkt gegen Null, während der inhaltliche Drift steigt. Mit wachsendem Repositorium übersteigt der Prüfaufwand die Kapazität des Teams.',
+    },
+    visualType: 'metric',
+    highlight: { en: 'Drift Crossing', de: 'Drift-Schnittpunkt' },
+  },
+  {
+    id: 'slide-4',
+    number: 4,
+    sectionNumber: 4,
+    beatCode: 'S4.1',
+    sectionTitle: { en: 'Where the Effort Goes', de: 'Wohin der Aufwand fließt' },
+    title: { en: 'Verification Boundaries & Workflow', de: 'Verifikations-Grenzen & Ablauf' },
+    claim: {
+      en: 'A three-tier division of labor: deterministic machines check structure, AI models accelerate drafting and diffing, and humans govern ground truth.',
+      de: 'Drei-Stufen-Arbeitsteilung: Maschinen prüfen Struktur deterministisch, KI beschleunigt Entwürfe und Diffs, Menschen verantworten die Wahrheit.',
+    },
+    notes: {
+      en: 'Section 03 showed that manual human review cannot scale with documentation volume. This section introduces the core framework to resolve that crisis: a three-tier verification boundary dividing tasks between deterministic machines, AI assistance, and human judgment. Section 04 introduces the full boundary before inspecting each column in turn.',
+      de: 'Die Lösung für das Dokumentationsvolumen: Eine klare Arbeitsteilung. Maschinen übernehmen Syntax und Schemas, KI unterstützt bei Synthese, und Menschen sichern die strategische Richtigkeit.',
+    },
+    visualType: 'flow',
+    highlight: { en: '3-Tier Boundary', de: 'Drei-Säulen-Modell' },
+  },
+  {
+    id: 'slide-5',
+    number: 5,
+    sectionNumber: 4,
+    beatCode: 'S4.2',
+    sectionTitle: { en: 'Where the Effort Goes', de: 'Wohin der Aufwand fließt' },
+    title: { en: 'What the Machine Verifies', de: 'Was die Maschine prüft' },
+    claim: {
+      en: 'Machines check deterministic invariants: YAML frontmatter validity, broken link references, freshness timestamps, and schema conformance.',
+      de: 'Maschinen prüfen deterministische Fakten: YAML-Gültigkeit, verwaiste Links, Ablaufdaten und Schema-Einhaltung.',
+    },
+    notes: {
+      en: 'Deterministic checks form the automated foundation of documentation governance. A machine can instantly parse YAML frontmatter, check whether referenced URLs return 404s, evaluate expiration dates, and verify schema conformance. These mechanical invariants cost nothing to execute in pre-commit hooks and CI gates, eliminating human busywork.',
+      de: 'Deterministische Prüfungen: Syntax, tote Links, veraltete Datumsstempel und Schema-Konformität kosten in CI-Pipelines Millisekunden und entlasten Entwickler vollständig von mechanischer Routine.',
+    },
+    visualType: 'hierarchy',
+    highlight: { en: 'Machine Invariants', de: 'Maschinelle Invarianten' },
+  },
+  {
+    id: 'slide-6',
+    number: 6,
+    sectionNumber: 4,
+    beatCode: 'S4.3',
+    sectionTitle: { en: 'Where the Effort Goes', de: 'Wohin der Aufwand fließt' },
+    title: { en: 'What AI Accelerates', de: 'Was KI beschleunigt' },
+    claim: {
+      en: 'AI excels at drafting summaries, translating terminology across domains, comparing documentation against code changes, and proposing edits.',
+      de: 'KI glänzt beim Verfassen von Zusammenfassungen, Übersetzen, Vergleichen von Code-Diffs mit Dokumentation und Änderungsvorschlägen.',
+    },
+    notes: {
+      en: 'AI models dramatically accelerate synthesis tasks that require fuzzy reasoning rather than strict boolean logic. An agent can ingest a Git pull request diff, cross-reference it against existing markdown architecture notes, identify potential discrepancies, and propose concrete documentation edits for human review.',
+      de: 'KI-Beschleunigung: Sprachmodelle vergleichen Git-Diffs mit vorhandener Dokumentation, erkennen semantische Lücken und formulieren präzise Änderungsvorschläge zur menschlichen Abnahme.',
+    },
+    visualType: 'flow',
+    highlight: { en: 'AI Synthesis', de: 'KI-Synthese' },
+  },
+  {
+    id: 'slide-7',
+    number: 7,
+    sectionNumber: 4,
+    beatCode: 'S4.4',
+    sectionTitle: { en: 'Where the Effort Goes', de: 'Wohin der Aufwand fließt' },
+    title: { en: 'What Remains Human', de: 'Was menschlich bleibt' },
+    claim: {
+      en: 'Only humans hold ground truth, business intent, and operational accountability. Tooling narrows what needs inspection; the verdict is yours.',
+      de: 'Nur der Mensch besitzt das Fachwissen und trägt die Verantwortung. Werkzeuge filtern vor; das finale Urteil bleibt menschlich.',
+    },
+    notes: {
+      en: 'Human verification supplies the critical judgment neither syntax checks nor language models can provide, because only the human owns the process and bears accountability when it fails. The machine narrows it, the AI narrows it further, and what is left was always yours.',
+      de: 'Menschliche Urteilskraft: Kein Modell und kein Linter kann beurteilen, ob eine geschäftliche Vorgabe noch dem Unternehmensziel dient. Maschinen verengen den Prüfraum, die Entscheidung trifft der Mensch.',
+    },
+    visualType: 'contrast',
+    highlight: { en: 'Human Judgment', de: 'Menschliches Urteil' },
+  },
+];

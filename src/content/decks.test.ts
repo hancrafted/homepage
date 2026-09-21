@@ -16,6 +16,14 @@ describe('decks data integrity', () => {
     const deck = getDeckBySlug('backward-chaining');
     expect(deck).toBeDefined();
     expect(deck?.slug).toBe('backward-chaining');
+
+    const tokenDeck = getDeckBySlug('ai-token-economy');
+    expect(tokenDeck).toBeDefined();
+    expect(tokenDeck?.slides.length).toBe(18);
+
+    const markdownDeck = getDeckBySlug('maintain-markdown-for-ai');
+    expect(markdownDeck).toBeDefined();
+    expect(markdownDeck?.slides.length).toBe(13);
   });
 
   it('returns undefined for non-existent deck slug', () => {

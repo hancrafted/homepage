@@ -26,7 +26,7 @@ function DeckCardActions({
   return (
     <CardFooter className="pt-2 p-0 flex flex-col gap-2">
       <Button asChild size="sm" className="w-full font-mono text-xs group/btn shadow-md">
-        <Link href={`/decks/${slug}`}>
+        <Link href={`/episodes/${slug}`}>
           <span>{viewLabel}</span>
           <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-1" />
         </Link>
@@ -38,7 +38,7 @@ function DeckCardActions({
           variant="ghost"
           className="w-full font-mono text-xs bg-white/[0.04] hover:bg-white/[0.08] text-foreground/90"
         >
-          <Link href={`/decks/${slug}#recording`}>
+          <Link href={`/episodes/${slug}#recording`}>
             <Play className="mr-1.5 h-3 w-3 text-red-500 fill-current" />
             <span>
               {watchLabel} ({duration})

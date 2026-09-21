@@ -42,7 +42,7 @@ function WorkshopDeckList({ deckIds, locale }: { deckIds: string[]; locale: Loca
       </span>
       <div className="flex flex-wrap gap-1.5 pt-0.5">
         {deckIds.map((deckId) => (
-          <Link key={deckId} href={`/decks/${deckId}`}>
+          <Link key={deckId} href={`/episodes/${deckId}`}>
             <span className="text-[11px] font-mono px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-foreground/90 transition-colors">
               {deckId} ↗
             </span>

@@ -1,79 +1,164 @@
-import { type SlideData } from '@/content/decks';
+import { type SlideData } from '@/content/decks/types';
 import { type LocaleCode } from '@/lib/preferences';
-import { ArrowRight, Check, X } from 'lucide-react';
+import {
+  AttentionSpanVisual,
+  BugFixStepsVisual,
+  CompoundingCurveVisual,
+  LeadManyVisual,
+  LostMiddleVisual,
+} from './deck-visuals/context-visuals';
+import {
+  DefaultContrastVisual,
+  FreelancerContrastVisual,
+  InvoiceContrastVisual,
+  VerificationInversionVisual,
+} from './deck-visuals/contrast-visuals';
+import {
+  DefaultFlowVisual,
+  FourErasFlowVisual,
+  TieredStackFlowVisual,
+  VerificationTiersFlowVisual,
+} from './deck-visuals/flow-visuals';
+import {
+  DeterministicCoreVisual,
+  DriftCurveVisual,
+  LiveDemoTerminalVisual,
+  OkfSchemaVisual,
+  RoadmapVisual,
+  VerificationBoundariesVisual,
+} from './deck-visuals/harness-visuals';
+import {
+  BootTaxHierarchyVisual,
+  ContextTypesHierarchyVisual,
+  DefaultHierarchyVisual,
+} from './deck-visuals/hierarchy-visuals';
+import {
+  CostSpreadMetricVisual,
+  DefaultMetricVisual,
+  OutcomePerEuroVisual,
+  SmartZoneMetricVisual,
+} from './deck-visuals/metric-visuals';
+import {
+  CloserVisual,
+  ContextCapacityVisual,
+  ObscurityVisual,
+  OperationalPlaybookVisual,
+} from './deck-visuals/playbook-visuals';
 
-function ContrastVisual({ locale }: { locale: LocaleCode }) {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full p-4 rounded-lg bg-background/50 border border-border">
-      <div className="p-4 rounded-md bg-destructive/10 border border-destructive/20 space-y-2">
-        <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-destructive">
-          <X className="h-4 w-4" />
-          <span>{locale === 'de' ? 'Vorwärtsmodus (Unkontrolliert)' : 'Forward Mode (Uncontrolled)'}</span>
-        </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          {locale === 'de'
-            ? 'Beginnt bei vertrauten Aktivitäten. Hofft auf das gewünschte Ergebnis ohne mathematische Kausalkette.'
-            : 'Begins with familiar activities. Hopes for the outcome with zero causal arithmetic.'}
-        </p>
-      </div>
-      <div className="p-4 rounded-md bg-accent/10 border border-accent/20 space-y-2">
-        <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-accent">
-          <Check className="h-4 w-4" />
-          <span>{locale === 'de' ? 'Rückwärtsverkettung (Gesteuert)' : 'Backward Chain (Controlled)'}</span>
-        </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          {locale === 'de'
-            ? 'Beginnt beim Zielzustand. Dividiert rückwärts bis zur ersten Handlung, die vollständig in eigener Hand liegt.'
-            : 'Begins at desired win. Divides backward until reaching a task fully inside your control.'}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function MetricVisual({ slide, locale }: { slide: SlideData; locale: LocaleCode }) {
-  return (
-    <div className="flex flex-col justify-center items-center h-full p-6 rounded-lg bg-background/50 border border-border space-y-3 font-mono text-center">
-      <div className="text-xs text-muted-foreground uppercase tracking-widest">{slide.highlight[locale]}</div>
-      <div className="text-2xl sm:text-3xl font-bold text-foreground">
-        {locale === 'de' ? 'Strikte Kausalität' : 'Deterministic Causality'}
-      </div>
-      <div className="text-xs text-accent max-w-sm">
-        {locale === 'de'
-          ? 'Kein Vibe-Coding • Verifizierbare Schwellenwerte'
-          : 'No Vibe-Coding • Verifiable Benchmarks'}
-      </div>
-    </div>
-  );
-}
-
-function FlowVisual({ locale }: { locale: LocaleCode }) {
-  return (
-    <div className="flex items-center justify-between gap-2 h-full p-4 rounded-lg bg-background/50 border border-border font-mono text-xs overflow-x-auto">
-      <div className="p-2.5 rounded bg-muted/70 text-center shrink-0">
-        <div className="text-muted-foreground text-[10px]">Step 1</div>
-        <div className="font-bold text-foreground">{locale === 'de' ? 'Ziel' : 'Target'}</div>
-      </div>
-      <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
-      <div className="p-2.5 rounded bg-muted/70 text-center shrink-0">
-        <div className="text-muted-foreground text-[10px]">Step 2</div>
-        <div className="font-bold text-foreground">{locale === 'de' ? 'Prüfung' : 'Verify'}</div>
-      </div>
-      <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
-      <div className="p-2.5 rounded bg-accent/20 text-accent border border-accent/30 text-center shrink-0">
-        <div className="text-[10px] font-bold">Step 3</div>
-        <div className="font-bold">{locale === 'de' ? 'Handlung' : 'Execute'}</div>
-      </div>
-    </div>
-  );
-}
-
-export function DeckVisual({ slide, locale }: { slide: SlideData; locale: LocaleCode }) {
-  if (slide.visualType === 'contrast') {
-    return <ContrastVisual locale={locale} />;
+function resolveAiTokenPart1(num: number, locale: LocaleCode) {
+  switch (num) {
+    case 2:
+      return <FreelancerContrastVisual locale={locale} />;
+    case 3:
+      return <LeadManyVisual locale={locale} />;
+    case 4:
+      return <FourErasFlowVisual />;
+    case 5:
+      return <InvoiceContrastVisual locale={locale} />;
+    case 6:
+      return <OutcomePerEuroVisual locale={locale} />;
+    case 7:
+      return <CostSpreadMetricVisual locale={locale} />;
+    case 8:
+      return <BootTaxHierarchyVisual locale={locale} />;
+    case 9:
+      return <ObscurityVisual locale={locale} />;
+    case 10:
+      return <AttentionSpanVisual locale={locale} />;
+    default:
+      return null;
   }
-  if (slide.visualType === 'metric') {
-    return <MetricVisual slide={slide} locale={locale} />;
+}
+
+function resolveAiTokenPart2(num: number, locale: LocaleCode) {
+  switch (num) {
+    case 11:
+      return <LostMiddleVisual locale={locale} />;
+    case 12:
+      return <SmartZoneMetricVisual locale={locale} />;
+    case 13:
+      return <BugFixStepsVisual locale={locale} />;
+    case 14:
+      return <CompoundingCurveVisual locale={locale} />;
+    case 15:
+      return <TieredStackFlowVisual />;
+    case 16:
+      return <OperationalPlaybookVisual locale={locale} />;
+    case 17:
+      return <ContextCapacityVisual locale={locale} />;
+    case 18:
+      return <CloserVisual locale={locale} />;
+    default:
+      return null;
   }
-  return <FlowVisual locale={locale} />;
+}
+
+function resolveMaintainMarkdownPart1(num: number, locale: LocaleCode) {
+  switch (num) {
+    case 2:
+      return <ContextTypesHierarchyVisual locale={locale} />;
+    case 3:
+      return <DriftCurveVisual locale={locale} />;
+    case 4:
+      return <VerificationTiersFlowVisual />;
+    case 5:
+    case 6:
+    case 7:
+      return <VerificationBoundariesVisual locale={locale} />;
+    default:
+      return null;
+  }
+}
+
+function resolveMaintainMarkdownPart2(num: number, locale: LocaleCode) {
+  switch (num) {
+    case 8:
+      return <OkfSchemaVisual locale={locale} />;
+    case 9:
+    case 10:
+      return <DeterministicCoreVisual locale={locale} />;
+    case 11:
+      return <LiveDemoTerminalVisual locale={locale} />;
+    case 12:
+      return <RoadmapVisual locale={locale} />;
+    case 13:
+      return <VerificationInversionVisual locale={locale} />;
+    default:
+      return null;
+  }
+}
+
+function resolveMaintainMarkdown(num: number, locale: LocaleCode) {
+  const p1 = resolveMaintainMarkdownPart1(num, locale);
+  if (p1) return p1;
+  return resolveMaintainMarkdownPart2(num, locale);
+}
+
+function resolveFallbackVisual(slide: SlideData, locale: LocaleCode) {
+  switch (slide.visualType) {
+    case 'contrast':
+      return <DefaultContrastVisual locale={locale} />;
+    case 'metric':
+      return <DefaultMetricVisual slide={slide} locale={locale} />;
+    case 'hierarchy':
+      return <DefaultHierarchyVisual slide={slide} locale={locale} />;
+    default:
+      return <DefaultFlowVisual locale={locale} />;
+  }
+}
+
+export function DeckVisual({ deckSlug, slide, locale }: { deckSlug?: string; slide: SlideData; locale: LocaleCode }) {
+  if (deckSlug === 'ai-token-economy') {
+    const p1 = resolveAiTokenPart1(slide.number, locale);
+    if (p1) return p1;
+    const p2 = resolveAiTokenPart2(slide.number, locale);
+    if (p2) return p2;
+  }
+
+  if (deckSlug === 'maintain-markdown-for-ai') {
+    const md = resolveMaintainMarkdown(slide.number, locale);
+    if (md) return md;
+  }
+
+  return resolveFallbackVisual(slide, locale);
 }
