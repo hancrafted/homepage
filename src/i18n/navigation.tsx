@@ -63,7 +63,8 @@ export function useRouter() {
 export function redirect(href: string, locale: LocaleCode = 'en'): never {
   const target = localizePath(href, locale);
   if (typeof window !== 'undefined') {
-    window.location.replace(target);
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    window.location.replace(`${basePath}${target}`);
   }
   throw new Error(`Redirecting to ${target}`);
 }

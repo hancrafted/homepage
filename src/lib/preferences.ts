@@ -94,8 +94,11 @@ export const BLOCKING_PREFERENCES_INLINE_SCRIPT = `
     if (prefs && prefs.motion) {
       document.documentElement.dataset.motion = prefs.motion;
     }
-    if (prefs && prefs.locale === 'de' && window.location.pathname === '/') {
-      window.location.replace('/de/');
+    var currentPath = window.location.pathname;
+    var base = currentPath.startsWith('/homepage') ? '/homepage' : '';
+    var homePath = base ? base + '/' : '/';
+    if (prefs && prefs.locale === 'de' && (currentPath === homePath || currentPath === base)) {
+      window.location.replace(base + '/de/');
     }
   } catch (e) {}
 })();

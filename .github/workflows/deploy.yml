@@ -35,7 +35,13 @@ jobs:
       - name: Verify
         run: npm run verify
 
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
       - name: Build Next.js export
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: npm run build
 
       - name: Disable Jekyll
