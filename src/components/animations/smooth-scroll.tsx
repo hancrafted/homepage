@@ -6,7 +6,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 function setupScrollRefresh(lenis: Lenis) {
   const refresh = () => {
@@ -56,21 +56,30 @@ function bindLenisToGsap(lenis: Lenis) {
 
 function useLenisScroll() {
   const pathname = usePathname();
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
     if (prefersReducedMotion()) return;
     initGsapDefaults();
 
     const lenis = createLenisInstance();
+    lenisRef.current = lenis;
     const cleanup = bindLenisToGsap(lenis);
 
     return () => {
+      lenisRef.current = null;
       cleanup();
     };
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true, force: true });
+      lenisRef.current.resize();
+    } else {
+      window.scrollTo(0, 0);
+    }
+    ScrollTrigger.refresh();
   }, [pathname]);
 }
 

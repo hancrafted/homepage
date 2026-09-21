@@ -11,7 +11,7 @@ export interface Preferences {
 export const PREFERENCES_KEY = 'homepage-preferences';
 
 export const DEFAULT_PREFERENCES: Preferences = {
-  theme: 'light',
+  theme: 'dark',
   motion: 'system',
   locale: 'en',
 };

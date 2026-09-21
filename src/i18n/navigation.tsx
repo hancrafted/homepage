@@ -42,19 +42,21 @@ export function usePathname(): string {
 
 export function useRouter() {
   const router = useNextRouter();
-  const locale = useLocale();
+  const currentLocale = useLocale();
   const [, startTransition] = useTransition();
 
   return {
     ...router,
-    push: (href: string) => {
+    push: (href: string, opts?: { locale?: LocaleCode }) => {
+      const targetLocale = opts?.locale ?? (href.startsWith('/de/') || href === '/de' ? 'de' : currentLocale);
       startTransition(() => {
-        router.push(localizePath(href, locale));
+        router.push(localizePath(href, targetLocale));
       });
     },
-    replace: (href: string) => {
+    replace: (href: string, opts?: { locale?: LocaleCode }) => {
+      const targetLocale = opts?.locale ?? (href.startsWith('/de/') || href === '/de' ? 'de' : currentLocale);
       startTransition(() => {
-        router.replace(localizePath(href, locale));
+        router.replace(localizePath(href, targetLocale));
       });
     },
   };

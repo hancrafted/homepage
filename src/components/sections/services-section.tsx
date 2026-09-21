@@ -1,187 +1,209 @@
 'use client';
 
-import { BlurRevealHeading } from '@/components/animations/blur-reveal-heading';
-import { CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { SpotlightCard } from '@/components/ui/spotlight-card';
-import { SITE_CONTENT, type ServiceItem } from '@/content/site-data';
+import { FRAMEWORK_SLIDES, type FrameworkSlide } from '@/content/framework-slides';
 import { initGsapDefaults } from '@/lib/animations';
 import { prefersReducedMotion, type LocaleCode } from '@/lib/preferences';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { CheckCircle2, Sparkles, Target, Terminal, TrendingUp, Users } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { MethodProgressStepper } from './method-stepper';
 
-const iconMap = {
-  users: Users,
-  terminal: Terminal,
-  target: Target,
-  'trending-up': TrendingUp,
-  sparkles: Sparkles,
-};
-
-const deliverables: Record<string, { en: string; de: string }> = {
-  coaching: {
-    en: 'Deliverable: Unit Economics & Bottleneck Dossier',
-    de: 'Ergebnis: Wirtschaftlichkeits- & Engpass-Dossier',
-  },
-  'ai-enablement': {
-    en: 'Deliverable: Deterministic Eval Harness & Evals',
-    de: 'Ergebnis: Deterministische Test-Harness & Evals',
-  },
-  pitching: {
-    en: 'Deliverable: Backward-Chained Investor Deck',
-    de: 'Ergebnis: Rückwärtsverkettetes Investoren-Deck',
-  },
-  sales: {
-    en: 'Deliverable: Reverse Funnel Outreach Engine',
-    de: 'Ergebnis: Wöchentliche Vertriebs-Engine',
-  },
-};
-
-function MethodCard({ service, index, locale }: { service: ServiceItem; index: number; locale: LocaleCode }) {
-  const Icon = iconMap[service.iconName];
-  const deliverable = deliverables[service.id];
-
+function SlideBullets({ bullets, deliverable }: { bullets: string[]; deliverable: string }) {
   return (
-    <SpotlightCard className="w-[340px] sm:w-[420px] shrink-0 flex flex-col justify-between p-6 border-border/80 bg-card rounded-2xl shadow-sm">
-      <CardHeader className="p-0 space-y-4">
-        <div className="flex items-center justify-between">
-          <span className="font-mono text-xs font-bold text-primary px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
-            STEP 0{index + 1}
-          </span>
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-            <Icon className="h-5 w-5" />
-          </div>
-        </div>
-        <CardTitle className="text-xl font-bold tracking-tight text-foreground">{service.title[locale]}</CardTitle>
-      </CardHeader>
-      <CardContent className="p-0 pt-4 space-y-4">
-        <CardDescription className="text-sm leading-relaxed text-muted-foreground">
-          {service.description[locale]}
-        </CardDescription>
-        {deliverable && (
-          <div className="p-3 rounded-lg bg-muted/50 border border-border/60 text-xs font-mono text-foreground flex items-center gap-2">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-            <span>{deliverable[locale]}</span>
-          </div>
-        )}
-      </CardContent>
-    </SpotlightCard>
+    <ul className="mt-8 flex max-w-xl flex-col gap-3 font-mono text-xs sm:text-sm font-light">
+      {bullets.map((bullet, idx) => (
+        <li key={idx} className="flex items-start gap-3 opacity-80" style={{ color: 'var(--method-fg)' }}>
+          <span
+            className="mt-[0.65em] inline-block h-[1px] w-3 shrink-0 opacity-40"
+            style={{ backgroundColor: 'var(--method-fg)' }}
+          />
+          <span>{bullet}</span>
+        </li>
+      ))}
+      <li className="flex items-start gap-3 mt-1 font-semibold text-emerald-500">
+        <span className="mt-[0.65em] inline-block h-[1px] w-3 shrink-0 bg-emerald-500" />
+        <span>{deliverable}</span>
+      </li>
+    </ul>
   );
 }
 
-function useMethodScrollTrigger(
-  sectionRef: React.RefObject<HTMLDivElement | null>,
+function SlideItem({ slide, locale }: { slide: FrameworkSlide; locale: LocaleCode }) {
+  return (
+    <article
+      data-method-slide={slide.step}
+      className="relative flex min-h-[60vh] md:h-screen w-full md:w-[80vw] lg:w-[70vw] max-w-4xl shrink-0 flex-col justify-center px-6 md:px-12 pt-20 sm:pt-24 will-change-transform select-none"
+    >
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[clamp(160px,45vh,560px)] font-black leading-none tracking-tighter opacity-[0.05] select-none text-[var(--method-fg)]"
+      >
+        {slide.step}
+      </span>
+
+      <div className="relative z-10 max-w-2xl mx-auto w-full">
+        <div className="inline-flex items-center gap-2 mb-3 font-mono text-xs uppercase tracking-widest text-primary font-bold">
+          <Sparkles className="h-3.5 w-3.5" />
+          <span>
+            STEP {slide.step} // {slide.tag[locale]}
+          </span>
+        </div>
+
+        <h2 className="font-display font-extrabold leading-[0.95] tracking-tight whitespace-normal sm:whitespace-nowrap text-3xl sm:text-6xl md:text-7xl lg:text-8xl text-[var(--method-fg)]">
+          <span>{slide.shortTitle[locale]}</span>
+          <span className="text-primary">.</span>
+        </h2>
+
+        <div
+          aria-hidden="true"
+          className="mt-6 h-[1px] w-20 opacity-25"
+          style={{ backgroundColor: 'var(--method-fg)' }}
+        />
+
+        <p className="mt-6 font-mono text-base sm:text-xl font-light opacity-80 max-w-xl text-[var(--method-fg)]">
+          {slide.subtitle[locale]}
+        </p>
+
+        <SlideBullets bullets={slide.bullets[locale]} deliverable={slide.deliverable[locale]} />
+      </div>
+    </article>
+  );
+}
+
+function computeThemeColors(p: number) {
+  if (p <= 0.75) {
+    return { bg: '#FAF9F6', fg: '#0A0E1A', border: 'rgba(10, 14, 26, 0.12)' };
+  }
+  const t = Math.min(1, (p - 0.75) / 0.22);
+  const toBg = gsap.utils.interpolate(['#FAF9F6', '#CBD5E1', '#475569', '#1E293B', '#0B0F17']);
+  const toFg = gsap.utils.interpolate(['#0A0E1A', '#0A0E1A', '#1E293B', '#F8FAFC', '#F8FAFC']);
+  const toBorder = gsap.utils.interpolate([
+    'rgba(10, 14, 26, 0.12)',
+    'rgba(10, 14, 26, 0.12)',
+    'rgba(255, 255, 255, 0.15)',
+    'rgba(255, 255, 255, 0.12)',
+    'rgba(255, 255, 255, 0.08)',
+  ]);
+  return { bg: toBg(t), fg: toFg(t), border: toBorder(t) };
+}
+
+function computeActiveStep(p: number) {
+  if (p < 0.26) return 1;
+  if (p < 0.51) return 2;
+  if (p < 0.76) return 3;
+  if (p < 0.97) return 4;
+  return 5;
+}
+
+function applyThemeToContainer(container: HTMLElement, p: number) {
+  const { bg, fg, border } = computeThemeColors(p);
+  container.style.setProperty('--method-bg', bg);
+  container.style.setProperty('--method-fg', fg);
+  container.style.setProperty('--method-border', border);
+  container.style.backgroundColor = bg;
+  container.style.color = fg;
+}
+
+function useMethodRailScrub(
+  containerRef: React.RefObject<HTMLDivElement | null>,
   trackRef: React.RefObject<HTMLDivElement | null>,
-  progressRef: React.RefObject<HTMLDivElement | null>,
   setStep: (s: number) => void,
+  setProgress: (p: number) => void,
 ) {
   useGSAP(
     () => {
       initGsapDefaults();
-      const section = sectionRef.current;
+      const container = containerRef.current;
       const track = trackRef.current;
-      if (!section || !track || prefersReducedMotion()) return;
+      if (!container || !track || prefersReducedMotion()) return;
 
-      const trackWidth = () => track.scrollWidth - window.innerWidth + 80;
+      const slides = track.querySelectorAll<HTMLElement>('article');
+      const s1 = slides[0];
+      const s5 = slides[slides.length - 1];
+      const startX = () => (window.innerWidth - (s1?.offsetWidth ?? window.innerWidth * 0.75)) / 2;
+      const endX = () =>
+        (window.innerWidth - (s5?.offsetWidth ?? window.innerWidth * 0.75)) / 2 - (s5?.offsetLeft ?? 0);
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: section,
+          trigger: container,
           start: 'top top',
-          end: '+=250%',
+          end: '+=300%',
           pin: true,
-          scrub: 1.2,
-          anticipatePin: 1,
+          scrub: 0.3,
           onUpdate: (self) => {
-            setStep(Math.min(4, Math.floor(self.progress * 4) + 1));
-            if (progressRef.current) {
-              progressRef.current.style.transform = `scaleX(${self.progress})`;
-            }
+            const p = self.progress;
+            applyThemeToContainer(container, p);
+            setProgress(p * 100);
+            setStep(computeActiveStep(p));
           },
         },
       });
 
-      tl.fromTo(track, { x: 0 }, { x: () => -trackWidth(), ease: 'none' });
+      tl.set(track, { x: () => startX() });
+      tl.fromTo(track, { x: () => startX() }, { x: () => endX(), duration: 1, ease: 'none' }, 0);
     },
-    { scope: sectionRef },
+    { scope: containerRef },
   );
 }
 
-function MethodRailHeader({
-  locale,
-  step,
-  progressRef,
-}: {
-  locale: LocaleCode;
-  step: number;
-  progressRef: React.RefObject<HTMLDivElement | null>;
-}) {
-  const headline =
-    locale === 'de' ? 'Von Engpässen zu deterministischer Skalierung' : 'From Bottlenecks to Deterministic Scale';
-
-  return (
-    <div className="mx-auto max-w-6xl w-full px-4 sm:px-6 pb-6 flex items-end justify-between border-b border-border/60">
-      <div>
-        <div className="font-mono text-xs font-semibold text-primary uppercase tracking-widest">
-          {locale === 'de' ? 'KAPITEL 03 // DER SYSTEMISCHE ABLAUF' : 'CHAPTER 03 // THE SYSTEMIC METHOD'}
-        </div>
-        <BlurRevealHeading text={headline} as="h2" className="text-3xl font-bold tracking-tight text-foreground" />
-      </div>
-      <div className="flex items-center gap-3 font-mono text-xs text-muted-foreground">
-        <span className="font-bold text-foreground">0{step}</span>
-        <span>/</span>
-        <span>04</span>
-        <div className="w-24 h-1 bg-border rounded-full overflow-hidden">
-          <div
-            ref={progressRef}
-            className="h-full bg-primary origin-left transition-transform duration-75"
-            style={{ transform: 'scaleX(0.25)' }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DesktopMethodRail({ services, locale }: { services: ServiceItem[]; locale: LocaleCode }) {
-  const sectionRef = useRef<HTMLDivElement>(null);
+function DesktopMethodRail({ locale }: { locale: LocaleCode }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(1);
+  const [progressPercent, setProgressPercent] = useState(0);
 
-  useMethodScrollTrigger(sectionRef, trackRef, progressRef, setStep);
+  useMethodRailScrub(containerRef, trackRef, setStep, setProgressPercent);
 
   return (
-    <div ref={sectionRef} className="hidden md:flex flex-col justify-center min-h-screen py-12 overflow-hidden">
-      <MethodRailHeader locale={locale} step={step} progressRef={progressRef} />
-      <div className="pt-8 overflow-visible">
-        <div ref={trackRef} className="flex gap-6 pl-6 sm:pl-16 pr-16 w-max">
-          {services.map((service, idx) => (
-            <MethodCard key={service.id} service={service} index={idx} locale={locale} />
-          ))}
+    <div
+      ref={containerRef}
+      data-method="true"
+      className="hidden md:block relative h-screen w-full overflow-hidden select-none"
+      style={{
+        backgroundColor: '#FAF9F6',
+        color: '#0A0E1A',
+        transition: 'none',
+      }}
+    >
+      <div className="absolute top-20 sm:top-24 left-0 right-0 z-20 px-8 sm:px-16 flex items-center justify-between pointer-events-none text-[var(--method-fg)]">
+        <div className="font-mono text-xs font-bold tracking-widest uppercase text-primary">
+          {locale === 'de' ? 'KAPITEL 03 // MEINE METHODE' : 'CHAPTER 03 // MY METHOD'}
+        </div>
+        <div className="font-mono text-xs opacity-60">
+          {locale === 'de' ? 'HORIZONTAL SCROLLEN' : 'SCROLL TO PROGRESS'} →
         </div>
       </div>
+
+      <div ref={trackRef} className="flex h-screen items-stretch will-change-transform">
+        {FRAMEWORK_SLIDES.map((slide) => (
+          <SlideItem key={slide.id} slide={slide} locale={locale} />
+        ))}
+      </div>
+
+      <MethodProgressStepper currentStep={step} progressPercent={progressPercent} locale={locale} />
     </div>
   );
 }
 
-function MobileMethodStack({ services, locale }: { services: ServiceItem[]; locale: LocaleCode }) {
+function MobileMethodStack({ locale }: { locale: LocaleCode }) {
   return (
-    <div className="md:hidden py-16 px-4 space-y-8">
+    <div
+      className="md:hidden py-16 px-4 space-y-12"
+      style={{ '--method-fg': 'var(--foreground)', '--method-bg': 'var(--background)' } as React.CSSProperties}
+    >
       <div className="space-y-2">
         <div className="font-mono text-xs font-semibold text-primary uppercase tracking-widest">
-          {locale === 'de' ? 'KAPITEL 03 // DER ABLAUF' : 'CHAPTER 03 // THE METHOD'}
+          {locale === 'de' ? 'KAPITEL 03 // MEINE METHODE' : 'CHAPTER 03 // MY METHOD'}
         </div>
-        <h2 className="text-2xl font-bold tracking-tight text-foreground">
-          {locale === 'de'
-            ? 'Von Engpässen zu deterministischer Skalierung'
-            : 'From Bottlenecks to Deterministic Scale'}
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+          {locale === 'de' ? 'Meine Methode' : 'My Method'}
         </h2>
       </div>
-      <div className="space-y-6">
-        {services.map((service, idx) => (
-          <MethodCard key={service.id} service={service} index={idx} locale={locale} />
+      <div className="space-y-16">
+        {FRAMEWORK_SLIDES.map((slide) => (
+          <SlideItem key={slide.id} slide={slide} locale={locale} />
         ))}
       </div>
     </div>
@@ -189,12 +211,10 @@ function MobileMethodStack({ services, locale }: { services: ServiceItem[]; loca
 }
 
 export function ServicesSection({ locale }: { locale: LocaleCode }) {
-  const services = SITE_CONTENT.services;
-
   return (
-    <section data-chapter="03" className="border-b border-border/70 bg-background relative" id="services">
-      <DesktopMethodRail services={services} locale={locale} />
-      <MobileMethodStack services={services} locale={locale} />
+    <section data-chapter="03" className="relative" id="services">
+      <DesktopMethodRail locale={locale} />
+      <MobileMethodStack locale={locale} />
     </section>
   );
 }

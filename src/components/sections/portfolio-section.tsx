@@ -24,8 +24,8 @@ function DeckCardActions({
   watchLabel: string;
 }) {
   return (
-    <CardFooter className="pt-2 flex flex-col gap-2">
-      <Button asChild size="sm" className="w-full font-mono text-xs group/btn shadow-xs">
+    <CardFooter className="pt-2 p-0 flex flex-col gap-2">
+      <Button asChild size="sm" className="w-full font-mono text-xs group/btn shadow-md">
         <Link href={`/decks/${slug}`}>
           <span>{viewLabel}</span>
           <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-1" />
@@ -35,8 +35,8 @@ function DeckCardActions({
         <Button
           asChild
           size="sm"
-          variant="outline"
-          className="w-full font-mono text-xs text-muted-foreground hover:text-foreground border-border/80"
+          variant="ghost"
+          className="w-full font-mono text-xs bg-white/[0.04] hover:bg-white/[0.08] text-foreground/90"
         >
           <Link href={`/decks/${slug}#recording`}>
             <Play className="mr-1.5 h-3 w-3 text-red-500 fill-current" />
@@ -62,17 +62,14 @@ function DeckCardHeader({
   subtitle: string;
 }) {
   return (
-    <CardHeader className="space-y-3">
+    <CardHeader className="space-y-3 p-0">
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
-          <Layers className="h-3.5 w-3.5 text-primary" />
+        <div className="flex items-center gap-1.5 font-mono text-xs text-sky-400 font-medium">
+          <Layers className="h-3.5 w-3.5" />
           <span>{slidesCount} Slides</span>
         </div>
         {hasVideo && (
-          <Badge
-            variant="secondary"
-            className="gap-1 font-mono text-[11px] text-red-500 bg-red-500/10 border-red-500/20"
-          >
+          <Badge variant="secondary" className="gap-1 font-mono text-[11px] text-red-400 bg-red-500/10 border-0">
             <Video className="h-3 w-3 fill-current" />
             <span>YouTube</span>
           </Badge>
@@ -91,26 +88,29 @@ function DeckCard({ deck, locale }: { deck: Deck; locale: LocaleCode }) {
   const hasVideo = Boolean(deck.youtubeVideoId);
 
   return (
-    <SpotlightCard className="flex flex-col justify-between border-border/80 hover:border-primary/40 transition-all hover:shadow-lg group bg-card">
+    <SpotlightCard className="flex flex-col justify-between p-7 rounded-3xl bg-white/[0.035] backdrop-blur-md shadow-xl shadow-black/20 hover:bg-white/[0.06] transition-all group">
       <DeckCardHeader
         slidesCount={deck.slides.length}
         hasVideo={hasVideo}
         title={deck.title[locale]}
         subtitle={deck.subtitle[locale]}
       />
-      <CardContent className="space-y-4 text-xs">
-        <div className="rounded-lg bg-muted/50 p-3 space-y-1.5 border border-border/60">
-          <div className="flex items-center gap-1 font-semibold text-foreground text-[11px] uppercase tracking-wider font-mono">
-            <Lightbulb className="h-3.5 w-3.5 text-amber-500" />
+      <CardContent className="space-y-4 p-0 py-4 text-xs">
+        <div className="rounded-2xl bg-amber-500/10 p-4 space-y-1.5">
+          <div className="flex items-center gap-1 font-semibold text-amber-400 text-[11px] uppercase tracking-wider font-mono">
+            <Lightbulb className="h-3.5 w-3.5" />
             <span>{locale === 'de' ? 'Kernaussage (Thesis)' : 'Core Thesis'}:</span>
           </div>
-          <p className="text-muted-foreground leading-relaxed italic">{deck.thesis[locale]}</p>
+          <p className="text-foreground/80 leading-relaxed italic">{deck.thesis[locale]}</p>
         </div>
         <div className="flex flex-wrap gap-1.5">
           {deck.subjectDomains.map((domain) => (
-            <Badge key={domain} variant="outline" className="text-[10px] font-mono border-border/80">
+            <span
+              key={domain}
+              className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-white/[0.05] text-muted-foreground"
+            >
               {domain}
-            </Badge>
+            </span>
           ))}
         </div>
       </CardContent>
@@ -129,27 +129,27 @@ function PortfolioHeader({ locale }: { locale: LocaleCode }) {
   const headings = SITE_CONTENT.decksHeading;
 
   return (
-    <div className="max-w-3xl space-y-3" data-reveal-item="true">
-      <div className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-primary uppercase tracking-wider bg-primary/10 px-2.5 py-1 rounded border border-primary/20">
+    <div className="max-w-3xl space-y-4" data-reveal-item="true">
+      <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-primary uppercase tracking-wider bg-primary/10 px-3 py-1 rounded-full">
         <span>{locale === 'de' ? 'Kapitel 04 // Verifizierte Artefakte' : 'Chapter 04 // Verified Artefacts'}</span>
       </div>
       <BlurRevealHeading
         text={headings.title[locale]}
         as="h2"
-        className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground"
+        className="text-3xl sm:text-5xl font-bold tracking-tight text-foreground leading-tight"
       />
-      <p className="text-muted-foreground text-base leading-relaxed">{headings.subtitle[locale]}</p>
+      <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{headings.subtitle[locale]}</p>
     </div>
   );
 }
 
 export function PortfolioSection({ locale }: { locale: LocaleCode }) {
   return (
-    <section data-chapter="04" className="py-20 border-b border-border/70 bg-muted/20" id="portfolio">
+    <section data-chapter="04" className="py-24 md:py-32 relative" id="portfolio">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 space-y-12">
         <GsapReveal>
           <PortfolioHeader locale={locale} />
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-4">
             {DECKS.map((deck) => (
               <div key={deck.id} data-reveal-item="true">
                 <DeckCard deck={deck} locale={locale} />

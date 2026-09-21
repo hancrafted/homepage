@@ -2,7 +2,7 @@
 // Switches application locale preserving current page path and updates preferences
 
 import { useLocale } from '@/i18n/context';
-import { usePathname, useRouter } from '@/i18n/navigation';
+import { localizePath, usePathname, useRouter } from '@/i18n/navigation';
 import { setStoredPreferences, type LocaleCode } from '@/lib/preferences';
 
 export function LocaleSwitcher() {
@@ -13,8 +13,8 @@ export function LocaleSwitcher() {
   function switchLocale(nextLocale: LocaleCode) {
     if (nextLocale === currentLocale) return;
     setStoredPreferences({ locale: nextLocale });
-    const target = nextLocale === 'de' ? (cleanPath === '/' ? '/de/' : `/de${cleanPath}`) : cleanPath;
-    router.push(target);
+    const target = localizePath(cleanPath, nextLocale);
+    router.push(target, { locale: nextLocale });
   }
 
   return (

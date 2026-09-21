@@ -37,7 +37,7 @@ function useSpotlight(ref: React.RefObject<HTMLDivElement | null>) {
 export function SpotlightCard({
   children,
   className,
-  spotlightColor = 'hsl(var(--primary) / 0.12)',
+  spotlightColor = 'hsl(var(--primary) / 0.14)',
   ...props
 }: SpotlightCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -47,15 +47,15 @@ export function SpotlightCard({
     <div
       ref={cardRef}
       className={cn(
-        'group relative overflow-hidden rounded-xl border border-border/80 bg-card text-card-foreground shadow-sm transition-all duration-300 hover:border-primary/40 hover:shadow-md',
-        'before:pointer-events-none before:absolute before:-inset-px before:rounded-xl before:opacity-0 before:transition-opacity before:duration-300 group-hover:before:opacity-100',
+        'group relative overflow-hidden rounded-2xl bg-card/50 text-card-foreground shadow-lg shadow-black/20 transition-all duration-300 hover:shadow-2xl',
+        'before:pointer-events-none before:absolute before:-inset-px before:rounded-2xl before:opacity-0 before:transition-opacity before:duration-300 group-hover:before:opacity-100',
         className,
       )}
       style={
         {
           '--spotlight-color': spotlightColor,
           backgroundImage:
-            'radial-gradient(400px circle at var(--mouse-x, -200px) var(--mouse-y, -200px), var(--spotlight-color), transparent 80%)',
+            'radial-gradient(420px circle at var(--mouse-x, -200px) var(--mouse-y, -200px), var(--spotlight-color), transparent 80%)',
         } as React.CSSProperties
       }
       {...props}

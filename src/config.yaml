@@ -1,0 +1,13 @@
+# ==============================================================================
+# Homepage Configuration
+# ==============================================================================
+
+# Visual style for the scroll transition between dark and light sections.
+# Available options:
+#   - liquid   : Organic fluid / ink bleed (WeEvolveIT signature style)
+#   - paper    : Handmade torn paper / deckled fibrous edge
+#   - glitch   : Digital scanline tearing / horizontal cyber glitch
+#   - goo      : Viscous lava lamp / high-surface-tension metaballs
+#   - dither   : 1-bit CRT particulate static / halftone noise dissolve
+#   - wave     : Harmonic soundwave / audio oscilloscope ripple
+transition_style: liquid

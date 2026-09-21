@@ -3,7 +3,6 @@
 import { BlurRevealHeading } from '@/components/animations/blur-reveal-heading';
 import { GsapReveal } from '@/components/animations/gsap-reveal';
 import { MetricCounter } from '@/components/animations/metric-counter';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { SITE_CONTENT, type StatItem } from '@/content/site-data';
 import { Link } from '@/i18n/navigation';
@@ -12,14 +11,19 @@ import { ArrowRight, Cpu, Sparkles, Terminal } from 'lucide-react';
 
 function HeroActions({ primaryLabel, secondaryLabel }: { primaryLabel: string; secondaryLabel: string }) {
   return (
-    <div data-reveal-item="true" className="flex flex-wrap items-center gap-4 pt-2">
-      <Button size="lg" asChild className="font-mono text-sm group shadow-sm hover:shadow transition-all">
+    <div data-reveal-item="true" className="flex flex-wrap items-center gap-4 pt-4">
+      <Button size="lg" asChild className="font-mono text-sm group shadow-md hover:shadow-lg transition-all">
         <Link href="#workshops">
           <span>{primaryLabel}</span>
           <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </Button>
-      <Button size="lg" variant="outline" asChild className="font-mono text-sm border-border/80 hover:bg-muted/50">
+      <Button
+        size="lg"
+        variant="ghost"
+        asChild
+        className="font-mono text-sm bg-white/[0.05] hover:bg-white/[0.08] text-foreground"
+      >
         <Link href="#portfolio">
           <Terminal className="mr-2 h-4 w-4 text-primary" />
           <span>{secondaryLabel}</span>
@@ -31,11 +35,11 @@ function HeroActions({ primaryLabel, secondaryLabel }: { primaryLabel: string; s
 
 function HeroStats({ stats, locale }: { stats: StatItem[]; locale: LocaleCode }) {
   return (
-    <div data-reveal-item="true" className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-10 border-t border-border/70">
+    <div data-reveal-item="true" className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-14">
       {stats.map((stat, idx) => (
         <div
           key={idx}
-          className="space-y-1 p-3.5 rounded-lg border border-border/70 bg-card/75 backdrop-blur-sm shadow-xs transition-colors hover:border-primary/40"
+          className="space-y-1.5 p-4 rounded-2xl bg-white/[0.035] backdrop-blur-md shadow-lg shadow-black/20 hover:bg-white/[0.06] transition-all"
           data-stat-card="true"
         >
           <div className="text-2xl sm:text-3xl font-bold font-mono text-foreground tracking-tight">
@@ -81,15 +85,15 @@ function HeroHeadline({ part1, part2 }: { part1: string; part2: string }) {
 function HeroHeaderBadge({ badgeText }: { badgeText: string }) {
   return (
     <div data-reveal-item="true" className="flex flex-wrap items-center gap-3">
-      <Badge variant="secondary" className="gap-1.5 py-1 px-3 text-xs tracking-wide border border-border/80 font-mono">
+      <div className="inline-flex items-center gap-2 py-1.5 px-3 rounded-full text-xs font-mono font-medium tracking-wide bg-emerald-500/10 text-emerald-400">
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
         </span>
-        <Sparkles className="h-3.5 w-3.5 text-primary" />
+        <Sparkles className="h-3.5 w-3.5" />
         <span>{badgeText}</span>
-      </Badge>
-      <div className="hidden sm:flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground">
+      </div>
+      <div className="hidden sm:flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground/80">
         <Cpu className="h-3 w-3 text-primary" />
         <span>ACT 01 // FOUNDATION</span>
       </div>
@@ -103,12 +107,12 @@ export function HeroSection({ locale }: { locale: LocaleCode }) {
   return (
     <section
       data-chapter="01"
-      className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-28 border-b border-border/70 bg-background"
+      className="relative overflow-hidden pt-24 sm:pt-28 md:pt-36 pb-28 md:pb-36 bg-background"
     >
       <HeroAmbientBackground />
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <GsapReveal>
-          <div className="max-w-4xl space-y-6">
+          <div className="max-w-4xl space-y-7">
             <HeroHeaderBadge badgeText={hero.badge[locale]} />
             <div data-reveal-item="true" className="space-y-1">
               <HeroHeadline part1={hero.headlinePart1[locale]} part2={hero.headlinePart2[locale]} />

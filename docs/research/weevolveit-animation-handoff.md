@@ -405,6 +405,41 @@ bar.style.transform = `translateY(${(pct / 100) * 56}px)`;
 
 React state is set **only** when it crosses the ≥99.5% threshold (to swap to accent colour). `mix-blend-difference` keeps it legible over both the light and dark halves of the page. Disabled on `/` until the intro overlay has finished.
 
+### 4.13 Liquid ink scroll transition (Hero → Method)
+
+Detailed research in [`./weevolveit-liquid-scroll-transition.md`](./weevolveit-liquid-scroll-transition.md).
+
+Procedural SVG filter pipeline (`#ink-edge`) that turns a simple scaling white rectangle into a surging organic liquid boundary between the dark `#171717` Hero and the bright `#FFFFFF` Method section:
+
+```xml
+<filter id="ink-edge" x="-10%" y="-10%" width="120%" height="120%">
+  <feTurbulence type="fractalNoise" baseFrequency="0.015 0.02" numOctaves="3" seed="7" result="noise" />
+  <feDisplacementMap in="SourceGraphic" in2="noise" scale="220" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+  <feGaussianBlur in="displaced" stdDeviation="1.8" result="presmooth" />
+  <feComponentTransfer in="presmooth" result="cut">
+    <feFuncA type="discrete" tableValues="0 0 0 0 0 1 1 1 1 1" />
+  </feComponentTransfer>
+  <feGaussianBlur in="cut" stdDeviation="0.4" />
+</filter>
+```
+
+Driven by ScrollTrigger with a piecewise easing curve:
+
+```js
+gsap.to(inkScaleEl, {
+  scaleY: 1,
+  ease: (p) => (p < 0.02 ? (p / 0.02) * 0.18 : 0.18 + ((p - 0.02) / 0.98) * 0.82),
+  scrollTrigger: {
+    trigger: methodSection,
+    start: 'top bottom',
+    end: 'top -25%',
+    scrub: true,
+  },
+});
+```
+
+The scaling rectangle sits inside a `top: -300, left: -300, right: -300, bottom: -300` bleed container with `filter: url(#ink-edge)` to prevent clipping from the 220px displacement.
+
 ## 5. CSS-side animation
 
 GSAP owns anything sequenced or scroll-bound. CSS `@keyframes` own the ambient loops:

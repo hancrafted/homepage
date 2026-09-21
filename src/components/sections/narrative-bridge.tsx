@@ -2,6 +2,7 @@
 
 import { BlurRevealHeading } from '@/components/animations/blur-reveal-heading';
 import { GsapReveal } from '@/components/animations/gsap-reveal';
+import { LiquidInkTransition } from '@/components/animations/liquid-ink-transition';
 import { SpotlightCard } from '@/components/ui/spotlight-card';
 import { type LocaleCode } from '@/lib/preferences';
 import { AlertTriangle, ArrowRight, Gauge, ShieldCheck } from 'lucide-react';
@@ -57,26 +58,26 @@ const SHIFTS = [
 function ShiftCard({ item, locale }: { item: (typeof SHIFTS)[number]; locale: LocaleCode }) {
   const Icon = item.icon;
   return (
-    <SpotlightCard className="h-full flex flex-col justify-between p-6 space-y-6 border-border/80 bg-card">
+    <SpotlightCard className="h-full flex flex-col justify-between p-8 space-y-6 rounded-3xl bg-white/[0.035] backdrop-blur-md shadow-xl shadow-black/20 hover:bg-white/[0.06] transition-all">
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
             <Icon className="h-5 w-5" />
           </div>
-          <span className="font-mono text-[11px] font-semibold text-primary uppercase tracking-wider">
+          <span className="font-mono text-xs font-semibold text-primary uppercase tracking-wider">
             {item.tag[locale]}
           </span>
         </div>
-        <h3 className="text-lg font-bold tracking-tight text-foreground">{item.title[locale]}</h3>
-        <p className="text-xs text-muted-foreground leading-relaxed">{item.body[locale]}</p>
+        <h3 className="text-xl font-bold tracking-tight text-foreground">{item.title[locale]}</h3>
+        <p className="text-sm text-muted-foreground leading-relaxed">{item.body[locale]}</p>
       </div>
 
-      <div className="pt-4 border-t border-border/60 flex items-baseline justify-between">
+      <div className="pt-6 flex items-baseline justify-between">
         <div>
-          <div className="text-2xl font-bold font-mono text-foreground">{item.stat}</div>
-          <div className="text-[11px] text-muted-foreground">{item.statLabel[locale]}</div>
+          <div className="text-3xl font-extrabold font-mono text-foreground">{item.stat}</div>
+          <div className="text-xs text-muted-foreground mt-0.5">{item.statLabel[locale]}</div>
         </div>
-        <ArrowRight className="h-4 w-4 text-muted-foreground/50" />
+        <ArrowRight className="h-4 w-4 text-muted-foreground/40" />
       </div>
     </SpotlightCard>
   );
@@ -90,27 +91,27 @@ function BridgeHeader({ locale }: { locale: LocaleCode }) {
       : 'AI doesn’t eliminate work — it shifts it from generation to verification. Unmanaged, it eats margins and senior engineering bandwidth.';
 
   return (
-    <div className="max-w-3xl space-y-3" data-reveal-item="true">
-      <div className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-primary uppercase tracking-wider bg-primary/10 px-2.5 py-1 rounded border border-primary/20">
+    <div className="max-w-3xl space-y-4" data-reveal-item="true">
+      <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-primary uppercase tracking-wider bg-primary/10 px-3 py-1 rounded-full">
         <span>{locale === 'de' ? 'Kapitel 02 // Die Realität' : 'Chapter 02 // The Reality'}</span>
       </div>
       <BlurRevealHeading
         text={title}
         as="h2"
-        className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground"
+        className="text-3xl sm:text-5xl font-bold tracking-tight text-foreground leading-tight"
       />
-      <p className="text-muted-foreground text-base leading-relaxed">{subtitle}</p>
+      <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{subtitle}</p>
     </div>
   );
 }
 
 export function NarrativeBridge({ locale }: { locale: LocaleCode }) {
   return (
-    <section data-chapter="02" className="py-20 border-b border-border/70 bg-muted/15 relative overflow-hidden">
+    <section data-chapter="02" className="py-24 md:py-32 relative" id="narrative-bridge">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 space-y-12">
         <GsapReveal>
           <BridgeHeader locale={locale} />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
             {SHIFTS.map((item) => (
               <div key={item.id} data-reveal-item="true">
                 <ShiftCard item={item} locale={locale} />
@@ -119,6 +120,7 @@ export function NarrativeBridge({ locale }: { locale: LocaleCode }) {
           </div>
         </GsapReveal>
       </div>
+      <LiquidInkTransition targetId="services" color="#FAF9F6" />
     </section>
   );
 }
