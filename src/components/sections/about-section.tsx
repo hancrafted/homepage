@@ -1,6 +1,9 @@
+import { BlurRevealHeading } from '@/components/animations/blur-reveal-heading';
+import { GsapReveal } from '@/components/animations/gsap-reveal';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { SpotlightCard } from '@/components/ui/spotlight-card';
 import { SITE_CONTENT } from '@/content/site-data';
 import { type LocaleCode } from '@/lib/preferences';
 import { Check, Mail, MessageSquare, ShieldCheck, Terminal } from 'lucide-react';
@@ -14,14 +17,17 @@ function PromiseGrid({ locale }: { locale: LocaleCode }) {
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {author.promises.map((promise) => (
-          <div key={promise.title} className="p-4 rounded-lg border border-border bg-card space-y-2">
+          <SpotlightCard
+            key={promise.title}
+            className="p-4 rounded-xl border border-border/80 bg-card space-y-2 shadow-xs"
+          >
             <div className="font-bold text-sm font-mono text-foreground flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4 text-accent" />
+              <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
               <span>{promise.title}</span>
             </div>
-            <div className="text-[11px] font-mono text-accent">{promise.target[locale]}</div>
+            <div className="text-[11px] font-mono text-primary font-medium">{promise.target[locale]}</div>
             <p className="text-xs text-muted-foreground leading-relaxed">{promise.description[locale]}</p>
-          </div>
+          </SpotlightCard>
         ))}
       </div>
     </div>
@@ -31,13 +37,13 @@ function PromiseGrid({ locale }: { locale: LocaleCode }) {
 function ContactActions({ locale }: { locale: LocaleCode }) {
   return (
     <div className="pt-2 flex flex-col gap-3">
-      <Button asChild size="lg" className="w-full font-mono text-xs gap-2">
+      <Button asChild size="lg" className="w-full font-mono text-xs gap-2 shadow-xs">
         <a href="mailto:contact@hancrafted.dev?subject=Advisory%20/%20Workshop%20Inquiry">
           <Mail className="h-4 w-4" />
           <span>contact@hancrafted.dev</span>
         </a>
       </Button>
-      <Button asChild variant="outline" size="sm" className="w-full font-mono text-xs gap-2">
+      <Button asChild variant="outline" size="sm" className="w-full font-mono text-xs gap-2 border-border/80">
         <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
           <MessageSquare className="h-3.5 w-3.5" />
           <span>{locale === 'de' ? 'Auf LinkedIn vernetzen' : 'Connect on LinkedIn'}</span>
@@ -50,12 +56,15 @@ function ContactActions({ locale }: { locale: LocaleCode }) {
 function ContactCard({ locale }: { locale: LocaleCode }) {
   const headings = SITE_CONTENT.aboutHeading;
   return (
-    <Card className="border-border shadow-md bg-card">
+    <SpotlightCard className="border-border/80 shadow-md bg-card">
       <CardHeader className="space-y-2 pb-4">
-        <Badge variant="accent" className="w-fit font-mono text-xs">
+        <Badge variant="secondary" className="w-fit font-mono text-xs border border-border/80">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 mr-1.5 inline-block" />
           {locale === 'de' ? 'Direktkontakt' : 'Direct Inquiries'}
         </Badge>
-        <CardTitle className="text-2xl font-bold tracking-tight">{headings.getInTouch[locale]}</CardTitle>
+        <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
+          {headings.getInTouch[locale]}
+        </CardTitle>
         <p className="text-xs text-muted-foreground">
           {locale === 'de'
             ? 'Beratung für Startups & KMU, Coaching, Pitch-Training oder massgeschneiderte In-House-Workshops.'
@@ -65,15 +74,15 @@ function ContactCard({ locale }: { locale: LocaleCode }) {
       <CardContent className="space-y-5 text-sm">
         <div className="space-y-2 text-xs text-muted-foreground">
           <div className="flex items-center gap-2 text-foreground">
-            <Check className="h-4 w-4 text-accent shrink-0" />
+            <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
             <span>
               {locale === 'de'
-                ? 'Kein Agentur-Overhead, direkte Sparringspartner'
+                ? 'Kein Agentur-Overhead, direkter Sparringspartner auf Augenhöhe'
                 : 'No agency overhead, direct founder-to-founder sparring'}
             </span>
           </div>
           <div className="flex items-center gap-2 text-foreground">
-            <Check className="h-4 w-4 text-accent shrink-0" />
+            <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
             <span>
               {locale === 'de'
                 ? 'Praxisnahe Umsetzung mit verifizierbaren Artefakten'
@@ -83,42 +92,61 @@ function ContactCard({ locale }: { locale: LocaleCode }) {
         </div>
         <ContactActions locale={locale} />
       </CardContent>
-    </Card>
+    </SpotlightCard>
+  );
+}
+
+function AuthorHeader({ locale }: { locale: LocaleCode }) {
+  const author = SITE_CONTENT.author;
+  const headings = SITE_CONTENT.aboutHeading;
+
+  return (
+    <div className="space-y-3" data-reveal-item="true">
+      <div className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-primary uppercase tracking-wider bg-primary/10 px-2.5 py-1 rounded border border-primary/20">
+        <span>{locale === 'de' ? 'Kapitel 06 // Haltung & Credo' : 'Chapter 06 // Stance & Credo'}</span>
+      </div>
+      <BlurRevealHeading
+        text={headings.title[locale]}
+        as="h2"
+        className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground"
+      />
+      <p className="text-base text-primary font-mono font-medium">{author.role[locale]}</p>
+    </div>
   );
 }
 
 export function AboutSection({ locale }: { locale: LocaleCode }) {
   const author = SITE_CONTENT.author;
-  const headings = SITE_CONTENT.aboutHeading;
 
   return (
-    <section className="py-20 border-b border-border/70" id="about">
+    <section data-chapter="06" className="py-20 border-b border-border/70 bg-background" id="about">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 space-y-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          <div className="lg:col-span-7 space-y-6">
-            <div className="space-y-3">
-              <div className="font-mono text-xs font-semibold text-accent uppercase tracking-widest">
-                // Background & Stance
+        <GsapReveal>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            <div className="lg:col-span-7 space-y-6">
+              <AuthorHeader locale={locale} />
+              <p data-reveal-item="true" className="text-muted-foreground text-base leading-relaxed">
+                {author.bio[locale]}
+              </p>
+              <div
+                data-reveal-item="true"
+                className="p-4 rounded-xl border border-border/80 bg-muted/40 space-y-2 font-mono text-xs"
+              >
+                <div className="text-foreground font-bold flex items-center gap-2">
+                  <Terminal className="h-4 w-4 text-primary" />
+                  <span>{locale === 'de' ? 'Erfahrungshintergrund' : 'Lived Experience'}:</span>
+                </div>
+                <p className="text-muted-foreground leading-relaxed pl-6">{author.experience[locale]}</p>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-                {headings.title[locale]}
-              </h2>
-              <p className="text-base text-accent font-mono font-medium">{author.role[locale]}</p>
-            </div>
-            <p className="text-muted-foreground text-base leading-relaxed">{author.bio[locale]}</p>
-            <div className="p-4 rounded-xl border border-border bg-muted/30 space-y-2 font-mono text-xs">
-              <div className="text-foreground font-bold flex items-center gap-2">
-                <Terminal className="h-4 w-4 text-accent" />
-                <span>{locale === 'de' ? 'Erfahrungshintergrund' : 'Lived Experience'}:</span>
+              <div data-reveal-item="true">
+                <PromiseGrid locale={locale} />
               </div>
-              <p className="text-muted-foreground leading-relaxed pl-6">{author.experience[locale]}</p>
             </div>
-            <PromiseGrid locale={locale} />
+            <div className="lg:col-span-5" id="contact" data-reveal-item="true">
+              <ContactCard locale={locale} />
+            </div>
           </div>
-          <div className="lg:col-span-5" id="contact">
-            <ContactCard locale={locale} />
-          </div>
-        </div>
+        </GsapReveal>
       </div>
     </section>
   );

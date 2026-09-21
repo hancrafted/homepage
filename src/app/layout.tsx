@@ -1,3 +1,6 @@
+import { DotField } from '@/components/animations/dot-field';
+import { SiteScrollIndicator } from '@/components/animations/site-scroll-indicator';
+import { SmoothScroll } from '@/components/animations/smooth-scroll';
 import { Footer } from '@/components/footer';
 import { Navbar } from '@/components/navbar';
 import { PreferencesScript } from '@/components/preferences-script';
@@ -33,6 +36,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased selection:bg-accent/25">
         <LocaleProvider>
+          <SmoothScroll />
+          <DotField />
+          <SiteScrollIndicator />
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

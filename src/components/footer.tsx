@@ -58,7 +58,7 @@ export function Footer({ locale: explicitLocale }: { locale?: LocaleCode }) {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b border-border/60">
           <div className="space-y-1">
             <div className="font-semibold text-foreground tracking-tight flex items-center gap-2">
-              <span className="font-mono text-accent">#</span>
+              <span className="font-mono text-primary font-bold">H</span>
               <span>{SITE_CONTENT.author.name}</span>
               <span className="text-xs text-muted-foreground font-normal">
                 ({SITE_CONTENT.author.location[locale]})

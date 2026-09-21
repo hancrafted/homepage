@@ -1,4 +1,5 @@
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export const GSAP_DEFAULTS = {
   ease: 'expo.out',
@@ -18,6 +19,7 @@ export function initGsapDefaults(): void {
   if (typeof window === 'undefined' || isInitialized) {
     return;
   }
+  gsap.registerPlugin(ScrollTrigger);
   gsap.defaults(GSAP_DEFAULTS);
   isInitialized = true;
 }
