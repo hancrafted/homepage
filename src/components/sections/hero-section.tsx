@@ -16,7 +16,7 @@ function HeroHeadline({ part1, part2 }: { part1: string; part2: string }) {
       className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.08]"
       data-hero-headline="true"
     >
-      <BlurRevealHeading as="span" text={part1} delay={0.1} stagger={0.6} triggerOnScroll={false} />
+      <BlurRevealHeading as="span" text={part1} delay={0.1} stagger={0.6} triggerOnScroll={false} markAiEmitter />
       <br />
       <BlurRevealHeading
         as="span"
@@ -66,7 +66,13 @@ function HeroServicePills({ pills, locale }: { pills: typeof SITE_CONTENT.hero.s
 function HeroActions({ primaryLabel, secondaryLabel }: { primaryLabel: string; secondaryLabel: string }) {
   return (
     <div data-reveal-item="true" className="flex flex-wrap items-center gap-4 pt-2">
-      <Button size="lg" asChild className="font-mono text-sm group shadow-md hover:shadow-lg transition-all">
+      <Button
+        size="lg"
+        asChild
+        className="font-mono text-sm group shadow-md hover:shadow-lg transition-all"
+        data-hero-primary-cta="true"
+        id="hero-primary-cta"
+      >
         <Link href="#workshops">
           <span>{primaryLabel}</span>
           <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

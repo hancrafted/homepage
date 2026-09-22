@@ -13,16 +13,26 @@ export interface BlurRevealProps {
   delay?: number;
   stagger?: number;
   triggerOnScroll?: boolean;
+  markAiEmitter?: boolean;
 }
 
-function renderWords(text: string, idPrefix: string) {
+function renderWords(text: string, idPrefix: string, markAiEmitter?: boolean) {
   const words = text.split(/\s+/).filter(Boolean);
-  return words.map((word, idx) => (
-    <span key={`${idPrefix}-w-${idx}`} data-blur-word="true" className="inline-block [will-change:filter,opacity]">
-      {word}
-      {idx < words.length - 1 ? '\u00A0' : ''}
-    </span>
-  ));
+  return words.map((word, idx) => {
+    const isAi = Boolean(markAiEmitter && (word === 'AI' || word === 'KI' || idx === 0));
+    return (
+      <span
+        key={`${idPrefix}-w-${idx}`}
+        data-blur-word="true"
+        data-hero-ai-emitter={isAi ? 'true' : undefined}
+        id={isAi ? 'hero-ai-emitter' : undefined}
+        className="inline-block [will-change:filter,opacity]"
+      >
+        {word}
+        {idx < words.length - 1 ? '\u00A0' : ''}
+      </span>
+    );
+  });
 }
 
 function useBlurAnimation(
@@ -76,6 +86,7 @@ export function BlurRevealHeading({
   delay = 0,
   stagger = 0.8,
   triggerOnScroll = true,
+  markAiEmitter = false,
 }: BlurRevealProps) {
   const containerRef = useRef<HTMLElement>(null);
   const idPrefix = useId();
@@ -84,7 +95,7 @@ export function BlurRevealHeading({
 
   return (
     <Component ref={containerRef} className={className}>
-      {renderWords(text, idPrefix)}
+      {renderWords(text, idPrefix, markAiEmitter)}
     </Component>
   );
 }
