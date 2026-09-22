@@ -3,7 +3,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { DECKS, type Deck, type SlideData } from '@/content/decks';
+import { PORTFOLIO_DECKS, type Deck, type SlideData } from '@/content/decks';
 import { TowerBeatItem } from '@/decks/shared/tower-beat-item';
 import { TowerHeroBeat } from '@/decks/shared/tower-hero-beat';
 import { TowerRail } from '@/decks/shared/tower-rail';
@@ -80,7 +80,7 @@ function TowerTakeawaySection({ takeaway, locale }: { takeaway: string; locale: 
 }
 
 function TowerOtherDecks({ currentSlug, locale }: { currentSlug: string; locale: LocaleCode }) {
-  const others = DECKS.filter((d) => d.slug !== currentSlug);
+  const others = PORTFOLIO_DECKS.filter((d) => d.slug !== currentSlug);
   return (
     <section className="pt-8 border-t border-border space-y-6">
       <h3 className="text-lg font-bold tracking-tight text-foreground font-mono">

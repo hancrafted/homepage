@@ -22,7 +22,7 @@ function HeroActions({ primaryLabel, secondaryLabel }: { primaryLabel: string; s
         size="lg"
         variant="ghost"
         asChild
-        className="font-mono text-sm bg-white/[0.05] hover:bg-white/[0.08] text-foreground"
+        className="font-mono text-sm bg-black/[0.04] hover:bg-black/[0.08] dark:bg-white/[0.05] dark:hover:bg-white/[0.08] text-foreground"
       >
         <Link href="#portfolio">
           <Terminal className="mr-2 h-4 w-4 text-primary" />
@@ -39,7 +39,7 @@ function HeroStats({ stats, locale }: { stats: StatItem[]; locale: LocaleCode })
       {stats.map((stat, idx) => (
         <div
           key={idx}
-          className="space-y-1.5 p-4 rounded-2xl bg-white/[0.035] backdrop-blur-md shadow-lg shadow-black/20 hover:bg-white/[0.06] transition-all"
+          className="space-y-1.5 p-4 rounded-2xl bg-card border border-border/60 dark:border-white/[0.06] dark:bg-white/[0.035] backdrop-blur-md shadow-lg shadow-black/5 dark:shadow-black/20 hover:bg-muted/40 dark:hover:bg-white/[0.06] transition-all"
           data-stat-card="true"
         >
           <div className="text-2xl sm:text-3xl font-bold font-mono text-foreground tracking-tight">

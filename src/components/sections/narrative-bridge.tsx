@@ -5,6 +5,7 @@ import { GsapReveal } from '@/components/animations/gsap-reveal';
 import { LiquidInkTransition } from '@/components/animations/liquid-ink-transition';
 import { SpotlightCard } from '@/components/ui/spotlight-card';
 import { type LocaleCode } from '@/lib/preferences';
+import { useResolvedTheme } from '@/lib/use-theme';
 import { AlertTriangle, ArrowRight, Gauge, ShieldCheck } from 'lucide-react';
 
 const SHIFTS = [
@@ -58,7 +59,7 @@ const SHIFTS = [
 function ShiftCard({ item, locale }: { item: (typeof SHIFTS)[number]; locale: LocaleCode }) {
   const Icon = item.icon;
   return (
-    <SpotlightCard className="h-full flex flex-col justify-between p-8 space-y-6 rounded-3xl bg-white/[0.035] backdrop-blur-md shadow-xl shadow-black/20 hover:bg-white/[0.06] transition-all">
+    <SpotlightCard className="h-full flex flex-col justify-between p-8 space-y-6 rounded-3xl bg-card border border-border/60 dark:border-white/[0.06] dark:bg-white/[0.035] backdrop-blur-md shadow-xl shadow-black/5 dark:shadow-black/20 hover:bg-muted/40 dark:hover:bg-white/[0.06] transition-all">
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
@@ -106,6 +107,9 @@ function BridgeHeader({ locale }: { locale: LocaleCode }) {
 }
 
 export function NarrativeBridge({ locale }: { locale: LocaleCode }) {
+  const resolvedTheme = useResolvedTheme();
+  const inkColor = resolvedTheme === 'dark' ? '#FAF9F6' : '#0A0E1A';
+
   return (
     <section data-chapter="02" className="py-24 md:py-32 relative" id="narrative-bridge">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 space-y-12">
@@ -120,7 +124,7 @@ export function NarrativeBridge({ locale }: { locale: LocaleCode }) {
           </div>
         </GsapReveal>
       </div>
-      <LiquidInkTransition targetId="services" color="#FAF9F6" />
+      <LiquidInkTransition targetId="services" color={inkColor} />
     </section>
   );
 }

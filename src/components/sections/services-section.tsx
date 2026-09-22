@@ -3,10 +3,11 @@
 import { FRAMEWORK_SLIDES, type FrameworkSlide } from '@/content/framework-slides';
 import { initGsapDefaults } from '@/lib/animations';
 import { prefersReducedMotion, type LocaleCode } from '@/lib/preferences';
+import { useResolvedTheme } from '@/lib/use-theme';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { Sparkles } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MethodProgressStepper } from './method-stepper';
 
 function SlideBullets({ bullets, deliverable }: { bullets: string[]; deliverable: string }) {
@@ -71,21 +72,39 @@ function SlideItem({ slide, locale }: { slide: FrameworkSlide; locale: LocaleCod
   );
 }
 
-function computeThemeColors(p: number) {
-  if (p <= 0.75) {
-    return { bg: '#FAF9F6', fg: '#0A0E1A', border: 'rgba(10, 14, 26, 0.12)' };
+function computeThemeColors(p: number, isDarkSiteTheme: boolean) {
+  if (isDarkSiteTheme) {
+    if (p <= 0.75) {
+      return { bg: '#FAF9F6', fg: '#0A0E1A', border: 'rgba(10, 14, 26, 0.12)' };
+    }
+    const t = Math.min(1, (p - 0.75) / 0.22);
+    const toBg = gsap.utils.interpolate(['#FAF9F6', '#CBD5E1', '#475569', '#1E293B', '#0B0F17']);
+    const toFg = gsap.utils.interpolate(['#0A0E1A', '#0A0E1A', '#1E293B', '#F8FAFC', '#F8FAFC']);
+    const toBorder = gsap.utils.interpolate([
+      'rgba(10, 14, 26, 0.12)',
+      'rgba(10, 14, 26, 0.12)',
+      'rgba(255, 255, 255, 0.15)',
+      'rgba(255, 255, 255, 0.12)',
+      'rgba(255, 255, 255, 0.08)',
+    ]);
+    return { bg: toBg(t), fg: toFg(t), border: toBorder(t) };
+  } else {
+    // When in light theme: inverts to dark in the horizontal scroll section
+    if (p <= 0.75) {
+      return { bg: '#0A0E1A', fg: '#F8FAFC', border: 'rgba(255, 255, 255, 0.12)' };
+    }
+    const t = Math.min(1, (p - 0.75) / 0.22);
+    const toBg = gsap.utils.interpolate(['#0A0E1A', '#1E293B', '#475569', '#CBD5E1', '#FAF9F6']);
+    const toFg = gsap.utils.interpolate(['#F8FAFC', '#F8FAFC', '#1E293B', '#0A0E1A', '#0A0E1A']);
+    const toBorder = gsap.utils.interpolate([
+      'rgba(255, 255, 255, 0.12)',
+      'rgba(255, 255, 255, 0.12)',
+      'rgba(10, 14, 26, 0.15)',
+      'rgba(10, 14, 26, 0.12)',
+      'rgba(10, 14, 26, 0.08)',
+    ]);
+    return { bg: toBg(t), fg: toFg(t), border: toBorder(t) };
   }
-  const t = Math.min(1, (p - 0.75) / 0.22);
-  const toBg = gsap.utils.interpolate(['#FAF9F6', '#CBD5E1', '#475569', '#1E293B', '#0B0F17']);
-  const toFg = gsap.utils.interpolate(['#0A0E1A', '#0A0E1A', '#1E293B', '#F8FAFC', '#F8FAFC']);
-  const toBorder = gsap.utils.interpolate([
-    'rgba(10, 14, 26, 0.12)',
-    'rgba(10, 14, 26, 0.12)',
-    'rgba(255, 255, 255, 0.15)',
-    'rgba(255, 255, 255, 0.12)',
-    'rgba(255, 255, 255, 0.08)',
-  ]);
-  return { bg: toBg(t), fg: toFg(t), border: toBorder(t) };
 }
 
 function computeActiveStep(p: number) {
@@ -96,8 +115,8 @@ function computeActiveStep(p: number) {
   return 5;
 }
 
-function applyThemeToContainer(container: HTMLElement, p: number) {
-  const { bg, fg, border } = computeThemeColors(p);
+function applyThemeToContainer(container: HTMLElement, p: number, isDarkSiteTheme: boolean) {
+  const { bg, fg, border } = computeThemeColors(p, isDarkSiteTheme);
   container.style.setProperty('--method-bg', bg);
   container.style.setProperty('--method-fg', fg);
   container.style.setProperty('--method-border', border);
@@ -105,12 +124,23 @@ function applyThemeToContainer(container: HTMLElement, p: number) {
   container.style.color = fg;
 }
 
-function useMethodRailScrub(
-  containerRef: React.RefObject<HTMLDivElement | null>,
-  trackRef: React.RefObject<HTMLDivElement | null>,
-  setStep: (s: number) => void,
-  setProgress: (p: number) => void,
-) {
+interface MethodRailScrubOptions {
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  trackRef: React.RefObject<HTMLDivElement | null>;
+  setStep: (s: number) => void;
+  setProgress: (p: number) => void;
+  isDarkRef: React.RefObject<boolean>;
+  progressRef: React.RefObject<number>;
+}
+
+function useMethodRailScrub({
+  containerRef,
+  trackRef,
+  setStep,
+  setProgress,
+  isDarkRef,
+  progressRef,
+}: MethodRailScrubOptions) {
   useGSAP(
     () => {
       initGsapDefaults();
@@ -125,16 +155,20 @@ function useMethodRailScrub(
       const endX = () =>
         (window.innerWidth - (s5?.offsetWidth ?? window.innerWidth * 0.75)) / 2 - (s5?.offsetLeft ?? 0);
 
+      applyThemeToContainer(container, progressRef.current, isDarkRef.current);
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
           start: 'top top',
           end: '+=300%',
           pin: true,
+          anticipatePin: 1,
           scrub: 0.3,
           onUpdate: (self) => {
             const p = self.progress;
-            applyThemeToContainer(container, p);
+            progressRef.current = p;
+            applyThemeToContainer(container, p, isDarkRef.current);
             setProgress(p * 100);
             setStep(computeActiveStep(p));
           },
@@ -144,37 +178,55 @@ function useMethodRailScrub(
       tl.set(track, { x: () => startX() });
       tl.fromTo(track, { x: () => startX() }, { x: () => endX(), duration: 1, ease: 'none' }, 0);
     },
-    { scope: containerRef },
+    { scope: containerRef, dependencies: [] },
   );
 }
 
-function DesktopMethodRail({ locale }: { locale: LocaleCode }) {
+function MethodRailHeader({ locale }: { locale: LocaleCode }) {
+  return (
+    <div className="absolute top-20 sm:top-24 left-0 right-0 z-20 px-8 sm:px-16 flex items-center justify-between pointer-events-none text-[var(--method-fg)]">
+      <div className="font-mono text-xs font-bold tracking-widest uppercase text-primary">
+        {locale === 'de' ? 'KAPITEL 03 // MEINE METHODE' : 'CHAPTER 03 // MY METHOD'}
+      </div>
+      <div className="font-mono text-xs opacity-60">
+        {locale === 'de' ? 'HORIZONTAL SCROLLEN' : 'SCROLL TO PROGRESS'} →
+      </div>
+    </div>
+  );
+}
+
+function DesktopMethodRail({ locale, isDarkSiteTheme }: { locale: LocaleCode; isDarkSiteTheme: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const isDarkRef = useRef(isDarkSiteTheme);
+  isDarkRef.current = isDarkSiteTheme;
+  const progressRef = useRef(0);
   const [step, setStep] = useState(1);
   const [progressPercent, setProgressPercent] = useState(0);
 
-  useMethodRailScrub(containerRef, trackRef, setStep, setProgressPercent);
+  useMethodRailScrub({
+    containerRef,
+    trackRef,
+    setStep,
+    setProgress: setProgressPercent,
+    isDarkRef,
+    progressRef,
+  });
+
+  useEffect(() => {
+    if (containerRef.current) {
+      applyThemeToContainer(containerRef.current, progressRef.current, isDarkSiteTheme);
+    }
+  }, [isDarkSiteTheme]);
 
   return (
     <div
       ref={containerRef}
       data-method="true"
       className="hidden md:block relative h-screen w-full overflow-hidden select-none"
-      style={{
-        backgroundColor: '#FAF9F6',
-        color: '#0A0E1A',
-        transition: 'none',
-      }}
+      style={{ transition: 'none' }}
     >
-      <div className="absolute top-20 sm:top-24 left-0 right-0 z-20 px-8 sm:px-16 flex items-center justify-between pointer-events-none text-[var(--method-fg)]">
-        <div className="font-mono text-xs font-bold tracking-widest uppercase text-primary">
-          {locale === 'de' ? 'KAPITEL 03 // MEINE METHODE' : 'CHAPTER 03 // MY METHOD'}
-        </div>
-        <div className="font-mono text-xs opacity-60">
-          {locale === 'de' ? 'HORIZONTAL SCROLLEN' : 'SCROLL TO PROGRESS'} →
-        </div>
-      </div>
+      <MethodRailHeader locale={locale} />
 
       <div ref={trackRef} className="flex h-screen items-stretch will-change-transform">
         {FRAMEWORK_SLIDES.map((slide) => (
@@ -187,17 +239,20 @@ function DesktopMethodRail({ locale }: { locale: LocaleCode }) {
   );
 }
 
-function MobileMethodStack({ locale }: { locale: LocaleCode }) {
+function MobileMethodStack({ locale, isDarkSiteTheme }: { locale: LocaleCode; isDarkSiteTheme: boolean }) {
+  const fg = isDarkSiteTheme ? 'var(--foreground)' : '#F8FAFC';
+  const bg = isDarkSiteTheme ? 'var(--background)' : '#0A0E1A';
+
   return (
     <div
-      className="md:hidden py-16 px-4 space-y-12"
-      style={{ '--method-fg': 'var(--foreground)', '--method-bg': 'var(--background)' } as React.CSSProperties}
+      className={`md:hidden py-16 px-4 space-y-12 transition-colors ${!isDarkSiteTheme ? 'bg-[#0A0E1A] text-[#F8FAFC]' : ''}`}
+      style={{ '--method-fg': fg, '--method-bg': bg } as React.CSSProperties}
     >
       <div className="space-y-2">
         <div className="font-mono text-xs font-semibold text-primary uppercase tracking-widest">
           {locale === 'de' ? 'KAPITEL 03 // MEINE METHODE' : 'CHAPTER 03 // MY METHOD'}
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
           {locale === 'de' ? 'Meine Methode' : 'My Method'}
         </h2>
       </div>
@@ -211,10 +266,13 @@ function MobileMethodStack({ locale }: { locale: LocaleCode }) {
 }
 
 export function ServicesSection({ locale }: { locale: LocaleCode }) {
+  const resolvedTheme = useResolvedTheme();
+  const isDarkSiteTheme = resolvedTheme === 'dark';
+
   return (
     <section data-chapter="03" className="relative" id="services">
-      <DesktopMethodRail locale={locale} />
-      <MobileMethodStack locale={locale} />
+      <DesktopMethodRail locale={locale} isDarkSiteTheme={isDarkSiteTheme} />
+      <MobileMethodStack locale={locale} isDarkSiteTheme={isDarkSiteTheme} />
     </section>
   );
 }

@@ -43,7 +43,7 @@ function WorkshopDeckList({ deckIds, locale }: { deckIds: string[]; locale: Loca
       <div className="flex flex-wrap gap-1.5 pt-0.5">
         {deckIds.map((deckId) => (
           <Link key={deckId} href={`/episodes/${deckId}`}>
-            <span className="text-[11px] font-mono px-2.5 py-1 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-foreground/90 transition-colors">
+            <span className="text-[11px] font-mono px-2.5 py-1 rounded-full bg-black/[0.04] hover:bg-black/[0.08] dark:bg-white/[0.05] dark:hover:bg-white/[0.1] text-foreground/90 transition-colors">
               {deckId} ↗
             </span>
           </Link>
@@ -145,7 +145,7 @@ function WorkshopCard({ workshop, locale }: { workshop: Workshop; locale: Locale
       : 'Inquire Re-Run';
 
   return (
-    <SpotlightCard className="flex flex-col justify-between p-8 rounded-3xl bg-white/[0.035] backdrop-blur-md shadow-xl shadow-black/20 hover:bg-white/[0.06] transition-all">
+    <SpotlightCard className="flex flex-col justify-between p-8 rounded-3xl bg-card border border-border/60 dark:border-white/[0.06] dark:bg-white/[0.035] backdrop-blur-md shadow-xl shadow-black/5 dark:shadow-black/20 hover:bg-muted/40 dark:hover:bg-white/[0.06] transition-all">
       <WorkshopCardHeader
         isUpcoming={isUpcoming}
         statusLabel={statusLabel}
@@ -182,7 +182,7 @@ function FilterTabs({
   };
 
   return (
-    <div className="flex items-center rounded-full bg-white/[0.05] p-1.5 text-xs font-mono">
+    <div className="flex items-center rounded-full bg-black/[0.04] dark:bg-white/[0.05] p-1.5 text-xs font-mono">
       {tabs.map((tab) => (
         <button
           key={tab}

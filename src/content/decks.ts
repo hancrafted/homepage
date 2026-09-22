@@ -15,6 +15,8 @@ export const DECKS: Deck[] = [
   MAINTAIN_MARKDOWN_FOR_AI_DECK,
 ];
 
+export const PORTFOLIO_DECKS: Deck[] = [AI_TOKEN_ECONOMY_DECK, MAINTAIN_MARKDOWN_FOR_AI_DECK];
+
 export function getDeckBySlug(slug: string): Deck | undefined {
   return DECKS.find((d) => d.slug === slug);
 }

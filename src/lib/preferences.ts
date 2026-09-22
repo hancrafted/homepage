@@ -1,4 +1,4 @@
-export type ThemeMode = 'light' | 'dark';
+export type ThemeMode = 'light' | 'dark' | 'system';
 export type MotionMode = 'system' | 'reduced' | 'full';
 export type LocaleCode = 'en' | 'de';
 
@@ -16,17 +16,31 @@ export const DEFAULT_PREFERENCES: Preferences = {
   locale: 'en',
 };
 
+const VALID_THEMES: ReadonlySet<string> = new Set(['light', 'dark', 'system']);
+const VALID_MOTIONS: ReadonlySet<string> = new Set(['reduced', 'full', 'system']);
+const VALID_LOCALES: ReadonlySet<string> = new Set(['en', 'de']);
+
+function sanitizeTheme(value: unknown): ThemeMode {
+  return typeof value === 'string' && VALID_THEMES.has(value) ? (value as ThemeMode) : DEFAULT_PREFERENCES.theme;
+}
+
+function sanitizeMotion(value: unknown): MotionMode {
+  return typeof value === 'string' && VALID_MOTIONS.has(value) ? (value as MotionMode) : DEFAULT_PREFERENCES.motion;
+}
+
+function sanitizeLocale(value: unknown): LocaleCode {
+  return typeof value === 'string' && VALID_LOCALES.has(value) ? (value as LocaleCode) : DEFAULT_PREFERENCES.locale;
+}
+
 export function parsePreferences(raw: string | null): Preferences {
   if (!raw) return DEFAULT_PREFERENCES;
   try {
     const parsed = JSON.parse(raw);
-    const theme = parsed.theme === 'dark' || parsed.theme === 'light' ? parsed.theme : DEFAULT_PREFERENCES.theme;
-    const motion =
-      parsed.motion === 'reduced' || parsed.motion === 'full' || parsed.motion === 'system'
-        ? parsed.motion
-        : DEFAULT_PREFERENCES.motion;
-    const locale = parsed.locale === 'de' || parsed.locale === 'en' ? parsed.locale : DEFAULT_PREFERENCES.locale;
-    return { theme, motion, locale };
+    return {
+      theme: sanitizeTheme(parsed.theme),
+      motion: sanitizeMotion(parsed.motion),
+      locale: sanitizeLocale(parsed.locale),
+    };
   } catch {
     return DEFAULT_PREFERENCES;
   }
@@ -38,25 +52,39 @@ export function getStoredPreferences(): Preferences {
   return parsePreferences(raw);
 }
 
+export function resolveTheme(theme: ThemeMode): 'light' | 'dark' {
+  if (theme === 'system') {
+    if (typeof window === 'undefined') return 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  return theme;
+}
+
+export function applyThemeClass(theme: ThemeMode): 'light' | 'dark' {
+  if (typeof document === 'undefined') return resolveTheme(theme);
+  const resolved = resolveTheme(theme);
+  const root = document.documentElement;
+  if (resolved === 'dark') {
+    root.classList.add('dark');
+  } else {
+    root.classList.remove('dark');
+  }
+  root.dataset.theme = theme;
+  return resolved;
+}
+
 export function setStoredPreferences(patch: Partial<Preferences>): Preferences {
   const current = getStoredPreferences();
   const updated: Preferences = { ...current, ...patch };
   if (typeof window !== 'undefined') {
     window.localStorage.setItem(PREFERENCES_KEY, JSON.stringify(updated));
-    applyThemeClass(updated.theme);
+    const resolved = applyThemeClass(updated.theme);
+    if (patch.theme !== undefined) {
+      window.dispatchEvent(new CustomEvent('theme-change', { detail: resolved }));
+    }
     applyMotionAttribute(updated.motion);
   }
   return updated;
-}
-
-export function applyThemeClass(theme: ThemeMode): void {
-  if (typeof document === 'undefined') return;
-  const root = document.documentElement;
-  if (theme === 'dark') {
-    root.classList.add('dark');
-  } else {
-    root.classList.remove('dark');
-  }
 }
 
 export function applyMotionAttribute(motion: MotionMode): void {
@@ -80,16 +108,26 @@ export const BLOCKING_PREFERENCES_INLINE_SCRIPT = `
     if (raw) {
       prefs = JSON.parse(raw);
     }
-    var isDark = false;
+    var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = true;
     if (prefs && prefs.theme) {
-      isDark = prefs.theme === 'dark';
+      if (prefs.theme === 'dark') {
+        isDark = true;
+      } else if (prefs.theme === 'light') {
+        isDark = false;
+      } else if (prefs.theme === 'system') {
+        isDark = systemDark;
+      }
     } else {
-      isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      isDark = true;
     }
     if (isDark) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
+    }
+    if (prefs && prefs.theme) {
+      document.documentElement.dataset.theme = prefs.theme;
     }
     if (prefs && prefs.motion) {
       document.documentElement.dataset.motion = prefs.motion;

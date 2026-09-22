@@ -18,7 +18,7 @@ function PromiseGrid({ locale }: { locale: LocaleCode }) {
         {author.promises.map((promise) => (
           <SpotlightCard
             key={promise.title}
-            className="p-5 rounded-2xl bg-white/[0.035] backdrop-blur-md space-y-2 shadow-lg shadow-black/20 hover:bg-white/[0.06] transition-all"
+            className="p-5 rounded-2xl bg-card border border-border/60 dark:border-white/[0.06] dark:bg-white/[0.035] backdrop-blur-md space-y-2 shadow-lg shadow-black/5 dark:shadow-black/20 hover:bg-muted/40 dark:hover:bg-white/[0.06] transition-all"
           >
             <div className="font-bold text-sm font-mono text-foreground flex items-center gap-1.5">
               <ShieldCheck className="h-4 w-4 text-emerald-400" />
@@ -46,7 +46,7 @@ function ContactActions({ locale }: { locale: LocaleCode }) {
         asChild
         variant="ghost"
         size="sm"
-        className="w-full font-mono text-xs gap-2 bg-white/[0.04] hover:bg-white/[0.08] text-foreground"
+        className="w-full font-mono text-xs gap-2 bg-black/[0.04] hover:bg-black/[0.08] dark:bg-white/[0.04] dark:hover:bg-white/[0.08] text-foreground"
       >
         <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
           <MessageSquare className="h-3.5 w-3.5" />
@@ -60,7 +60,7 @@ function ContactActions({ locale }: { locale: LocaleCode }) {
 function ContactCard({ locale }: { locale: LocaleCode }) {
   const headings = SITE_CONTENT.aboutHeading;
   return (
-    <SpotlightCard className="p-8 rounded-3xl bg-white/[0.035] backdrop-blur-md shadow-2xl shadow-black/30">
+    <SpotlightCard className="p-8 rounded-3xl bg-card border border-border/60 dark:border-white/[0.06] dark:bg-white/[0.035] backdrop-blur-md shadow-2xl shadow-black/5 dark:shadow-black/30">
       <CardHeader className="space-y-3 p-0 pb-4">
         <div className="w-fit font-mono text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 inline-block" />

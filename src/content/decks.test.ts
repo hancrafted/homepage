@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DECKS, getDeckBySlug } from './decks';
+import { DECKS, getDeckBySlug, PORTFOLIO_DECKS } from './decks';
 
 describe('decks data integrity', () => {
   it('contains valid decks with non-empty slides', () => {
@@ -10,6 +10,11 @@ describe('decks data integrity', () => {
       expect(deck.thesis.en).toBeTruthy();
       expect(deck.thesis.de).toBeTruthy();
     }
+  });
+
+  it('keeps only ai-token-economy and maintain-markdown-for-ai in portfolio decks', () => {
+    expect(PORTFOLIO_DECKS.length).toBe(2);
+    expect(PORTFOLIO_DECKS.map((d) => d.slug)).toEqual(['ai-token-economy', 'maintain-markdown-for-ai']);
   });
 
   it('retrieves deck by slug correctly', () => {

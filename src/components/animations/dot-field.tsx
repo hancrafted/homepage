@@ -58,6 +58,25 @@ function setupCanvasResize(canvas: HTMLCanvasElement, ctx: CanvasRenderingContex
   return () => window.removeEventListener('resize', resize);
 }
 
+function createRippleRenderer(ctx: CanvasRenderingContext2D, ripples: Ripple[], onDone: () => void) {
+  return () => {
+    const now = performance.now() / 1000;
+    const valid = ripples.filter((r) => now - r.startTime <= RIPPLE_DURATION);
+    ripples.length = 0;
+    ripples.push(...valid);
+
+    const isDark = document.documentElement.classList.contains('dark');
+    if (ripples.length === 0) {
+      onDone();
+      drawBaseGrid(ctx, window.innerWidth, window.innerHeight, isDark);
+      return;
+    }
+
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    renderRippledDots(ctx, ripples, now, isDark);
+  };
+}
+
 function useDotCanvas(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
   useEffect(() => {
     if (prefersReducedMotion()) return;
@@ -69,22 +88,10 @@ function useDotCanvas(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
     const ripples: Ripple[] = [];
     let rendering = false;
 
-    const drawFrame = () => {
-      const now = performance.now() / 1000;
-      const valid = ripples.filter((r) => now - r.startTime <= RIPPLE_DURATION);
-      ripples.length = 0;
-      ripples.push(...valid);
-
-      if (ripples.length === 0) {
-        gsap.ticker.remove(drawFrame);
-        rendering = false;
-        drawBaseGrid(ctx, window.innerWidth, window.innerHeight, document.documentElement.classList.contains('dark'));
-        return;
-      }
-
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      renderRippledDots(ctx, ripples, now, document.documentElement.classList.contains('dark'));
-    };
+    const drawFrame = createRippleRenderer(ctx, ripples, () => {
+      gsap.ticker.remove(drawFrame);
+      rendering = false;
+    });
 
     const handleClick = (e: MouseEvent) => {
       const t = e.target as HTMLElement | null;
@@ -97,10 +104,16 @@ function useDotCanvas(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
       }
     };
 
+    const handleThemeChange = () => {
+      drawBaseGrid(ctx, window.innerWidth, window.innerHeight, document.documentElement.classList.contains('dark'));
+    };
+
     window.addEventListener('pointerdown', handleClick);
+    window.addEventListener('theme-change', handleThemeChange);
     return () => {
       cleanupResize();
       window.removeEventListener('pointerdown', handleClick);
+      window.removeEventListener('theme-change', handleThemeChange);
       gsap.ticker.remove(drawFrame);
     };
   }, [canvasRef]);

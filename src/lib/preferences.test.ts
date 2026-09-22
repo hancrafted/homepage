@@ -37,4 +37,13 @@ describe('preferences', () => {
     const prefs: Preferences = { theme: 'light', motion: 'full', locale: 'en' };
     expect(prefersReducedMotion(prefs)).toBe(false);
   });
+
+  it('parses system theme correctly', () => {
+    const raw = JSON.stringify({ theme: 'system', motion: 'system', locale: 'en' });
+    expect(parsePreferences(raw)).toEqual({
+      theme: 'system',
+      motion: 'system',
+      locale: 'en',
+    });
+  });
 });
