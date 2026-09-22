@@ -40,6 +40,11 @@ export interface SiteContent {
     paragraph: Record<LocaleCode, string>;
     primaryCta: Record<LocaleCode, string>;
     secondaryCta: Record<LocaleCode, string>;
+    servicePills: {
+      id: string;
+      label: Record<LocaleCode, string>;
+      detail: Record<LocaleCode, string>;
+    }[];
   };
   servicesHeading: {
     title: Record<LocaleCode, string>;
@@ -128,24 +133,41 @@ export const SITE_CONTENT: SiteContent = {
   ],
   hero: {
     badge: {
-      en: 'Startup & SME Consulting • AI Enablement • Pitching & Sales',
-      de: 'Startup- & KMU-Beratung • KI-Befähigung • Pitching & Vertrieb',
+      en: 'THESIS // AI DIDN’T REMOVE THE WORK. IT MOVED IT.',
+      de: 'THESE // KI HAT DIE ARBEIT NICHT ABGESCHAFFT. SIE HAT SIE VERSCHOBEN.',
     },
     headlinePart1: {
-      en: 'AI didn’t remove the work.',
-      de: 'KI hat die Arbeit nicht abgeschafft.',
+      en: 'AI DIDN’T REMOVE THE WORK.',
+      de: 'KI HAT DIE ARBEIT NICHT ABGESCHAFFT.',
     },
     headlinePart2: {
-      en: 'It moved it.',
-      de: 'Sie hat sie verschoben.',
+      en: 'Master where the work actually lands.',
+      de: 'Meistern, wo die Arbeit wirklich landet.',
     },
     paragraph: {
-      en: 'Every AI win shifts cost somewhere else — onto a budget nobody is watching, onto verification nobody owns, onto people who never agreed to carry it. I run sessions on where it lands and what to do about it.',
-      de: 'Jeder KI-Erfolg verlagert Kosten woandershin — auf ein Budget, das niemand beobachtet, auf eine Verifikation, die niemand besitzt, auf Menschen, die nie zugestimmt haben, sie zu tragen. Ich halte Sessions darüber, wo sie landet und was dagegen getan werden kann.',
+      en: 'Every AI speedup shifts work into verification — I help SMEs turn generative tools into reliable, high-margin systems through consulting, coaching, and workshops.',
+      de: 'Jeder KI-Vorsprung verlagert Arbeit in die Verifikation — ich helfe KMUs und Führungskräften, durch Beratung, Coaching und Workshops verlässliche Systeme mit echter Marge zu bauen.',
     },
+    servicePills: [
+      {
+        id: 'consulting',
+        label: { en: 'Consulting', de: 'Beratung' },
+        detail: { en: 'Evals & Architecture', de: 'Evals & Architektur' },
+      },
+      {
+        id: 'coaching',
+        label: { en: '1:1 Coaching', de: '1:1-Coaching' },
+        detail: { en: 'Founder Sparring', de: 'Gründer-Sparring' },
+      },
+      {
+        id: 'workshops',
+        label: { en: 'Workshops', de: 'Workshops' },
+        detail: { en: 'Team Upskilling', de: 'Team-Befähigung' },
+      },
+    ],
     primaryCta: {
-      en: 'Explore Workshops',
-      de: 'Workshops entdecken',
+      en: 'Explore Workshops & Consulting',
+      de: 'Workshops & Beratung entdecken',
     },
     secondaryCta: {
       en: 'View Decks (Portfolio)',

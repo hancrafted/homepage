@@ -133,6 +133,19 @@ interface MethodRailScrubOptions {
   progressRef: React.RefObject<number>;
 }
 
+function getRailBounds(track: HTMLElement) {
+  const slides = track.querySelectorAll<HTMLElement>('article');
+  const s1 = slides[0];
+  const s5 = slides[slides.length - 1];
+  const startX = () => (window.innerWidth - (s1?.offsetWidth ?? window.innerWidth * 0.75)) / 2;
+  const endX = () => {
+    const s5Width = s5?.offsetWidth ?? window.innerWidth * 0.75;
+    const s5Offset = s5?.offsetLeft ?? 0;
+    return (window.innerWidth - s5Width) / 2 - s5Offset;
+  };
+  return { startX, endX };
+}
+
 function useMethodRailScrub({
   containerRef,
   trackRef,
@@ -148,35 +161,32 @@ function useMethodRailScrub({
       const track = trackRef.current;
       if (!container || !track || prefersReducedMotion()) return;
 
-      const slides = track.querySelectorAll<HTMLElement>('article');
-      const s1 = slides[0];
-      const s5 = slides[slides.length - 1];
-      const startX = () => (window.innerWidth - (s1?.offsetWidth ?? window.innerWidth * 0.75)) / 2;
-      const endX = () =>
-        (window.innerWidth - (s5?.offsetWidth ?? window.innerWidth * 0.75)) / 2 - (s5?.offsetLeft ?? 0);
+      const mm = gsap.matchMedia();
+      mm.add('(min-width: 768px)', () => {
+        const { startX, endX } = getRailBounds(track);
+        applyThemeToContainer(container, progressRef.current, isDarkRef.current);
 
-      applyThemeToContainer(container, progressRef.current, isDarkRef.current);
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          start: 'top top',
-          end: '+=300%',
-          pin: true,
-          anticipatePin: 1,
-          scrub: 0.3,
-          onUpdate: (self) => {
-            const p = self.progress;
-            progressRef.current = p;
-            applyThemeToContainer(container, p, isDarkRef.current);
-            setProgress(p * 100);
-            setStep(computeActiveStep(p));
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container,
+            start: 'top top',
+            end: '+=300%',
+            pin: true,
+            anticipatePin: 1,
+            scrub: 0.3,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              const p = self.progress;
+              progressRef.current = p;
+              applyThemeToContainer(container, p, isDarkRef.current);
+              setProgress(p * 100);
+              setStep(computeActiveStep(p));
+            },
           },
-        },
-      });
+        });
 
-      tl.set(track, { x: () => startX() });
-      tl.fromTo(track, { x: () => startX() }, { x: () => endX(), duration: 1, ease: 'none' }, 0);
+        tl.fromTo(track, { x: () => startX() }, { x: () => endX(), duration: 1, ease: 'none' }, 0);
+      });
     },
     { scope: containerRef, dependencies: [] },
   );
@@ -228,7 +238,7 @@ function DesktopMethodRail({ locale, isDarkSiteTheme }: { locale: LocaleCode; is
     >
       <MethodRailHeader locale={locale} />
 
-      <div ref={trackRef} className="flex h-screen items-stretch will-change-transform">
+      <div ref={trackRef} className="flex h-screen items-stretch w-max will-change-transform">
         {FRAMEWORK_SLIDES.map((slide) => (
           <SlideItem key={slide.id} slide={slide} locale={locale} />
         ))}
