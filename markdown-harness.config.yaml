@@ -1,7 +1,8 @@
 frontmatter:
   rules:
     - ruleId: context
-      path: [CONTEXT.md]
+      folders: [./]
+      fileNames: [CONTEXT.md]
       intent: >-
         Stops CONTEXT.md going stale, since agents consume it constantly. It is
         vocabulary and nothing else — mechanism, rules and reasoning belong to the
@@ -27,7 +28,7 @@ frontmatter:
           intent: A verifier is a person, written human:<handle>
         verified.at: { presence: optional, format: datetime }
     - ruleId: steering
-      path: [docs/steering/**/*.md]
+      folders: [docs/steering/]
       intent: 'Steering should rarely change, which is exactly why it has to be re-read on purpose'
       assess:
         stale: Tell the user this file is past its stale_after and ask whether to proceed. Offer to open an issue to refresh it, then set the next stale_after.
@@ -58,7 +59,7 @@ frontmatter:
           intent: A verifier is a person, written human:<handle>
         verified.at: { presence: optional, format: datetime }
     - ruleId: design-adr
-      path: [docs/design-adr/**/*.md]
+      folders: [docs/design-adr/]
       intent: >-
         A design-ADR is a decision that outlives the code it was made about, so it
         has to say who wrote it. It carries no expiry: the reasoning behind a
@@ -81,7 +82,7 @@ frontmatter:
           intent: A verifier is a person, written human:<handle>
         verified.at: { presence: optional, format: datetime }
     - ruleId: episode
-      path: [docs/episodes/**/*.md]
+      folders: [docs/episodes/backward-chaining/]
       intent: >-
         An Episode is the primitive everything downstream is generated from, so the
         keys a generator reads — its Format, its Subject domains, whether it is still

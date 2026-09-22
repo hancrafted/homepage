@@ -77,7 +77,7 @@
       "source": "hancrafted/markdown-harness",
       "sourceType": "github",
       "skillPath": ".agents/skills/markdown-harness/SKILL.md",
-      "computedHash": "fcd5d5029120c932d29a13cfed92af2bef2be9e1dab820bb32a9447b00a1a098"
+      "computedHash": "309f93390d5b546eda22808ee2e75823c743daee041e395947612799cf973bff"
     },
     "prototype": {
       "source": "mattpocock/skills",
