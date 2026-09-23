@@ -226,11 +226,13 @@ frontmatter:
             and it cannot be recovered from the file once the link rots.
         published:
           presence: required
-          pattern: '^\d{4}-\d{2}-\d{2}$'
+          pattern: '^\d{4}(?:-\d{2}(?:-\d{2})?)?$'
           intent: >-
-            The date the artefact was published, as its publisher gives it. A date
-            rather than a datetime: a report is published on a day, and an instant
-            would invent a precision the source does not carry.
+            When the artefact was published, at the precision its publisher gives and
+            no finer. A whitepaper dated May 2026 is written 2026-05; a press release
+            dated 30 July 2025 is written 2025-07-30. Neither a datetime nor a forced
+            full date is admitted, because both would invent precision the source does
+            not carry, and a locator is only as trustworthy as the date beside it.
         generated.by:
           presence: required
           format: actor

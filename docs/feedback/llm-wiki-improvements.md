@@ -78,3 +78,24 @@ off an existing rule in the same file.
 
 **Would land in:** the skills. An authoring skill that works from a field table in a
 repository document, rather than from prose in a prompt, has a source it can re-read.
+
+### 6. Publication dates arrive at three different precisions
+
+**Where:** `markdown-harness.config.yaml`, `raw` rule, `published` field.
+
+Entry 1 replaced `format: datetime` with a full-date pattern. That was still too
+precise. The five Google whitepapers are dated "May 2026" in their page footers and
+carry no day at all, while the Veracode press release is dated 30 July 2025. A
+full-date pattern would have forced `2026-05-01` on the whitepapers — a day no
+publisher ever stated, sitting beside locators that readers are meant to trust.
+
+Widened to `^\d{4}(?:-\d{2}(?:-\d{2})?)?$`, admitting year, year-month, and full date.
+
+The general shape: a provenance field's precision is a property of the source, not of
+the schema, and a schema that fixes one precision makes agents invent the rest. Found
+before the first ingest ran, by reading the artefacts rather than by the gate — which
+is the wrong way round.
+
+**Would land in:** the tool. A `date` format that accepts reduced precision, per ISO
+8601's own reduced-precision forms, rather than every repository rediscovering this
+with a hand-written pattern.
