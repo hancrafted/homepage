@@ -169,3 +169,185 @@ frontmatter:
           pattern: '^human:[^ ]+$'
           intent: A verifier is a person, written human:<handle>
         verified.at: { presence: optional, format: datetime }
+    - ruleId: llm-wiki-index
+      folders: [docs/llm-wiki/]
+      fileNames: [index.md]
+      intent: >-
+        The index is generated from the tiers beneath it and never hand-edited, so it
+        names the run that produced it. Without that stamp an index that has fallen
+        behind the folders reads exactly like one that is current.
+      fields:
+        type: { presence: required, allowed: [{ value: index }] }
+        title: { presence: required, maxLength: 80 }
+        description:
+          presence: required
+          maxLength: 300
+          intent: >-
+            What the Knowledge layer holds and the trigger for opening it. An agent
+            choosing between layers reads this line rather than walking the tree, so
+            it says when to come here instead of listing what is here.
+        generated.by:
+          presence: required
+          format: actor
+          pattern: '^(?:[^:/ ]+/[^ ]+|process:[^ ]+)$'
+          intent: >-
+            An actor per Open Knowledge Format v0.2 section 7: an agent as
+            <producer>/<version>, or process:<id> for the dispatcher and the gate.
+            A generator is never human: here, so trust tiers stay readable.
+        generated.at: { presence: required, format: datetime }
+    - ruleId: raw
+      folders: [docs/llm-wiki/raw/]
+      intent: >-
+        A landed artefact is the evidence every tier above it cites, so it says where
+        it came from, who published it and when. It carries no expiry: a landed
+        artefact is a dated snapshot, and a snapshot does not go stale. The harness
+        governs markdown only, so a binary lands as itself beside a markdown sidecar
+        of the same stem and the sidecar is the half that carries the frontmatter.
+      fields:
+        type: { presence: required, allowed: [{ value: Raw }] }
+        title: { presence: required, maxLength: 80 }
+        description:
+          presence: required
+          maxLength: 300
+          intent: >-
+            What the artefact contains and why it was landed, so a later run can
+            decide whether to open it without fetching the source again.
+        resource:
+          presence: required
+          format: uri
+          intent: >-
+            Where the artefact came from. A copy without its origin cannot be
+            re-fetched or checked against the publisher, which is the reason for
+            landing it rather than summarising it.
+        publisher:
+          presence: required
+          intent: >-
+            Who stands behind the artefact. It is what a reader weighs the claims by,
+            and it cannot be recovered from the file once the link rots.
+        published: { presence: required, format: datetime }
+        generated.by:
+          presence: required
+          format: actor
+          pattern: '^(?:[^:/ ]+/[^ ]+|process:[^ ]+)$'
+          intent: >-
+            An actor per Open Knowledge Format v0.2 section 7: an agent as
+            <producer>/<version>, or process:<id> for the dispatcher and the gate.
+            A generator is never human: here, so trust tiers stay readable.
+        generated.at: { presence: required, format: datetime }
+        verified.by:
+          presence: optional
+          format: actor
+          pattern: '^human:[^ ]+$'
+          intent: >-
+            Its presence means a human curated this artefact; its absence means the
+            artefact is unvetted. Promotion is a stamp and never a file move, so the
+            concept ID never changes and nothing citing it dangles.
+        verified.at: { presence: optional, format: datetime }
+    - ruleId: finding
+      folders: [docs/llm-wiki/findings/]
+      intent: >-
+        One research question, one file, named YYYY-MM-DD-<subject-in-kebab-case> and
+        appended to rather than rewritten. It carries no expiry: an expiry would ask
+        for an edit, and editing is the one thing this tier does not allow.
+      fields:
+        type: { presence: required, allowed: [{ value: Finding }] }
+        title: { presence: required, maxLength: 80 }
+        description:
+          presence: required
+          maxLength: 300
+          intent: >-
+            The question this file settles and what it turned up, in the terms a later
+            run would search for. A Finding is read by its description first, because
+            an append-only file is longer than the answer anyone came for.
+        sources: { presence: required, minItems: 1 }
+        sources[].resource:
+          presence: required
+          pattern: '^docs/llm-wiki/raw/[^/]+\.(md|pdf)$'
+          intent: >-
+            A Finding cites landed artefacts and nothing else. Citation runs one way —
+            Finding to Raw, never to another Finding and never to a Concept — so the
+            evidence under any claim is one hop away and no cycle can form. The path
+            admits no directory separator: folder selectors do not recurse, so a nested
+            artefact would be ungoverned, and citing one would rest a claim on a
+            document no rule has ever read.
+        sources[].title: { presence: required }
+        generated.by:
+          presence: required
+          format: actor
+          pattern: '^(?:[^:/ ]+/[^ ]+|process:[^ ]+)$'
+          intent: >-
+            An actor per Open Knowledge Format v0.2 section 7: an agent as
+            <producer>/<version>, or process:<id> for the dispatcher and the gate.
+            A generator is never human: here, so trust tiers stay readable.
+        generated.at: { presence: required, format: datetime }
+        verified.by:
+          presence: optional
+          format: actor
+          pattern: '^human:[^ ]+$'
+          intent: >-
+            A human who re-read the Finding against the artefacts it cites, written
+            human:<handle>. Optional here: a Finding records what one run turned up on
+            one date, and it stands as that record whether or not anyone has checked it.
+        verified.at: { presence: optional, format: datetime }
+    - ruleId: concept
+      folders: [docs/llm-wiki/concepts/]
+      intent: >-
+        The durable tier, rewritten whole on every revision and created or revised only
+        when something explicitly commissions it. It is the only tier claiming to be
+        currently true, and that claim rests on a person, which is why verification is
+        required here and optional everywhere below.
+      assess:
+        stale: Tell the user this Concept is past its stale_after and ask whether to proceed. A Concept is the one tier claiming to be currently true, so an expired one is a re-reading and a fresh stamp by a person, not a refresh an agent can perform alone.
+      fields:
+        type: { presence: required, allowed: [{ value: Concept }] }
+        title: { presence: required, maxLength: 80 }
+        description:
+          presence: required
+          maxLength: 300
+          intent: >-
+            What this Concept holds and when an agent needs it. It is what a generator
+            reads to decide whether to open the file at all, so it names the subject
+            rather than summarising the argument.
+        sources: { presence: required, minItems: 1 }
+        sources[].resource:
+          presence: required
+          pattern: '^docs/llm-wiki/(raw|findings)/[^/]+\.(md|pdf)$'
+          intent: >-
+            A Concept cites the tiers beneath it, landed artefacts and Findings, and
+            never another Concept. Citation running one way keeps the evidence a tree,
+            so rewriting one Concept cannot silently change what another one claims.
+            The path admits no directory separator, for the same reason it does not in
+            a Finding: what is citable and what is governed have to be the same set.
+        sources[].title: { presence: required }
+        stale_after:
+          presence: required
+          format: datetime
+          intent: >-
+            The date the claim to be currently true expires. Required on this tier
+            alone: a landed artefact is a dated snapshot and a Finding is an
+            append-only record, so neither can go stale, but a Concept is rewritten
+            to stay true and needs a date that forces it back in front of a person.
+        generated.by:
+          presence: required
+          format: actor
+          pattern: '^(?:[^:/ ]+/[^ ]+|process:[^ ]+)$'
+          intent: >-
+            An actor per Open Knowledge Format v0.2 section 7: an agent as
+            <producer>/<version>, or process:<id> for the dispatcher and the gate.
+            A generator is never human: here, so trust tiers stay readable.
+        generated.at: { presence: required, format: datetime }
+        verified.by:
+          presence: required
+          format: actor
+          pattern: '^human:[^ ]+$'
+          intent: >-
+            Required on this tier alone, written human:<handle>. A rewrite is finished
+            only once a person has re-read it and re-stamped it; an unstamped Concept
+            claims to be currently true on nobody's authority.
+        verified.at:
+          presence: required
+          format: datetime
+          intent: >-
+            When that re-reading happened. Stamped afresh on every revision, so the
+            date says when the claim was last checked and not when the file was first
+            written.
