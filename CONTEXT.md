@@ -1,9 +1,9 @@
 ---
 type: memory
 generated:
-  at: 2026-09-18T15:36:11Z
+  at: 2026-09-23T20:58:39Z
   by: anthropic/claude-opus-5
-stale_after: 2026-09-21T00:00:00Z
+stale_after: 2026-10-23T00:00:00Z
 ---
 
 # Vocabulary
@@ -97,8 +97,23 @@ _Avoid_: customer, account
 
 **llm-wiki**:
 The Knowledge layer of this repository, holding durable knowledge written for agent
-consumption. Anything generated from it cites it and is not part of it. The name is fixed, the `wiki` inside it notwithstanding.
+consumption in three tiers — Raw, Finding and Concept. Anything generated from it cites it and is not part of it. The name is fixed, the `wiki` inside it notwithstanding.
 _Avoid_: knowledge base, notes, second brain, wiki
+
+**Raw**:
+A source landed in this repository as it was found, written once at landing and never rewritten.
+Everything else the llm-wiki holds is traceable back to one.
+_Avoid_: source, artefact, primary, original
+
+**Finding**:
+One research question answered against Raw — what the sources say, quoted and located, claim by
+claim. Appended to, never rewritten.
+_Avoid_: note, research, report, summary
+
+**Concept**:
+A durable explanation of one idea, drawn from Findings and Raw, and rewritten whenever it is
+revised. The only tier claiming to be currently true, and the only one carrying a human stamp.
+_Avoid_: page, article, synthesis, entry
 
 **Steering**:
 The layer holding how decisions get made here — voice, mental models, design and technical

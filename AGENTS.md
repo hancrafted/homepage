@@ -66,3 +66,7 @@ Never interchangeable; use the precise term. The Matt Pocock skill files say ADR
 **Grilling rounds** — every round (`/grill-me`, `/grill-with-docs`, or the one Wayfinder runs
 while charting a map or resolving a `wayfinder:grilling` ticket) uses this repo's format,
 which overrides the grilling skill's own. See `docs/agents/grilling-format.md`.
+
+**Findings** — every `/research` run lands its answer as a Finding in `docs/llm-wiki/findings/`,
+in this repo's format, which overrides the skill's own instruction to match whatever convention it
+finds. See `docs/agents/finding-format.md`.

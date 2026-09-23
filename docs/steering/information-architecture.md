@@ -3,9 +3,9 @@ type: steering
 title: Information Architecture Vision
 description: 'Where knowledge lives, the shape it takes, and why the Episode is the primitive. Use it before adding a directory, moving a markdown file, or changing what frontmatter carries.'
 generated:
-  at: 2026-09-18T12:15:52Z
+  at: 2026-09-23T20:58:39Z
   by: anthropic/claude-opus-5
-stale_after: 2026-09-21T00:00:00Z
+stale_after: 2026-10-23T00:00:00Z
 ---
 
 # Information Architecture Vision
@@ -18,7 +18,8 @@ Three things it deliberately does not hold:
 1. **Operational detail** — stages, dispatcher, retry policy, frontmatter state schema. Belongs
    in `docs/architecture/pipeline.md`, and churns ungoverned on purpose.
 2. **Vocabulary** — `CONTEXT.md` owns it. Episode, Spine, Beat, Subject domain, Manuscript,
-   Deck, Workshop, Layer and Bundle are used here exactly as defined there.
+   Deck, Workshop, Layer, Bundle, Raw, Finding and Concept are used here exactly as defined
+   there.
 3. **Software architecture** — execution model, state substrate, rendering stack. Held by
    `docs/steering/software-architecture.md`, provisional until the first Deck exists.
 
@@ -36,16 +37,16 @@ Run all three tests before proposing anything.
 
 **This document does not yet pass its own third test.** No Episode exists, so no run has
 happened. §2 and §7 are the exceptions: OKF was adopted against a harness that already existed,
-and choosing not to build a retrieval layer costs nothing to hold. §1 and §3–§6 are design ahead
-of evidence — the smallest shape that lets the first run start, and the first thing that run is
-allowed to break.
+and choosing not to build a retrieval layer costs nothing to hold. §1, §3–§6 and §8 are design
+ahead of evidence — the smallest shape that lets the first run start, and the first thing that run
+is allowed to break.
 
 ## 1. Layers are seams, not repositories
 
 | Layer          | Lives in                                          | Holds                                                                              |
 | -------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | **Steering**   | `docs/steering/`                                  | How I decide — this document, the promises, voice, models, visual pattern _intent_ |
-| **Knowledge**  | `docs/llm-wiki/`                                  | What I know — sources, references, papers                                          |
+| **Knowledge**  | `docs/llm-wiki/`                                  | What I know — Raw as it landed, Findings over it, Concepts drawn from both         |
 | **Output**     | `docs/episodes/`                                  | Knowledge around one thesis, rendered and published                                |
 | **Governance** | `markdown-harness.config.yaml`, `.archgate/adrs/` | The rules the other three are checked against                                      |
 
@@ -180,11 +181,51 @@ detects it. The regeneration policy is deferred.
 
 ## 7. Direct bundle navigation over retrieval layers
 
-Agents read bundles directly. There is no secondary index, MCP server, or retrieval layer.
+Agents read bundles directly. There is no MCP server and no retrieval layer.
+
+**One index is admitted.** `docs/llm-wiki/index.md` is generated from the frontmatter the gate
+already validates, and is never hand-edited. That is what separates it from the secondary index
+this section used to rule out: a hand-kept index is a second copy of the truth and drifts from it,
+while a generated one cannot say anything the documents it indexes do not already say. An index
+that has to be hand-edited to stay correct is the excluded kind, whatever it is called.
 
 **Reasoning.** Explicit hierarchies and OKF metadata make the knowledge self-indexing, and a
 corpus this small cannot tell you what a retrieval layer would need. Building one now means
 designing against imagined requirements.
+
+## 8. The Knowledge layer has three tiers
+
+`docs/llm-wiki/` is cut by one question — is rewriting the document legal?
+
+| Directory   | `type:`   | Rewrite                          | `verified`                           | `stale_after` |
+| ----------- | --------- | -------------------------------- | ------------------------------------ | ------------- |
+| `raw/`      | `Raw`     | Never. Written once, at landing. | Optional; its presence means curated | None          |
+| `findings/` | `Finding` | Never. Appended to only.         | Optional; its presence raises trust  | None          |
+| `concepts/` | `Concept` | Yes, on every revision.          | Required                             | Required      |
+
+Directory names are the type names, lowercased. All three are flat: the harness's `folders:`
+selectors are not recursive, so a nested directory would be ungoverned and nothing would report it
+missing. `docs/agents/finding-format.md` holds the Finding's own shape.
+
+**Citation runs one way.** An Episode cites Concepts, Findings and Raw; a Concept cites Findings
+and Raw; a Finding cites Raw; Raw cites nothing. No document records what points at it, so a
+citation can be added without editing the thing being cited — which is the only way `raw/` and
+`findings/` can be unrewritable at all.
+
+**Every `sources:` entry is a repository path.** A source that cannot be landed under `raw/` is not
+cited. A URL names a page that can change after the citation is written; a landed path names bytes
+in this repository.
+
+**Knowledge, never decisions.** The llm-wiki holds what is true and nothing about what to do about
+it. Decisions about code are ArchGate ADRs in `.archgate/adrs/`, design decisions are design-ADRs in
+`docs/design-adr/`, and how to choose is the Steering layer. A Finding or a Concept that ends in
+"so we should…" has been written in the wrong place.
+
+**Reasoning.** The three tiers exist so that `verified` means something different in each. A Raw
+that may be rewritten cannot be cited by locator, because the line a Finding pointed at may no
+longer be there; a Finding that may be rewritten loses the record of what was believed when an
+Episode shipped. Only the Concept is allowed to change its mind, which is why it is the only tier
+that has to carry a human `verified` and an expiry.
 
 ## Deferred and open
 
@@ -205,7 +246,8 @@ Deferred — decided to decide later, each with the trigger that reopens it:
 Open — not known yet:
 
 - Where blog posts, podcast instalments and social posts live, and what frontmatter they carry.
-- How an Episode cites a concept in `docs/llm-wiki/`, or a pattern in `docs/steering/`.
+- How an Episode cites a pattern in `docs/steering/`. Section 8 settles the `docs/llm-wiki/` half;
+  the Steering half is untouched, because nothing has needed to cite a pattern yet.
 
 ## Premise this rests on
 
