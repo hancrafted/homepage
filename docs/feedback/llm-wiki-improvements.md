@@ -99,3 +99,201 @@ is the wrong way round.
 **Would land in:** the tool. A `date` format that accepts reduced precision, per ISO
 8601's own reduced-precision forms, rather than every repository rediscovering this
 with a hand-written pattern.
+
+### 7. Prettier does not lint a skill, so checking one proves nothing
+
+**Where:** `.prettierignore`, and every brief that asks for `npx prettier --check` on a
+`SKILL.md`.
+
+`.prettierignore` excludes `.agents` and `.claude`. A brief asking an agent to verify a
+skill with `prettier --check` therefore gets a pass that means nothing, and the agent
+reports it as evidence. Confirmed by re-running with `--ignore-path /dev/null`, which
+is the only way to get a real verdict on those paths.
+
+**Would land in:** the skills, and the briefs. Either drop the check from skill-writing
+instructions or state the `--ignore-path` form, so a green line is never mistaken for a
+formatted file.
+
+### 8. Tool output is rewritten in transit, including verdicts
+
+**Where:** the RTK hook, outside this repository.
+
+`prettier` and `diff` output came back as "all files formatted" and "files identical"
+when neither was established — the hook rewrites command output before the agent reads
+it. Every verification in this session that rests on reading a command's own words
+rather than its exit code is therefore weaker than it looks.
+
+This is the most serious entry here, because it is not confined to the llm-wiki: any
+agent-run check whose result is read as prose can be reported green without being
+green. `rtk proxy <cmd>` returns the unfiltered output.
+
+**Would land in:** the harness, not this repository. Recorded because the verification
+in these commits was read through it, and because exit codes should be preferred to
+output text everywhere until it is fixed.
+
+### 9. `write-episode` still lands files where no rule reaches
+
+**Where:** `.agents/skills/write-episode/SKILL.md`, step 1.
+
+It hands back a `yt-dlp` command writing to `docs/llm-wiki/<slug>.%(ext)s` — the layer
+root, outside `raw/`. Under the three tiers that path is governed by nothing and
+matches neither citation pattern, so a transcript landed by following that skill is
+invisible and uncitable. It also uses "Source" as a type name, which the tier split
+retired.
+
+The same stale use of "Source" appears in design-ADRs 0002 and 0003; issue #8 already
+records that 0003 is corrected rather than superseded.
+
+**Would land in:** the skills. `write-episode` should call `/ingest` rather than carry
+its own landing path, which is the general lesson: a skill that writes into a governed
+folder by hand will go stale the first time the governance changes.
+
+### 10. `artefact` is both the avoided word and the word used everywhere
+
+**Where:** `CONTEXT.md`, the Raw entry, against `markdown-harness.config.yaml`,
+`scripts/build-wiki-index.mjs` and `.agents/skills/ingest/SKILL.md`.
+
+The Raw entry's `_Avoid_` list reads "source, artefact, primary, original", yet
+"landed artefact" appears fourteen times across the harness intents, the index
+generator's own description and the ingest skill — and throughout issue #8 and
+`docs/steering/information-architecture.md`.
+
+`CONTEXT.md` says an `_Avoid_` list rejects a word "as the name for that concept" while
+the word keeps its meaning elsewhere, so the usages are defensible read one way and a
+violation read another. Either resolution is cheap; leaving it unresolved is what
+costs, because the next agent reads the list literally.
+
+**Would land in:** `CONTEXT.md`. A decision, not a fix: drop `artefact` from the Raw
+`_Avoid_` list, or strike the word from the other four documents. The vocabulary owner
+decides, and this log does not.
+
+## Finding loop, 2026-09-23
+
+### 11. A Raw's `description` must describe, never assert
+
+**Where:** `docs/llm-wiki/raw/veracode-genai-code-security-2025.md`, and the `raw`
+rule's `description` intent.
+
+The migration gave that Raw the description "Veracode's finding that model size and
+recency did not improve security performance." Four hours later the first Finding
+written against it returned `corrected` on exactly that claim: Veracode's own October
+2025 update, on the same 80-task benchmark, records a newer model at a 72 per cent
+pass rate against the band it had called flat. The recency half is now known false.
+
+The description is the line `docs/llm-wiki/index.md` copies verbatim, so the index
+broadcasts a false claim in this repository's own voice. And Raw is written once and
+never rewritten, so by the tier's own rule there is no legal way to correct it.
+
+The defect is not the stale claim. It is that a description was allowed to assert the
+source's conclusion instead of describing what the artefact holds. "Veracode's finding
+that X" asserts X. "A measurement of X across N models, with the PDF ungated" describes
+the artefact and cannot go stale, because an artefact's contents do not change.
+
+Note the boundary question this exposes and does not answer: immutability protects what
+landed, and a `description` is metadata this repository authored about the artefact
+rather than anything its original author wrote. Whether correcting it counts as
+rewriting a Raw is undecided, and the tier rules do not distinguish the two halves of
+the file.
+
+**Would land in:** `markdown-harness.config.yaml`, the `raw` rule's `description`
+intent, and the `ingest` skill. Both should say a Raw's description names what the
+artefact contains and never what it concludes — a description that can be refuted is
+in the wrong tier. The boundary question is a design-ADR.
+
+### 12. The refutation search works, and it is expensive
+
+**Where:** `docs/agents/finding-format.md`, and any run that budgets for a Finding.
+
+The first Finding ran seven distinct refutation searches over five claims and
+overturned two verdicts the prior work had recorded as confirmed, plus a third about
+citation decay. Two of the three corrections came from the publisher's own later
+documents rather than from any critic — which is the case a search for support can
+never reach, because the publisher agrees with itself at every point in time.
+
+It took roughly twelve minutes and two hundred thousand tokens for five claims against
+one source. The five course Findings carry substantially more claims each. The bound —
+a search fires only on a claim carrying a number, a date or a named study — is what
+makes this affordable at all, and it is load-bearing rather than a convenience.
+
+**Would land in:** nothing yet. Recorded so the cost is known before the remaining
+~67 topics are commissioned, and so the bound is not loosened without someone pricing
+it first.
+
+## Ingest loop, 2026-09-23
+
+### 13. A required `published` has no answer for an undated page
+
+**Where:** the `raw` rule, and `.agents/skills/ingest/SKILL.md`, _Refusals_.
+
+`published` is required and the intent forbids inventing precision. The Kaggle course
+landing page prints no date anywhere. The skill's refusals cover a page that cannot be
+landed at all; nothing covers a page that lands carrying no date, so the run had to
+decide alone and wrote `'2026'` with the reasoning in the body.
+
+**Would land in:** the skill. Name the case and fix one answer, rather than leaving
+every run to invent its own.
+
+### 14. A bare four-digit year fails as an integer, and the error does not say so
+
+**Where:** the harness, `CONSTRAINT_SHAPE_MISMATCH`.
+
+`published: 2026` is parsed by YAML as a number, so a string pattern reports a shape
+mismatch. The message never says the value needs quoting. `2026-05` is fine unquoted;
+`'2026'` is not. Cost one red check and a guess.
+
+**Would land in:** the tool. A shape mismatch between a scalar and a string constraint
+should say what the value was parsed as and what would fix it.
+
+### 15. The skill has no path for a JavaScript-only page
+
+**Where:** `.agents/skills/ingest/SKILL.md`, _Two paths_.
+
+The landing page returns HTTP 200 with an empty `<div id="root">`. A Googlebot
+user-agent returns the same shell. The five-part list and the day ordering — the whole
+reason that page was worth landing — are in nothing Kaggle serves.
+
+A client-rendered shell is now the common case for a course or product page, and the
+skill has exactly two paths, neither of which fits. The working precedent already
+exists in the corpus: the Veracode Raw carries a "what this Raw cannot support"
+section that keeps later Findings honest. The skill does not point at it, so the run
+had to infer the shape by reading that file.
+
+The order was recovered instead from the whitepapers citing each other by day number —
+days 1, 4 and 5 rest on printed text, and Day 3 has no series cross-reference at all,
+so its position rests only on its download filename. That is recorded in each sidecar
+rather than smoothed over.
+
+**Would land in:** the skill. A third path, named, with the honest-shortfall section as
+its shape.
+
+### 16. `resource` assumes a direct file URL that often does not exist
+
+**Where:** the `raw` rule's `resource` intent, and the skill.
+
+The five PDFs are served from a `storage.googleapis.com` path that returns 403; no
+public direct URL exists. The publisher's per-artefact landing page is the only durable
+handle, and is better than a signed URL that expires anyway.
+
+**Would land in:** the skill and the rule intent. A landing page satisfies `resource`,
+and is preferable to a direct file URL that will not resolve later.
+
+### 17. The 300-character description cap is invisible until the check fails
+
+**Where:** the `raw`, `finding` and `concept` rules.
+
+The skill's worked example models a prose description, and the first Day 1 attempt came
+in at 335 characters and failed. The cap is real and right — the index copies these
+verbatim — but nothing surfaces it at writing time.
+
+**Would land in:** the skills. State the cap where the description is written, not only
+where it is validated.
+
+### 18. `mh --check` has no human-readable summary
+
+**Where:** the tool.
+
+Every check in this session was piped through a JSON parser to read three numbers.
+A single summary line on success, with the JSON behind a flag, would remove a parser
+from every skill and every brief that runs the gate.
+
+**Would land in:** the tool.

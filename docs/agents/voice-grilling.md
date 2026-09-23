@@ -39,7 +39,9 @@ Time available decides how much of the tree to attempt. Whether it is contiguous
 
 ## One question at a time
 
-Keep the frontier — every decision whose prerequisites are settled — as private bookkeeping. Never read it out as a list unless the user ask for it specifically. Five open questions cannot be held in working memory while driving, and there is no transcript to scan back through.
+Keep the frontier — every decision whose prerequisites are settled — as private bookkeeping. Classify it first: speak only a question whose answer changes a seam or boundary, the software or information architecture, a term in `CONTEXT.md`, or what a future agent session does. Decide the rest yourself and carry them to the handoff. This restates the classification in `docs/agents/grilling-format.md`, because a voice session may have no filesystem to open it from.
+
+Never read the frontier out as a list unless the user ask for it specifically. Five open questions cannot be held in working memory while driving, and there is no transcript to scan back through.
 
 Ask one question. Give a recommended answer, as the original skill requires. Then stop.
 
@@ -49,8 +51,8 @@ State position aloud when a decision lands, briefly: "that settles the config sh
 
 The original never needed an ordering rule — order did not matter when a whole round was visible at once. Flattening created the gap. This rule is a proposal, not a settled decision:
 
-1. Prefer the question that unblocks the most others. Answering it collapses the most tree.
-2. Break ties toward the cheapest question at the calibrated abstraction level.
+1. Prefer the most consequential question, so time running out costs the cheap end.
+2. Break ties toward the question that unblocks the most others. Answering it collapses the most tree.
 3. Defer anything needing a fact neither party has to hand, and say it is deferred.
 
 ## Advancing: "let's move on"
@@ -92,7 +94,7 @@ One handoff per target artefact, produced once that artefact's decisions are set
 
 Three parts:
 
-1. **Settled decisions, each with the reasoning that produced it.**
+1. **Settled decisions, each with the reasoning that produced it.** Tag each one decided without asking _agent-decided_, so the user can contest it in the receiving session.
 2. **Open questions, marked as open** — so the receiving agent does not assume they were decided.
 3. **The concrete next action** — files to change, issues to file, whatever the session aimed at.
 
