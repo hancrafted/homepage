@@ -1,6 +1,10 @@
 ---
-type: Source
+type: Raw
 title: Veracode 2025 GenAI Code Security Report
+description: >-
+  Veracode's finding that model size and recency did not improve security performance.
+  The PDF sits behind a lead-capture form and was not retrieved, so every locator names
+  a section of the press release, the blog post or the landing page instead.
 resource: 'https://www.veracode.com/resources/analyst-reports/2025-genai-code-security-report/'
 publisher: Veracode
 published: 2025-07-30
@@ -104,7 +108,7 @@ Press release, quoted from Jens Wessling, Veracode CTO.
 The landing page compresses the same finding to "Bigger Models ≠ More Secure Code" and "Larger,
 newer AI models didn't improve security."
 
-## What this Source cannot support
+## What this Raw document cannot support
 
 - **Anything keyed to a page or section of the PDF.** The PDF was never opened.
 - **A proportion expressed against the 80 tasks.** Veracode never states one.

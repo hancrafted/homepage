@@ -224,7 +224,13 @@ frontmatter:
           intent: >-
             Who stands behind the artefact. It is what a reader weighs the claims by,
             and it cannot be recovered from the file once the link rots.
-        published: { presence: required, format: datetime }
+        published:
+          presence: required
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          intent: >-
+            The date the artefact was published, as its publisher gives it. A date
+            rather than a datetime: a report is published on a day, and an instant
+            would invent a precision the source does not carry.
         generated.by:
           presence: required
           format: actor
