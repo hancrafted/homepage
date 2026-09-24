@@ -4,7 +4,7 @@ title: llm-wiki index
 description: Every landed artefact, Finding and Concept this repository holds, one row each, with the description the document carries. Read it to find the evidence for a claim before searching the web, and to see whether a subject has been researched here at all.
 generated:
   by: process:wiki-index
-  at: 2026-09-23T21:40:48Z
+  at: 2026-09-24T00:49:41Z
 ---
 
 # llm-wiki index
@@ -23,7 +23,12 @@ Generated from the frontmatter of the tiers below by `npm run wiki:index`. Never
 
 ## Findings
 
+- [What a context window holds and how performance degrades as it fills](findings/2026-09-23-context-engineering-and-context-rot.md) — What a context window holds and how an agent degrades as it fills, against the Day 1 and Day 3 whitepapers. Lost in the Middle and Context Rot survive correction; the MCPVerse 18.2 per cent figure inverts its own source; endnotes 19 and 20 carry the wrong arXiv identifiers. (2 sources)
 - [LLM code security failure rates in the Veracode 2025 study](findings/2026-09-23-llm-code-security-failure-rates.md) — What Veracode's 2025 GenAI Code Security Report measured, and which figures survive a search for correction. The model count and task count stand. The 45 per cent is not a proportion of the 80 tasks, and the flat-regardless-of-recency claim was broken by Veracode's own later measurement. (1 source)
+- [What an Agent Skill is, and what it is not](findings/2026-09-23-what-an-agent-skill-is.md) — What Google's Day 3 whitepaper says an Agent Skill is — a directory anchored by SKILL.md, loaded in three progressive-disclosure levels, set against MCP and AGENTS.md — and which of its numbers survive. The 150,000-to-2,000-token figure is Anthropic's, but it measures MCP, not skills. (3 sources)
+- [How an Agent Skill is evaluated, and what the cited evidence supports](findings/2026-09-24-how-an-agent-skill-is-evaluated.md) — How Day 3 says an Agent Skill fails and gets measured — four failure modes, five test patterns, trigger accuracy, trajectory scoring, pass^k — and which numbers survive. SkillsBench, Vercel, Latitude, ReliabilityBench and Lost in Simulation are each cited for something they do not say. (1 source)
+- [How a third-party Agent Skill is judged trustworthy, and who owns it](findings/2026-09-24-how-an-agent-skill-is-trusted-and-owned.md) — What Day 3 says about judging a third-party Agent Skill before installing it and owning it afterwards, with Day 4 on supply chain. The 40,000 and 1.2M counts measure different populations; SkillsMP's two-star threshold does not exist; slopsquatting is not Wiz's term. (2 sources)
+- [What an AI agent is: the loop, its parts, and the vocabulary](findings/2026-09-24-what-an-ai-agent-is.md) — What Google's Day 1 whitepaper says an AI agent is: the perceive-plan-act-observe loop and the parts beneath it. The five-part list contradicts itself and the four-element source it cites, and the endnote under it resolves to Karpathy's vibe-coding post rather than to that source. (1 source)
 
 ## Concepts
 

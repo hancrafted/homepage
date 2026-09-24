@@ -322,3 +322,33 @@ was written under.
 the tools it had, or the verdict vocabulary distinguishes a search that could not run
 from one that ran and returned nothing — which is the same distinction `no correction
 found` already draws against `verified`, one level down.
+
+### 20. Every correction came from the publisher, not from a critic
+
+**Where:** `docs/design-adr/0007-a-review-searches-for-correction-not-for-support.md`,
+now evidenced rather than argued.
+
+Six Findings, sixty-one claims, thirty-one verdicts of `corrected`. Not one correction
+came from a critic. Every one came from the cited publisher's own material:
+
+- Veracode's October 2025 update contradicting its own flat-performance claim, on the
+  same benchmark.
+- Anthropic's MCP paper being the true source of a token figure used to argue for
+  skills, in a paper saying the two approaches compose rather than compete.
+- Google's own earlier whitepaper being where Day 1's "four parts" came from, which is
+  why one page counts both five and four.
+- SkillsBench's own headline — a 16.2-point average gain — omitted beside a 19 per cent
+  figure computed over a different set than the one the paper labels.
+
+A search for support would have found every one of these documents and counted them as
+agreement. They are the same publishers, saying compatible-sounding things, at
+different times. That is precisely the failure mode design-ADR 0007 describes, and it
+is now measured rather than reasoned about.
+
+The operational consequence for the bound: a claim citing a named source needs the
+source read, not merely resolved. Eleven of nineteen claims in the evaluation Finding
+carry live URLs that return 200 and do not say what they are cited for. A link check
+would have passed all of them.
+
+**Would land in:** nothing. Recorded as evidence for a decision already taken, and as
+the answer to anyone proposing to replace the refutation search with link validation.
