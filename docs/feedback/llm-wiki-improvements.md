@@ -297,3 +297,28 @@ A single summary line on success, with the JSON behind a flag, would remove a pa
 from every skill and every brief that runs the gate.
 
 **Would land in:** the tool.
+
+### 19. Subagents writing Findings have no web search
+
+**Where:** the harness, not this repository.
+
+`WebSearch` and `WebFetch` are advertised as deferred tools but do not register for a
+spawned subagent: `ToolSearch` returns no match for either name. Every refutation search
+in the Finding loop therefore ran through `curl` from Bash, against publishers' own
+pages plus the npm and GitHub APIs. DuckDuckGo's HTML endpoint starts returning 202
+anomaly pages after a few queries, so keyword search is effectively unavailable.
+
+The coverage this leaves is asymmetric, and the asymmetry runs the right way by luck
+rather than design. Direct fetching is strong at the question "does the cited source
+say what the citing document claims it says" — which is where every correction in this
+loop came from. It is weak at "has anyone published a critique", because finding an
+unknown document is what a search engine is for.
+
+So a `no correction found` verdict produced under this constraint is weaker than the
+same verdict produced with search, and nothing in the Finding records which regime it
+was written under.
+
+**Would land in:** `docs/agents/finding-format.md`. Either the refutation search records
+the tools it had, or the verdict vocabulary distinguishes a search that could not run
+from one that ran and returned nothing — which is the same distinction `no correction
+found` already draws against `verified`, one level down.
