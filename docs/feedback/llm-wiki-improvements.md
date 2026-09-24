@@ -352,3 +352,34 @@ would have passed all of them.
 
 **Would land in:** nothing. Recorded as evidence for a decision already taken, and as
 the answer to anyone proposing to replace the refutation search with link validation.
+
+## Concept phase, 2026-09-24
+
+### 21. The mechanism that enforces "commissioned" also blocks orchestration
+
+**Where:** `.agents/skills/write-concept/SKILL.md`, `disable-model-invocation: true`.
+
+A Concept must be commissioned and never automatic. Writing that into the description
+leaves it to the model's judgement; setting `disable-model-invocation` puts it in the
+mechanism, which is why the skill was written that way and why `write-episode` and
+`review-episode` already are.
+
+It works. An orchestrated subagent asked to write the Concept was refused by the Skill
+tool and declined to reconstruct the workflow by hand, on the correct reasoning that a
+relayed commission is not the user's own invocation.
+
+The cost is that an orchestrated run cannot complete. The user had commissioned the
+Concept explicitly — the words "run /write-concept on the 5 findings" were theirs — but
+the commission arrived through an agent, and the mechanism cannot tell a relayed
+instruction from an invented one. That is the same property that makes it trustworthy.
+
+This is the second place in this design where enforcement lands on the user rather than
+on the gate, and both are deliberate. The `verified` stamp cannot be forged because its
+pattern is unsatisfiable by an agent. The Concept cannot be commissioned by an agent
+because its skill is unreachable by one. Together they mean a Concept has two points
+where a person must act, and a pipeline that claims to produce one without a person is
+lying somewhere.
+
+**Would land in:** nothing yet. Recorded because the trade-off should be re-decided
+consciously if orchestration matters more than the guarantee. Flipping the flag moves
+the rule back into the description, where it is advisory.
