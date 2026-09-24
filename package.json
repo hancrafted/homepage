@@ -11,8 +11,10 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "knip": "knip",
+    "wiki:index": "node scripts/build-wiki-index.mjs",
+    "wiki:index:check": "node scripts/build-wiki-index.mjs --check",
     "prepare": "husky",
-    "verify": "archgate check && eslint . && prettier --check . && tsc --noEmit && vitest run && knip && mh --check",
+    "verify": "archgate check && eslint . && prettier --check . && tsc --noEmit && vitest run && knip && mh --check && npm run wiki:index:check",
     "verify:commit": "lint-staged && archgate check && tsc --noEmit && vitest run"
   },
   "devDependencies": {
