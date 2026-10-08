@@ -1,7 +1,7 @@
 # Masterclass-Bewerbung — finale Antworten
 
 Paid masterclass (Basics + Advanced, 2 × 3h remote, startups). Final answers as submitted
-for the form, kept verbatim. Design source of truth: `architecture.md`; divergences in `README.md`.
+for the form, kept verbatim. Design source of truth: `workshop__agentic-workflow-plan.md`; divergences in `README.md`.
 
 ## Angaben zur Person
 
